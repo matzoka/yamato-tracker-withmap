@@ -263,15 +263,15 @@ st.title("YAMATO TRACKER with Map")
 hedder_text = """
 This is the Streamlit version of Kuroneko Yamato's package inquiry system.
 You can refer to the current status and route with a list and map.
-Please enter the tracking number in the text area below. (ctrl+enter for completion)
+Please enter the tracking number in the text area below. (Ctrl+Enter for completion)
 
 クロネコヤマトの荷物お問い合わせシステムの Streamlit 版です。
 現在の状況と経路を一覧表と地図で参照できます。
-下記テキストエリアに追跡番号を入力してください。（入力完了はctrl+enter）
+下記テキストエリアに追跡番号を入力してください。（入力完了はCtrl+Enter）
 """
 st.text(hedder_text)
 
-tnumber_text = st.text_area('Paste Tracking-code Here　追跡番号ペーストしてください。','')
+tnumber_text = st.text_area('','',help='Ctrl+Enter for completion 入力完了はCtrl+Enter')
 
 tnumbers = tnumber_text.split("\n")
 tnumber_dict = {'number': tnumbers}
@@ -289,46 +289,57 @@ else:
     slider_max = tnumber_count
     slider_value = 1
 
-if tnumber_count > 1:
+if tnumber_count == 0:
+    st.info('*** No data データがありません ***')
+elif tnumber_count > 1:
     placeholder = st.empty()
     col1, col2, col3, col4, col5, col6, col7 = st.beta_columns(7)
-    
     with col1:
-        prev_button = st.button('Prev')
-        
+        prev_button = st.button('Prev',help='Preview Tracking-code')
     with col2:
-        next_button = st.button('Next')
+        next_button = st.button('Next',help='Next Tracking-code')
+    with col3:
+        update_button = st.button('Update',help='Update Tracking...')
     if prev_button:
         state.count -= 1
         if state.count < 1:
             state.count = 1
         slider_value = state.count
-        select_slider = placeholder.slider('Change Tracking-code:', min_value=slider_min, max_value=slider_max, step=1, value=slider_value)
+        select_slider = placeholder.slider('', min_value=slider_min, max_value=slider_max, step=1, value=slider_value, help='Change Tracking-code')
     elif next_button:
         state.count += 1
         if state.count > tnumber_count:
             state.count = tnumber_count
         slider_value = state.count
-        select_slider = placeholder.slider('Change Tracking-code:', min_value=slider_min, max_value=slider_max, step=1, value=slider_value)
+        select_slider = placeholder.slider('', min_value=slider_min, max_value=slider_max, step=1, value=slider_value, help='Change Tracking-code')
+    elif update_button:
+        slider_value = state.count
+        select_slider = placeholder.slider('', min_value=slider_min, max_value=slider_max, step=1, value=slider_value, help='Change Tracking-code')
     else:
-        select_slider = placeholder.slider('Change Tracking-code:', min_value=slider_min, max_value=slider_max, step=1, value=slider_value)
+        select_slider = placeholder.slider('', min_value=slider_min, max_value=slider_max, step=1, value=slider_value, help='Change Tracking-code')
         state.count = select_slider
         
     select = tnumbers[select_slider-1]
     st.markdown('##### Tracking-code 追跡番号：' + select)
-    if select != '':
+    if select == '':
+        st.info('*** No data データがありません ***')
+    else:
         d1 = get_kuroneko_tracking(select)
         if d1 is None:
-            st.write('*** No data ***')
+            st.error('*** No matching data 一致するデータがありません ***')
         else:
             df = create_pandas_dataframe(d1)
             df.index = np.arange(1, len(df)+1)
             st.dataframe(df,800,500)
 
-            cities = create_cities_dataframe(df)
-            lat = df[-1:]['placeLat']
-            lng = df[-1:]['placeLng']
-            mapdata = create_map(lat, lng, cities)
-            st.markdown('###### relayPoint:GREEN / CurrentPoint:RED')
-            st.components.v1.html(folium.Figure().add_child(mapdata).render(), height=500)
-            st.write('done')
+            hideMapSW = st.checkbox('Hide Map/マップ非表示')
+            if hideMapSW:
+                pass
+            else:
+                cities = create_cities_dataframe(df)
+                lat = df[-1:]['placeLat']
+                lng = df[-1:]['placeLng']
+                mapdata = create_map(lat, lng, cities)
+                st.markdown('###### Relay point:GREEN / Current point:RED')
+                st.components.v1.html(folium.Figure().add_child(mapdata).render(), height=500)
+                st.write('done')
