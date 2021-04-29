@@ -7,6 +7,7 @@ import pandas as pd
 import numpy as np
 import streamlit as st
 import streamlit.components.v1 as componentsv1
+from src.session import _get_state
 from bs4 import BeautifulSoup
 
 
@@ -25,7 +26,6 @@ def get_kuroneko_tracking(tracking_number):
         tracking_data = [[{'itemType': itemType, 'tracking_number': tracking_number}]]
 
         my_bar_len = len(trackingLists)
-        print(my_bar_len)
         if my_bar_len > 0:
             my_bar_add = int(100 / my_bar_len)
             my_bar_count = my_bar_add
@@ -253,6 +253,9 @@ def create_cities_dataframe(dataframe):
 #==============================================================
 # Main start
 #==============================================================
+state = _get_state()
+if state.count == None:
+    state.count = 0
 
 st.set_page_config(page_title="YAMATO TRACKER with Map",)
 st.title("YAMATO TRACKER with Map")
@@ -287,10 +290,32 @@ else:
     slider_value = 1
 
 if tnumber_count > 1:
-    select_slider = st.slider('Change Tracking-code:', min_value=slider_min, max_value=slider_max, step=1, value=slider_value)
+    placeholder = st.empty()
+    col1, col2, col3, col4, col5, col6, col7 = st.beta_columns(7)
+    
+    with col1:
+        prev_button = st.button('Prev')
+        
+    with col2:
+        next_button = st.button('Next')
+    if prev_button:
+        state.count -= 1
+        if state.count < 1:
+            state.count = 1
+        slider_value = state.count
+        select_slider = placeholder.slider('Change Tracking-code:', min_value=slider_min, max_value=slider_max, step=1, value=slider_value)
+    elif next_button:
+        state.count += 1
+        if state.count > tnumber_count:
+            state.count = tnumber_count
+        slider_value = state.count
+        select_slider = placeholder.slider('Change Tracking-code:', min_value=slider_min, max_value=slider_max, step=1, value=slider_value)
+    else:
+        select_slider = placeholder.slider('Change Tracking-code:', min_value=slider_min, max_value=slider_max, step=1, value=slider_value)
+        state.count = select_slider
+        
     select = tnumbers[select_slider-1]
-    st.markdown('### Tracking-code 追跡番号：' + select)
-
+    st.markdown('##### Tracking-code 追跡番号：' + select)
     if select != '':
         d1 = get_kuroneko_tracking(select)
         if d1 is None:
@@ -304,6 +329,6 @@ if tnumber_count > 1:
             lat = df[-1:]['placeLat']
             lng = df[-1:]['placeLng']
             mapdata = create_map(lat, lng, cities)
-            st.text('relayPoint:GREEN / CurrentPoint:RED')
+            st.markdown('###### relayPoint:GREEN / CurrentPoint:RED')
             st.components.v1.html(folium.Figure().add_child(mapdata).render(), height=500)
             st.write('done')
