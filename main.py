@@ -1,0 +1,309 @@
+import time
+
+import requests
+import json
+import folium
+import pandas as pd
+import numpy as np
+import streamlit as st
+import streamlit.components.v1 as componentsv1
+from bs4 import BeautifulSoup
+
+
+# Find the tracking number for Kuroneko Yamato.
+# クロネコヤマトの追跡番号を検索
+def get_kuroneko_tracking(tracking_number):
+    try:
+        tracking_data = []
+        URL_JSON = f'http://nanoappli.com/tracking/api/{tracking_number}.json'
+        res = requests.get(URL_JSON)
+        json_contents = res.json()
+        status = json_contents['status']
+        itemType = json_contents['itemType']
+        slipNo = json_contents['slipNo']
+        trackingLists = json_contents['statusList']
+        tracking_data = [[{'itemType': itemType, 'tracking_number': tracking_number}]]
+        
+        my_bar_len = len(trackingLists)
+        print(my_bar_len)
+        if my_bar_len > 0:
+            my_bar_add = int(100 / my_bar_len)
+            my_bar_count = my_bar_add
+            my_bar = st.progress(my_bar_add)
+        else:
+            my_bar_add = 0
+            my_bar_count = 0
+            my_bar = st.progress(0)
+        
+        for trackingList in trackingLists[1:]:
+            status = trackingList['status']
+            trackdate = trackingList['date']
+            tracktime = trackingList['time']
+            placeName = trackingList['placeName']
+            placeCode = trackingList['placeCode']
+            if placeCode == '':
+                if placeName != '':
+                    pass
+                else:
+                    placeName = ''
+                placePostcode = ''
+                placeAddress = ''
+                placeLat = None
+                placeLng = None
+            else:
+                center_data = get_center_status(placeCode)
+                if center_data is None:
+                    if placeName != '':
+                        pass
+                    else:
+                        placeName = ''
+                    placePostcode = ''
+                    placeAddress = ''
+                    placeLat = None
+                    placeLng = None
+                else:
+                    if center_data['center_name'] == '':
+                        pass
+                    else:
+                        placeName = center_data['center_name']
+                    placePostcode = center_data['center_post_code']
+                    placeAddress = center_data['center_address']
+                    placeLat = center_data['center_lat']
+                    placeLng = center_data['center_lng']
+
+                    # get placePostcode to geo code 
+    #                 if placePostcode != '':
+    #                     geo_data = get_geo_api(placePostcode)
+    #                     placeLat = geo_data['lat']
+    #                     placeLng = geo_data['lng']
+                time.sleep(1)
+            tracking_data.append([{'status': status,
+                        'placeCode': placeCode,
+                        'placeName': placeName,
+                        'trackdate': trackdate,
+                        'tracktime': tracktime,
+                        'placePostcode': placePostcode,
+                        'placeAddress': placeAddress,
+                        'placeLat': placeLat,
+                        'placeLng': placeLng,
+                        }])
+            
+            my_bar_count += my_bar_add
+            my_bar.progress(my_bar_count)
+
+        my_bar.empty()
+        return tracking_data
+    except Exception as e:
+        print('get_kuroneko_tracking error:', e)
+        tracking_data = None
+        return tracking_data
+
+# Search for information on Kuroneko Yamato's relay bases.
+# クロネコヤマトの中継拠点の情報を検索
+def get_center_status(centercode):
+    def get_latlng():
+        select_contents = soup.select("div #kyotenHd a")
+        mojiretu = select_contents[0].get('href')
+        start = mojiretu.find('(')
+        moji = mojiretu[start:]
+        moji = moji.replace('(','')
+        moji = moji.replace(")",'')
+        moji = moji.replace("'",'')
+        moji = moji.split(',')
+        latlng = [float(s) for s in moji]
+        return latlng
+    
+    center_data = []
+    try:
+        URL_CENTER = f'https://www.e-map.ne.jp/p/yamato01/dtl/{centercode}/'
+        contents = requests.get(URL_CENTER)
+        soup = BeautifulSoup(contents.content,'html.parser')
+        status = contents.status_code
+        center_name = ''
+        center_post_code = ''
+        center_address = ''
+        center_lat = 0.0
+        center_lng = 0.0
+        if status == 200:
+            # lat lng set
+            fromlatlng = get_latlng()
+            center_lat = fromlatlng[0]
+            center_lng = fromlatlng[1]
+
+            # page set
+            select_contents = soup.select("div #kyotenHd a")
+            center_name = select_contents[0].text.strip()
+            center_name = center_name.replace('ヤマト運輸　','')
+
+            select_contents = soup.select("div .kyotenDtlData")
+            center_post_code = select_contents[6].text.split('\n')[1][-8:]
+            center_address = select_contents[6].text.split('\n')[2].strip()
+            center_data = {'center_name':center_name, 'center_post_code': center_post_code, 'center_address': center_address, 'center_lat': center_lat, 'center_lng': center_lng}
+        else:
+            center_data = None
+        return center_data
+    except Exception as e:
+#         print('except error:', e)
+        center_data = {'center_name':center_name, 'center_post_code': center_post_code, 'center_address': center_address, 'center_lat': center_lat, 'center_lng': center_lng}
+        return center_data
+
+# Search for geocodes by zip code (currently not used)
+# 郵便番号からジオコードを検索する（現在不使用）
+def get_geo_api(post_code):
+    url = 'http://geoapi.heartrails.com/api/json?method=searchByPostal&postal='
+    res_dict = requests.get(url+post_code).json()['response']['location'][0]
+
+    #地理情報
+    prefecture = res_dict['prefecture'] #東京都
+    city = res_dict['city'] #千代田区
+    town = res_dict['town'] #千代田
+    lat = res_dict['y'] #軽度
+    lng = res_dict['x'] # 緯度
+    return {'prefecture': prefecture, 'city': city, 'town': town, 'lat': lat, 'lng': lng }
+
+# Create Map
+# マップの生成
+def create_map(tolat, tolng, cities):
+    lat = tolat
+    lng = tolng
+    name = "No name"
+
+    map = folium.Map(location=[lat, lng], zoom_start=6)
+#     folium.Marker(location=[lat, lng], popup=name).add_to(map)
+    cities_count = len(cities)
+    if cities_count > 0:
+        cities_count -= 1
+    for i, r in cities.iterrows():
+        if i == cities_count:
+            colorsign = 'red'
+        else:
+            colorsign = 'green'
+        folium.Marker(
+            location=[r['latitude'], r['longtude']],
+            popup=r['train'],
+            icon=folium.Icon(color=colorsign),
+        ).add_to(map)
+
+    return map
+
+# Create Pandas dataframe
+# パンダスのデータフレーム生成
+def create_pandas_dataframe(d1):
+    data_status = []
+    data_placeName = []
+    data_placeCode = []
+    data_trackdate = []
+    data_tracktime = []
+    data_placePostcode = []
+    data_placeAddress = []
+    data_placeLat = []
+    data_placeLng = []
+    for track_data in d1[1:]:
+        data_status.append(track_data[0]['status'])
+        data_placeName.append(track_data[0]['placeName'])
+        data_placeCode.append(track_data[0]['placeCode'])
+        data_trackdate.append(track_data[0]['trackdate'])
+        data_tracktime.append(track_data[0]['tracktime'])
+        data_placePostcode.append(track_data[0]['placePostcode'])
+        data_placeAddress.append(track_data[0]['placeAddress'])
+        data_placeLat.append(track_data[0]['placeLat'])
+        data_placeLng.append(track_data[0]['placeLng'])
+
+    d1_dict = {'status': data_status,
+               'placeName': data_placeName,
+               'placeCode': data_placeCode,
+               'trackdate': data_trackdate,
+               'tracktime': data_tracktime,
+               'placePostcode': data_placePostcode,
+               'placeAddress': data_placeAddress,
+               'placeLat': data_placeLat,
+               'placeLng': data_placeLng,
+              }
+
+    d1_change_dict = {}
+    for k,v in d1_dict.items():
+        d1_change_dict[k] = pd.Series(v)
+
+    df = pd.DataFrame(d1_change_dict)
+    return df
+
+# Data generation for map markers
+# 地図マーカーのデータ生成
+def create_cities_dataframe(dataframe):
+    train = []
+    latitude = []
+    longtude = []
+    for index,item in dataframe[1:].iterrows():
+        tempLat = item['placeLat']
+        if tempLat != 0:
+            train.append(item['placeName'])
+            latitude.append(item['placeLat'])
+            longtude.append(item['placeLng'])
+
+    cities_dataframe = pd.DataFrame({
+        'train': train,
+        'latitude': latitude,
+        'longtude': longtude,
+    })
+
+    cities_dataframe = cities_dataframe.dropna()
+    return cities_dataframe
+
+
+#==============================================================
+# Main start
+#==============================================================
+
+st.set_page_config(page_title="YAMATO TRACKER with Map",)
+st.title("YAMATO TRACKER with Map")
+
+hedder_text = """
+This is the Streamlit version of Kuroneko Yamato's package inquiry system.
+You can refer to the current status and route with a list and map.
+Please enter the tracking number in the text area below. (ctrl+enter for completion)
+
+クロネコヤマトの荷物お問い合わせシステムの Streamlit 版です。
+現在の状況と経路を一覧表と地図で参照できます。
+下記テキストエリアに追跡番号を入力してください。（入力完了はctrl+enter）
+"""
+st.text(hedder_text)
+
+tnumber_text = st.text_area('Paste Tracking-code Here　追跡番号ペーストしてください。','')
+
+tnumbers = tnumber_text.split("\n")
+tnumber_dict = {'number': tnumbers}
+tnumber_df = pd.DataFrame(tnumber_dict)
+tnumber_df = tnumber_df.dropna()
+# st.dataframe(tnumber_df)
+tnumber_count = len(tnumber_df)
+if tnumber_count == 1:
+    select = ''
+    slider_min = 0
+    slider_max = 1
+    slider_value = 0
+else:
+    slider_min = 1
+    slider_max = tnumber_count
+    slider_value = 1
+
+if tnumber_count > 1:
+    select_slider = st.slider('Change Tracking-code:', min_value=slider_min, max_value=slider_max, step=1, value=slider_value)
+    select = tnumbers[select_slider-1]
+    st.markdown('### Tracking-code 追跡番号：' + select)
+
+    if select != '':
+        d1 = get_kuroneko_tracking(select)
+        if d1 is None:
+            st.write('*** No data ***')
+        else:
+            df = create_pandas_dataframe(d1)
+            df.index = np.arange(1, len(df)+1)
+            st.dataframe(df,800,500)
+
+            cities = create_cities_dataframe(df)
+            lat = df[-1:]['placeLat']
+            lng = df[-1:]['placeLng']
+            mapdata = create_map(lat, lng, cities)
+            st.text('relayPoint:GREEN / CurrentPoint:RED')
+            st.components.v1.html(folium.Figure().add_child(mapdata).render(), height=500)
+            st.write('done')
