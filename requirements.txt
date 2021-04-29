@@ -3,5 +3,4 @@ pandas
 numpy
 bs4
 folium
-json
 requests
