@@ -13,7 +13,7 @@ from bs4 import BeautifulSoup
 
 # Find the tracking number for Kuroneko Yamato.
 # クロネコヤマトの追跡番号を検索
-def get_kuroneko_tracking(tracking_number):
+def get_kuroneko_tracking(tracking_number, view_track_code=False):
     try:
         tracking_data = []
         URL_JSON = f'http://nanoappli.com/tracking/api/{tracking_number}.json'
@@ -25,15 +25,16 @@ def get_kuroneko_tracking(tracking_number):
         trackingLists = json_contents['statusList']
         tracking_data = [[{'itemType': itemType, 'tracking_number': tracking_number}]]
 
-        my_bar_len = len(trackingLists)
-        if my_bar_len > 0:
-            my_bar_add = int(100 / my_bar_len)
-            my_bar_count = my_bar_add
-            my_bar = st.progress(my_bar_add)
-        else:
-            my_bar_add = 0
-            my_bar_count = 0
-            my_bar = st.progress(0)
+        if not view_track_code:
+            my_bar_len = len(trackingLists)
+            if my_bar_len > 0:
+                my_bar_add = int(100 / my_bar_len)
+                my_bar_count = my_bar_add
+                my_bar = st.progress(my_bar_add)
+            else:
+                my_bar_add = 0
+                my_bar_count = 0
+                my_bar = st.progress(0)
 
         for trackingList in trackingLists[1:]:
             status = trackingList['status']
@@ -88,10 +89,11 @@ def get_kuroneko_tracking(tracking_number):
                         'placeLng': placeLng,
                         }])
 
-            my_bar_count += my_bar_add
-            my_bar.progress(my_bar_count)
-
-        my_bar.empty()
+            if not view_track_code:
+                my_bar_count += my_bar_add
+                my_bar.progress(my_bar_count)
+        if not view_track_code:
+            my_bar.empty()
         return tracking_data
     except Exception as e:
         print('get_kuroneko_tracking error:', e)
@@ -279,7 +281,7 @@ tnumber_df = pd.DataFrame(tnumber_dict)
 tnumber_df = tnumber_df.dropna()
 # st.dataframe(tnumber_df)
 tnumber_count = len(tnumber_df)
-if tnumber_count == 1:
+if tnumber_count <= 1:
     select = ''
     slider_min = 0
     slider_max = 1
@@ -288,58 +290,80 @@ else:
     slider_min = 1
     slider_max = tnumber_count
     slider_value = 1
+    
+radio_select = st.radio('Track one case at a time or track all cases.（１件ずつ追跡又は全件追跡する）',('Trackking one','Track all cases'))
 
-if tnumber_count == 0:
-    st.info('*** No data データがありません ***')
-elif tnumber_count > 1:
-    placeholder = st.empty()
-    col1, col2, col3, col4, col5, col6, col7 = st.beta_columns(7)
-    with col1:
-        prev_button = st.button('Prev',help='Preview Tracking-code')
-    with col2:
-        next_button = st.button('Next',help='Next Tracking-code')
-    with col3:
-        update_button = st.button('Update',help='Update Tracking...')
-    if prev_button:
-        state.count -= 1
-        if state.count < 1:
-            state.count = 1
-        slider_value = state.count
-        select_slider = placeholder.slider('', min_value=slider_min, max_value=slider_max, step=1, value=slider_value, help='Change Tracking-code')
-    elif next_button:
-        state.count += 1
-        if state.count > tnumber_count:
-            state.count = tnumber_count
-        slider_value = state.count
-        select_slider = placeholder.slider('', min_value=slider_min, max_value=slider_max, step=1, value=slider_value, help='Change Tracking-code')
-    elif update_button:
-        slider_value = state.count
-        select_slider = placeholder.slider('', min_value=slider_min, max_value=slider_max, step=1, value=slider_value, help='Change Tracking-code')
-    else:
-        select_slider = placeholder.slider('', min_value=slider_min, max_value=slider_max, step=1, value=slider_value, help='Change Tracking-code')
-        state.count = select_slider
-        
-    select = tnumbers[select_slider-1]
-    st.markdown('##### Tracking-code 追跡番号：' + select)
-    if select == '':
+if radio_select == 'Trackking one':
+    if tnumber_count == 0:
         st.info('*** No data データがありません ***')
-    else:
-        d1 = get_kuroneko_tracking(select)
-        if d1 is None:
-            st.error('*** No matching data 一致するデータがありません ***')
+    elif tnumber_count > 1:
+        placeholder = st.empty()
+        col1, col2, col3, col4, col5, col6, col7 = st.beta_columns(7)
+        with col1:
+            prev_button = st.button('Prev',help='Preview Tracking-code')
+        with col2:
+            next_button = st.button('Next',help='Next Tracking-code')
+        with col3:
+            update_button = st.button('Update',help='Update Tracking...')
+        if prev_button:
+            state.count -= 1
+            if state.count < 1:
+                state.count = 1
+            slider_value = state.count
+            select_slider = placeholder.slider('', min_value=slider_min, max_value=slider_max, step=1, value=slider_value, help='Change Tracking-code')
+        elif next_button:
+            state.count += 1
+            if state.count > tnumber_count:
+                state.count = tnumber_count
+            slider_value = state.count
+            select_slider = placeholder.slider('', min_value=slider_min, max_value=slider_max, step=1, value=slider_value, help='Change Tracking-code')
+        elif update_button:
+            slider_value = state.count
+            select_slider = placeholder.slider('', min_value=slider_min, max_value=slider_max, step=1, value=slider_value, help='Change Tracking-code')
         else:
-            df = create_pandas_dataframe(d1)
-            df.index = np.arange(1, len(df)+1)
-            st.dataframe(df,800,500)
-
-            hideMapSW = st.checkbox('Hide Map/マップ非表示')
-            if hideMapSW:
-                pass
+            select_slider = placeholder.slider('', min_value=slider_min, max_value=slider_max, step=1, value=slider_value, help='Change Tracking-code')
+            state.count = select_slider
+            
+        select = tnumbers[select_slider-1]
+        st.markdown('##### Tracking-code 追跡番号：' + select)
+        if select == '':
+            st.info('*** No data データがありません ***')
+        else:
+            d1 = get_kuroneko_tracking(select,view_track_code=False)
+            if d1 is None:
+                st.error('*** No matching data 一致するデータがありません ***')
             else:
-                cities = create_cities_dataframe(df)
-                lat = df[-1:]['placeLat']
-                lng = df[-1:]['placeLng']
-                mapdata = create_map(lat, lng, cities)
-                st.markdown('###### Relay point:GREEN / Current point:RED')
-                st.components.v1.html(folium.Figure().add_child(mapdata).render(), height=500)
-                st.write('done')
+                df = create_pandas_dataframe(d1)
+                df.index = np.arange(1, len(df)+1)
+                st.dataframe(df,800,500)
+
+                hideMapSW = st.checkbox('Hide Map/マップ非表示')
+                if hideMapSW:
+                    pass
+                else:
+                    cities = create_cities_dataframe(df)
+                    lat = df[-1:]['placeLat']
+                    lng = df[-1:]['placeLng']
+                    mapdata = create_map(lat, lng, cities)
+                    st.markdown('###### Relay point:GREEN / Current point:RED')
+                    st.components.v1.html(folium.Figure().add_child(mapdata).render(), height=500)
+                    st.write('done')
+else:
+    if tnumber_count == 0:
+        st.info('*** No data データがありません ***')
+    elif tnumber_count > 1:
+        update_button = st.button('Update',help='Update Tracking...')
+            
+        for select in tnumbers:
+            st.markdown('##### Tracking-code 追跡番号：' + select)
+            if select == '':
+                st.info('*** No data データがありません ***')
+            else:
+                d1 = get_kuroneko_tracking(select,view_track_code=False)
+                if d1 is None:
+                    st.error('*** No matching data 一致するデータがありません ***')
+                else:
+                    df = create_pandas_dataframe(d1)
+                    df.index = np.arange(1, len(df)+1)
+                    st.dataframe(df,800,500)
+        st.write('done')
