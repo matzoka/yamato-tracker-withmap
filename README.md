@@ -1,3 +1,3 @@
 # yamato-tracker-withmap
 
-![demo](https://github.com/matzoka/yamato-tracker-withmap/issues/2#issue-870695702)
+![demo](https://user-images.githubusercontent.com/758331/116515210-ef9eed00-a906-11eb-8ca4-8d43bd683ed6.gif)
