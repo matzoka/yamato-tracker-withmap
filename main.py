@@ -23,7 +23,7 @@ def get_kuroneko_tracking(tracking_number):
         slipNo = json_contents['slipNo']
         trackingLists = json_contents['statusList']
         tracking_data = [[{'itemType': itemType, 'tracking_number': tracking_number}]]
-        
+
         my_bar_len = len(trackingLists)
         print(my_bar_len)
         if my_bar_len > 0:
@@ -34,7 +34,7 @@ def get_kuroneko_tracking(tracking_number):
             my_bar_add = 0
             my_bar_count = 0
             my_bar = st.progress(0)
-        
+
         for trackingList in trackingLists[1:]:
             status = trackingList['status']
             trackdate = trackingList['date']
@@ -71,7 +71,7 @@ def get_kuroneko_tracking(tracking_number):
                     placeLat = center_data['center_lat']
                     placeLng = center_data['center_lng']
 
-                    # get placePostcode to geo code 
+                    # get placePostcode to geo code
     #                 if placePostcode != '':
     #                     geo_data = get_geo_api(placePostcode)
     #                     placeLat = geo_data['lat']
@@ -87,7 +87,7 @@ def get_kuroneko_tracking(tracking_number):
                         'placeLat': placeLat,
                         'placeLng': placeLng,
                         }])
-            
+
             my_bar_count += my_bar_add
             my_bar.progress(my_bar_count)
 
@@ -112,7 +112,7 @@ def get_center_status(centercode):
         moji = moji.split(',')
         latlng = [float(s) for s in moji]
         return latlng
-    
+
     center_data = []
     try:
         URL_CENTER = f'https://www.e-map.ne.jp/p/yamato01/dtl/{centercode}/'
