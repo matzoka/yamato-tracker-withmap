@@ -202,6 +202,8 @@ def create_pandas_dataframe(d1):
     data_placeLat = []
     data_placeLng = []
     for track_data in d1[1:]:
+        if track_data[0]['status'] == '':
+            print('a')
         data_status.append(track_data[0]['status'])
         data_placeName.append(track_data[0]['placeName'])
         data_placeCode.append(track_data[0]['placeCode'])
@@ -222,13 +224,16 @@ def create_pandas_dataframe(d1):
                'placeLat': data_placeLat,
                'placeLng': data_placeLng,
               }
+    
+    if d1_dict['status'] != []:
+        d1_change_dict = {}
+        for k,v in d1_dict.items():
+            d1_change_dict[k] = pd.Series(v)
 
-    d1_change_dict = {}
-    for k,v in d1_dict.items():
-        d1_change_dict[k] = pd.Series(v)
-
-    df = pd.DataFrame(d1_change_dict)
-    return df
+        df = pd.DataFrame(d1_change_dict)
+        return df
+    else:
+        return None
 
 # Data generation for map markers
 # 地図マーカーのデータ生成
@@ -321,13 +326,13 @@ if radio_select == 'Trackking one':
         if prev_button:
             state.count -= 1
             if state.count < 1:
-                state.count = 1
+                state.count = tnumber_count
             slider_value = state.count
             select_slider = placeholder.slider('', min_value=slider_min, max_value=slider_max, step=1, value=slider_value, help='Change Tracking-code')
         elif next_button:
             state.count += 1
             if state.count > tnumber_count:
-                state.count = tnumber_count
+                state.count = 1
             slider_value = state.count
             select_slider = placeholder.slider('', min_value=slider_min, max_value=slider_max, step=1, value=slider_value, help='Change Tracking-code')
         elif update_button:
@@ -336,7 +341,7 @@ if radio_select == 'Trackking one':
         else:
             select_slider = placeholder.slider('', min_value=slider_min, max_value=slider_max, step=1, value=slider_value, help='Change Tracking-code')
             state.count = select_slider
-            
+
         select = tnumbers[select_slider-1]
         st.markdown('##### Tracking-code 追跡番号：' + select)
         if select == '':
@@ -347,26 +352,29 @@ if radio_select == 'Trackking one':
                 st.error('*** No matching data 一致するデータがありません ***')
             else:
                 df = create_pandas_dataframe(d1)
-                df.index = np.arange(1, len(df)+1)
-                st.dataframe(df,800,500)
-
-                hideMapSW = st.checkbox('Hide Map/マップ非表示')
-                if hideMapSW:
-                    pass
+                if df is None:
+                    st.error('*** No records available for display. 表示可能な記録はありません ***')
                 else:
-                    cities = create_cities_dataframe(df)
-                    lat = df[-1:]['placeLat']
-                    lng = df[-1:]['placeLng']
-                    mapdata = create_map(lat, lng, cities)
-                    st.markdown('###### Relay point:GREEN / Current point:RED')
-                    st.components.v1.html(folium.Figure().add_child(mapdata).render(), height=500)
-                    st.write('done')
+                    df.index = np.arange(1, len(df)+1)
+                    st.dataframe(df,800,500)
+
+                    hideMapSW = st.checkbox('Hide Map/マップ非表示')
+                    if hideMapSW:
+                        pass
+                    else:
+                        cities = create_cities_dataframe(df)
+                        lat = df[-1:]['placeLat']
+                        lng = df[-1:]['placeLng']
+                        mapdata = create_map(lat, lng, cities)
+                        st.markdown('###### Relay point:GREEN / Current point:RED')
+                        st.components.v1.html(folium.Figure().add_child(mapdata).render(), height=500)
+                        st.write('done')
 else:
     if tnumber_count == 0:
         st.info('*** No data データがありません ***')
     elif tnumber_count > 1:
         update_button = st.button('Update',help='Update Tracking...')
-            
+
         for i,select in enumerate(tnumbers):
             st.markdown(f'##### [{i+1}/{tnumber_count}]Tracking-code 追跡番号：' + select)
             if select == '':
@@ -377,6 +385,9 @@ else:
                     st.error('*** No matching data 一致するデータがありません ***')
                 else:
                     df = create_pandas_dataframe(d1)
-                    df.index = np.arange(1, len(df)+1)
-                    st.dataframe(df,800,500)
+                    if df is None:
+                        st.error('*** No records available for display. 表示可能な記録はありません ***')
+                    else:
+                        df.index = np.arange(1, len(df)+1)
+                        st.dataframe(df,800,500)
         st.write('done')
