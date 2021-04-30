@@ -354,8 +354,8 @@ else:
     elif tnumber_count > 1:
         update_button = st.button('Update',help='Update Tracking...')
             
-        for select in tnumbers:
-            st.markdown('##### Tracking-code 追跡番号：' + select)
+        for i,select in enumerate(tnumbers):
+            st.markdown(f'##### [{i+1}/{tnumber_count}]Tracking-code 追跡番号：' + select)
             if select == '':
                 st.info('*** No data データがありません ***')
             else:
