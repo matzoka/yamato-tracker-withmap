@@ -1,4 +1,5 @@
 import time
+import re
 
 import requests
 import json
@@ -273,12 +274,24 @@ Please enter the tracking number in the text area below. (Ctrl+Enter for complet
 """
 st.text(hedder_text)
 
-tnumber_text = st.text_area('','',help='Ctrl+Enter for completion 入力完了はCtrl+Enter')
+tnumber_text = ''
+tnumber_text = st.text_area('Non-numbers will be automatically deleted 数字以外は自動削除されます',"",help='Ctrl+Enter for completion 入力完了はCtrl+Enter')
+temp_tnumbers = tnumber_text.split("\n")
 
-tnumbers = tnumber_text.split("\n")
+# Non-numbers will be automatically deleted
+# 数字以外は削除する
+tnumbers = []
+for row in temp_tnumbers:
+    if row != '':
+        temp_text = re.sub('[^0-9]','', row)
+        tnumbers.append(temp_text)
+
+tnumber_dict = {}
 tnumber_dict = {'number': tnumbers}
+
 tnumber_df = pd.DataFrame(tnumber_dict)
 tnumber_df = tnumber_df.dropna()
+
 # st.dataframe(tnumber_df)
 tnumber_count = len(tnumber_df)
 if tnumber_count <= 1:
