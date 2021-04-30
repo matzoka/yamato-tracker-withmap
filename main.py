@@ -202,8 +202,6 @@ def create_pandas_dataframe(d1):
     data_placeLat = []
     data_placeLng = []
     for track_data in d1[1:]:
-        if track_data[0]['status'] == '':
-            print('a')
         data_status.append(track_data[0]['status'])
         data_placeName.append(track_data[0]['placeName'])
         data_placeCode.append(track_data[0]['placeCode'])
@@ -291,9 +289,6 @@ for row in temp_tnumbers:
         temp_text = re.sub('[^0-9]','', row)
         tnumbers.append(temp_text)
 
-print('temp_text=',tnumber_text)
-print('tnumbers=',tnumbers)
-
 tnumber_dict = {}
 tnumber_dict = {'number': tnumbers}
 
@@ -302,23 +297,19 @@ tnumber_df = tnumber_df.dropna()
 
 # st.dataframe(tnumber_df)
 tnumber_count = len(tnumber_df)
-print('tnumber_count=',tnumber_count)
-if tnumber_count <= 0:
-    select = ''
-    slider_min = 0
-    slider_max = 1
-    slider_value = 0
-else:
-    slider_min = 0
+if tnumber_count >= 2:
+    slider_min = 1
     slider_max = tnumber_count
     slider_value = 1
-    
+
 radio_select = st.radio('Track one case at a time or track all cases.（１件ずつ追跡又は全件追跡する）',('Trackking one','Track all cases'))
 
 if radio_select == 'Trackking one':
     if tnumber_count == 0:
         st.info('*** No data データがありません ***')
-    elif tnumber_count >= 1:
+    elif tnumber_count == 1:
+        pass
+    elif tnumber_count >=2:
         placeholder = st.empty()
         col1, col2, col3, col4, col5, col6, col7 = st.beta_columns(7)
         with col1:
@@ -346,8 +337,13 @@ if radio_select == 'Trackking one':
             select_slider = placeholder.slider('', min_value=slider_min, max_value=slider_max, step=1, value=slider_value, help='Change Tracking-code')
             state.count = select_slider
 
-        select = tnumbers[select_slider-1]
-        st.markdown('##### Tracking-code 追跡番号：' + select)
+    if tnumber_count >= 1:
+        if tnumber_count == 1:
+            select = tnumbers[0]
+            update_button = st.button('Update',help='Update Tracking...')
+        else:
+            select = tnumbers[select_slider-1]
+            st.markdown(f'##### [{select_slider}/{tnumber_count}]Tracking-code 追跡番号：' + select)
         if select == '':
             st.info('*** No data データがありません ***')
         else:
@@ -361,7 +357,6 @@ if radio_select == 'Trackking one':
                 else:
                     df.index = np.arange(1, len(df)+1)
                     st.dataframe(df,800,500)
-
                     hideMapSW = st.checkbox('Hide Map/マップ非表示')
                     if hideMapSW:
                         pass
