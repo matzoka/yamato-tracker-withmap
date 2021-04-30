@@ -291,6 +291,9 @@ for row in temp_tnumbers:
         temp_text = re.sub('[^0-9]','', row)
         tnumbers.append(temp_text)
 
+print('temp_text=',tnumber_text)
+print('tnumbers=',tnumbers)
+
 tnumber_dict = {}
 tnumber_dict = {'number': tnumbers}
 
@@ -299,13 +302,14 @@ tnumber_df = tnumber_df.dropna()
 
 # st.dataframe(tnumber_df)
 tnumber_count = len(tnumber_df)
-if tnumber_count <= 1:
+print('tnumber_count=',tnumber_count)
+if tnumber_count <= 0:
     select = ''
     slider_min = 0
     slider_max = 1
     slider_value = 0
 else:
-    slider_min = 1
+    slider_min = 0
     slider_max = tnumber_count
     slider_value = 1
     
@@ -314,7 +318,7 @@ radio_select = st.radio('Track one case at a time or track all cases.（１件�
 if radio_select == 'Trackking one':
     if tnumber_count == 0:
         st.info('*** No data データがありません ***')
-    elif tnumber_count > 1:
+    elif tnumber_count >= 1:
         placeholder = st.empty()
         col1, col2, col3, col4, col5, col6, col7 = st.beta_columns(7)
         with col1:
@@ -372,7 +376,7 @@ if radio_select == 'Trackking one':
 else:
     if tnumber_count == 0:
         st.info('*** No data データがありません ***')
-    elif tnumber_count > 1:
+    elif tnumber_count >= 1:
         update_button = st.button('Update',help='Update Tracking...')
 
         for i,select in enumerate(tnumbers):
