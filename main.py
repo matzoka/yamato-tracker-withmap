@@ -341,9 +341,10 @@ if radio_select == 'Trackking one':
         if tnumber_count == 1:
             select = tnumbers[0]
             update_button = st.button('Update',help='Update Tracking...')
+            st.markdown(f'##### [1/{tnumber_count}] Tracking-code 追跡番号: [{select}](http://jizen.kuronekoyamato.co.jp/jizen/servlet/crjz.b.NQ0010?id={select})')
         else:
             select = tnumbers[select_slider-1]
-            st.markdown(f'##### [{select_slider}/{tnumber_count}]Tracking-code 追跡番号：' + select)
+            st.markdown(f'##### [{select_slider}/{tnumber_count}] Tracking-code 追跡番号: [{select}](http://jizen.kuronekoyamato.co.jp/jizen/servlet/crjz.b.NQ0010?id={select})')
         if select == '':
             st.info('*** No data データがありません ***')
         else:
@@ -375,7 +376,7 @@ else:
         update_button = st.button('Update',help='Update Tracking...')
 
         for i,select in enumerate(tnumbers):
-            st.markdown(f'##### [{i+1}/{tnumber_count}]Tracking-code 追跡番号：' + select)
+            st.markdown(f'##### [{i+1}/{tnumber_count}] Tracking-code 追跡番号: [{select}](http://jizen.kuronekoyamato.co.jp/jizen/servlet/crjz.b.NQ0010?id={select})')
             if select == '':
                 st.info('*** No data データがありません ***')
             else:
