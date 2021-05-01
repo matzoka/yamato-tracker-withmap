@@ -357,14 +357,16 @@ if radio_select == 'Trackking one':
                     st.error('*** No records available for display. 表示可能な記録はありません ***')
                 else:
                     df.index = np.arange(1, len(df)+1)
+                    df_deepcopy = df.copy()
+                    df = df.style.set_properties(**{'text-align': 'left'})
                     st.dataframe(df,800,500)
                     hideMapSW = st.checkbox('Hide Map/マップ非表示')
                     if hideMapSW:
                         pass
                     else:
-                        cities = create_cities_dataframe(df)
-                        lat = df[-1:]['placeLat']
-                        lng = df[-1:]['placeLng']
+                        cities = create_cities_dataframe(df_deepcopy)
+                        lat = df_deepcopy[-1:]['placeLat']
+                        lng = df_deepcopy[-1:]['placeLng']
                         mapdata = create_map(lat, lng, cities)
                         st.markdown('###### Relay point:GREEN / Current point:RED')
                         st.components.v1.html(folium.Figure().add_child(mapdata).render(), height=500)
@@ -389,5 +391,6 @@ else:
                         st.error('*** No records available for display. 表示可能な記録はありません ***')
                     else:
                         df.index = np.arange(1, len(df)+1)
+                        df = df.style.set_properties(**{'text-align': 'left'})
                         st.dataframe(df,800,500)
         st.write('done')
