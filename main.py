@@ -266,7 +266,9 @@ def create_cities_dataframe(dataframe):
 #==============================================================
 def main():
     COLOR = "black"
+    STCK_COLOR = 'black'
     BACKGROUND_COLOR = "#fff"
+    STCK_BACKGROUND_COLOR = "rgb(240, 246, 246)"
     max_width = 1000
     padding_top = 5
     padding_right = 1
@@ -289,7 +291,9 @@ def main():
     dark_theme = st.sidebar.checkbox("Dark Theme", False)
     if dark_theme:
         BACKGROUND_COLOR = "rgb(17,17,17)"
+        STCK_BACKGROUND_COLOR = "rgb(17,17,17)"
         COLOR = "#fff"
+        STCK_COLOR = 'white'
 
     st.markdown(
     f"""
@@ -322,8 +326,8 @@ def main():
             background-color: {BACKGROUND_COLOR};
         }}
         .st-ck {{
-            color: {COLOR};
-            background-color: {BACKGROUND_COLOR};
+            color: {STCK_COLOR};
+            background-color: {STCK_BACKGROUND_COLOR};
         }}
         .css-xq1lnh-EmotionIconBase {{
             color: {COLOR};
