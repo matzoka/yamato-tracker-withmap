@@ -277,17 +277,20 @@ def main():
     
     st.title("YAMATO TRACKER with Map")
 
-    hedder_text = """This is a package inquiry application for Kuroneko Yamato (Yamato Transport).
-You can copy and paste multiple tracking numbers into the text area, saving you time!
-It also lists the latest delivery status for each route, and you can also refer to the route as a map. 
-(The tracking number is a direct link to Yamato)
+    hedder_text = """This is a package inquiry application for Kuroneko Yamato (Yamato Transport) that makes things a little more convenient.
+1. multiple tracking numbers can be copied and pasted for batch investigation
+2. latest delivery status can be listed by route.
+3. route information can be displayed on a map
+4. direct link to Yamato is included in the tracking number
 Please enter the tracking number in the text area below. (To complete, press Ctrl+Enter)
 
-クロネコヤマト（ヤマト運輸）の荷物お問い合わせアプリです。
-追跡番号をテキストエリアに複数コピペできますので面倒がないです！
-また最新の配送状況が経路毎に一覧表示され、経路については地図としても参照することができます。
-（追跡番号はヤマトへの直リンクになっています）
+少しだけ便利になるクロネコヤマト（ヤマト運輸）の荷物お問い合わせアプリです。
+1. 追跡番号を複数コピペして一括調査できます
+2. 最新の配送状況が経路毎に一覧表示できます
+3. 経路情報を地図表示できます
+4. ヤマトへの直リンクが追跡番号に含まれています
 下記テキストエリアに追跡番号を入力してください。（入力完了はCtrl+Enter）"""
+
     st.text(hedder_text)
 
     dark_theme = st.sidebar.checkbox("Dark Theme", False)
@@ -364,9 +367,9 @@ Please enter the tracking number in the text area below. (To complete, press Ctr
         slider_max = tnumber_count
         slider_value = 1
 
-    radio_select = st.radio('Track one case at a time or track all cases. １件又は全件表示',('Track one','Track all'))
+    radio_select = st.radio('Track one case at a time or track all cases. １件又は全件表示',('Track One with Map','Track all (no map)'))
 
-    if radio_select == 'Track one':
+    if radio_select == 'Track One with Map':
         if tnumber_count == 0:
             st.info('*** No data データがありません ***')
         elif tnumber_count == 1:
