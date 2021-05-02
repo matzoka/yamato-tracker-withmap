@@ -299,6 +299,9 @@ Please enter the tracking number in the text area below. (To complete, press Ctr
         STCK_BACKGROUND_COLOR = "rgb(17,17,17)"
         COLOR = "#fff"
         STCK_COLOR = 'white'
+    else:
+        BACKGROUND_COLOR = "#fff"
+        COLOR = "black"
 
     st.markdown(
     f"""
