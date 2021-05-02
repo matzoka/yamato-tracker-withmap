@@ -11,6 +11,11 @@ import streamlit.components.v1 as componentsv1
 from src.session import _get_state
 from bs4 import BeautifulSoup
 
+st.set_page_config(page_title="YAMATO TRACKER with Map",)
+
+state = _get_state()
+if state.count == None:
+    state.count = 0
 
 # Find the tracking number for Kuroneko Yamato.
 # クロネコヤマトの追跡番号を検索
@@ -259,126 +264,139 @@ def create_cities_dataframe(dataframe):
 #==============================================================
 # Main start
 #==============================================================
-state = _get_state()
-if state.count == None:
-    state.count = 0
+def main():
+    COLOR = "black"
+    BACKGROUND_COLOR = "#fff"
+    max_width = 1000
+    padding_top = 5
+    padding_right = 1
+    padding_left = 1
+    padding_bottom = 10
+    
+    st.title("YAMATO TRACKER with Map")
 
-st.set_page_config(page_title="YAMATO TRACKER with Map",)
-st.title("YAMATO TRACKER with Map")
+    hedder_text = """
+    This is the Streamlit version of Kuroneko Yamato's package inquiry system.
+    You can refer to the current status and route with a list and map.
+    Please enter the tracking number in the text area below. (Ctrl+Enter for completion)
 
-hedder_text = """
-This is the Streamlit version of Kuroneko Yamato's package inquiry system.
-You can refer to the current status and route with a list and map.
-Please enter the tracking number in the text area below. (Ctrl+Enter for completion)
+    クロネコヤマトの荷物お問い合わせシステムの Streamlit 版です。
+    現在の状況と経路を一覧表と地図で参照できます。
+    下記テキストエリアに追跡番号を入力してください。（入力完了はCtrl+Enter）
+    """
+    st.text(hedder_text)
 
-クロネコヤマトの荷物お問い合わせシステムの Streamlit 版です。
-現在の状況と経路を一覧表と地図で参照できます。
-下記テキストエリアに追跡番号を入力してください。（入力完了はCtrl+Enter）
-"""
-st.text(hedder_text)
+    dark_theme = st.sidebar.checkbox("Dark Theme", False)
+    if dark_theme:
+        BACKGROUND_COLOR = "rgb(17,17,17)"
+        COLOR = "#fff"
 
-tnumber_text = ''
-tnumber_text = st.text_area('Non-numbers will be automatically deleted 数字以外は自動削除されます',"",help='Ctrl+Enter for completion 入力完了はCtrl+Enter')
-temp_tnumbers = tnumber_text.split("\n")
+    st.markdown(
+    f"""
+    <style>
+        .reportview-container .main .block-container{{
+            max-width: {max_width}px;
+            padding-top: {padding_top}rem;
+            padding-right: {padding_right}rem;
+            padding-left: {padding_left}rem;
+            padding-bottom: {padding_bottom}rem;
+        }}
+        .reportview-container .main {{
+            color: {COLOR};
+            background-color: {BACKGROUND_COLOR};
+        }}
+        h1 {{
+            color: {COLOR};
+            background-color: {BACKGROUND_COLOR};
+        }}
+        h5 {{
+            color: {COLOR};
+            background-color: {BACKGROUND_COLOR};
+        }}
+        .css-145kmo2 {{
+            color: {COLOR};
+            background-color: {BACKGROUND_COLOR};
+        }}
+        .css-qbe2hs {{
+            background-color: {BACKGROUND_COLOR};
+        }}
+        .st-ck {{
+            color: {COLOR};
+            background-color: {BACKGROUND_COLOR};
+        }}
+    </style>
+    """,
+            unsafe_allow_html=True,
+        )
 
-# Non-numbers will be automatically deleted
-# 数字以外は削除する
-tnumbers = []
-for row in temp_tnumbers:
-    if row != '':
-        temp_text = re.sub('[^0-9]','', row)
-        tnumbers.append(temp_text)
+    tnumber_text = ''
+    tnumber_text = st.text_area('Non-numbers will be automatically deleted 数字以外は自動削除されます',"",help='Ctrl+Enter for completion 入力完了はCtrl+Enter')
+    temp_tnumbers = tnumber_text.split("\n")
 
-tnumber_dict = {}
-tnumber_dict = {'number': tnumbers}
+    # Non-numbers will be automatically deleted
+    # 数字以外は削除する
+    tnumbers = []
+    for row in temp_tnumbers:
+        if row != '':
+            temp_text = re.sub('[^0-9]','', row)
+            tnumbers.append(temp_text)
 
-tnumber_df = pd.DataFrame(tnumber_dict)
-tnumber_df = tnumber_df.dropna()
+    tnumber_dict = {}
+    tnumber_dict = {'number': tnumbers}
 
-# st.dataframe(tnumber_df)
-tnumber_count = len(tnumber_df)
-if tnumber_count >= 2:
-    slider_min = 1
-    slider_max = tnumber_count
-    slider_value = 1
+    tnumber_df = pd.DataFrame(tnumber_dict)
+    tnumber_df = tnumber_df.dropna()
 
-radio_select = st.radio('Track one case at a time or track all cases.（１件ずつ追跡又は全件追跡する）',('Trackking one','Track all cases'))
+    # st.dataframe(tnumber_df)
+    tnumber_count = len(tnumber_df)
+    if tnumber_count >= 2:
+        slider_min = 1
+        slider_max = tnumber_count
+        slider_value = 1
 
-if radio_select == 'Trackking one':
-    if tnumber_count == 0:
-        st.info('*** No data データがありません ***')
-    elif tnumber_count == 1:
-        pass
-    elif tnumber_count >=2:
-        placeholder = st.empty()
-        col1, col2, col3, col4, col5, col6, col7 = st.beta_columns(7)
-        with col1:
-            prev_button = st.button('Prev',help='Preview Tracking-code')
-        with col2:
-            next_button = st.button('Next',help='Next Tracking-code')
-        with col3:
-            update_button = st.button('Update',help='Update Tracking...')
-        if prev_button:
-            state.count -= 1
-            if state.count < 1:
-                state.count = tnumber_count
-            slider_value = state.count
-            select_slider = placeholder.slider('', min_value=slider_min, max_value=slider_max, step=1, value=slider_value, help='Change Tracking-code')
-        elif next_button:
-            state.count += 1
-            if state.count > tnumber_count:
-                state.count = 1
-            slider_value = state.count
-            select_slider = placeholder.slider('', min_value=slider_min, max_value=slider_max, step=1, value=slider_value, help='Change Tracking-code')
-        elif update_button:
-            slider_value = state.count
-            select_slider = placeholder.slider('', min_value=slider_min, max_value=slider_max, step=1, value=slider_value, help='Change Tracking-code')
-        else:
-            select_slider = placeholder.slider('', min_value=slider_min, max_value=slider_max, step=1, value=slider_value, help='Change Tracking-code')
-            state.count = select_slider
+    radio_select = st.radio('Track one case at a time or track all cases.（１件ずつ追跡又は全件追跡する）',('Trackking one','Track all cases'))
 
-    if tnumber_count >= 1:
-        if tnumber_count == 1:
-            select = tnumbers[0]
-            update_button = st.button('Update',help='Update Tracking...')
-            st.markdown(f'##### [1/{tnumber_count}] Tracking-code 追跡番号: [{select}](http://jizen.kuronekoyamato.co.jp/jizen/servlet/crjz.b.NQ0010?id={select})')
-        else:
-            select = tnumbers[select_slider-1]
-            st.markdown(f'##### [{select_slider}/{tnumber_count}] Tracking-code 追跡番号: [{select}](http://jizen.kuronekoyamato.co.jp/jizen/servlet/crjz.b.NQ0010?id={select})')
-        if select == '':
+    if radio_select == 'Trackking one':
+        if tnumber_count == 0:
             st.info('*** No data データがありません ***')
-        else:
-            d1 = get_kuroneko_tracking(select,view_track_code=False)
-            if d1 is None:
-                st.error('*** No matching data 一致するデータがありません ***')
+        elif tnumber_count == 1:
+            pass
+        elif tnumber_count >=2:
+            placeholder = st.empty()
+            col1, col2, col3, col4, col5, col6, col7 = st.beta_columns(7)
+            with col1:
+                prev_button = st.button('Prev',help='Preview Tracking-code')
+            with col2:
+                next_button = st.button('Next',help='Next Tracking-code')
+            with col3:
+                update_button = st.button('Update',help='Update Tracking...')
+            if prev_button:
+                state.count -= 1
+                if state.count < 1:
+                    state.count = tnumber_count
+                slider_value = state.count
+                select_slider = placeholder.slider('', min_value=slider_min, max_value=slider_max, step=1, value=slider_value, help='Change Tracking-code')
+            elif next_button:
+                state.count += 1
+                if state.count > tnumber_count:
+                    state.count = 1
+                slider_value = state.count
+                select_slider = placeholder.slider('', min_value=slider_min, max_value=slider_max, step=1, value=slider_value, help='Change Tracking-code')
+            elif update_button:
+                slider_value = state.count
+                select_slider = placeholder.slider('', min_value=slider_min, max_value=slider_max, step=1, value=slider_value, help='Change Tracking-code')
             else:
-                df = create_pandas_dataframe(d1)
-                if df is None:
-                    st.error('*** No records available for display. 表示可能な記録はありません ***')
-                else:
-                    df.index = np.arange(1, len(df)+1)
-                    df_deepcopy = df.copy()
-                    df = df.style.set_properties(**{'text-align': 'left'})
-                    st.dataframe(df,800,500)
-                    hideMapSW = st.checkbox('Hide Map/マップ非表示')
-                    if hideMapSW:
-                        pass
-                    else:
-                        cities = create_cities_dataframe(df_deepcopy)
-                        lat = df_deepcopy[-1:]['placeLat']
-                        lng = df_deepcopy[-1:]['placeLng']
-                        mapdata = create_map(lat, lng, cities)
-                        st.markdown('###### Relay point:GREEN / Current point:RED')
-                        st.components.v1.html(folium.Figure().add_child(mapdata).render(), height=500)
-                        st.write('done')
-else:
-    if tnumber_count == 0:
-        st.info('*** No data データがありません ***')
-    elif tnumber_count >= 1:
-        update_button = st.button('Update',help='Update Tracking...')
+                select_slider = placeholder.slider('', min_value=slider_min, max_value=slider_max, step=1, value=slider_value, help='Change Tracking-code')
+                state.count = select_slider
 
-        for i,select in enumerate(tnumbers):
-            st.markdown(f'##### [{i+1}/{tnumber_count}] Tracking-code 追跡番号: [{select}](http://jizen.kuronekoyamato.co.jp/jizen/servlet/crjz.b.NQ0010?id={select})')
+        if tnumber_count >= 1:
+            if tnumber_count == 1:
+                select = tnumbers[0]
+                update_button = st.button('Update',help='Update Tracking...')
+                st.markdown(f'##### [1/{tnumber_count}] Tracking-code 追跡番号: [{select}](http://jizen.kuronekoyamato.co.jp/jizen/servlet/crjz.b.NQ0010?id={select})')
+            else:
+                select = tnumbers[select_slider-1]
+                st.markdown(f'##### [{select_slider}/{tnumber_count}] Tracking-code 追跡番号: [{select}](http://jizen.kuronekoyamato.co.jp/jizen/servlet/crjz.b.NQ0010?id={select})')
             if select == '':
                 st.info('*** No data データがありません ***')
             else:
@@ -391,6 +409,43 @@ else:
                         st.error('*** No records available for display. 表示可能な記録はありません ***')
                     else:
                         df.index = np.arange(1, len(df)+1)
+                        df_deepcopy = df.copy()
                         df = df.style.set_properties(**{'text-align': 'left'})
-                        st.dataframe(df,800,500)
-        st.write('done')
+                        st.dataframe(df,1000,500)
+                        hideMapSW = st.checkbox('Hide Map/マップ非表示')
+                        if hideMapSW:
+                            pass
+                        else:
+                            cities = create_cities_dataframe(df_deepcopy)
+                            lat = df_deepcopy[-1:]['placeLat']
+                            lng = df_deepcopy[-1:]['placeLng']
+                            mapdata = create_map(lat, lng, cities)
+                            st.markdown('###### Relay point:GREEN / Current point:RED')
+                            st.components.v1.html(folium.Figure().add_child(mapdata).render(), height=500)
+                            st.write('done')
+    else:
+        if tnumber_count == 0:
+            st.info('*** No data データがありません ***')
+        elif tnumber_count >= 1:
+            update_button = st.button('Update',help='Update Tracking...')
+
+            for i,select in enumerate(tnumbers):
+                st.markdown(f'##### [{i+1}/{tnumber_count}] Tracking-code 追跡番号: [{select}](http://jizen.kuronekoyamato.co.jp/jizen/servlet/crjz.b.NQ0010?id={select})')
+                if select == '':
+                    st.info('*** No data データがありません ***')
+                else:
+                    d1 = get_kuroneko_tracking(select,view_track_code=False)
+                    if d1 is None:
+                        st.error('*** No matching data 一致するデータがありません ***')
+                    else:
+                        df = create_pandas_dataframe(d1)
+                        if df is None:
+                            st.error('*** No records available for display. 表示可能な記録はありません ***')
+                        else:
+                            df.index = np.arange(1, len(df)+1)
+                            df = df.style.set_properties(**{'text-align': 'left'})
+                            st.dataframe(df,1000,500)
+            st.write('done')
+
+if __name__ == "__main__":
+    main()
