@@ -265,16 +265,16 @@ def create_cities_dataframe(dataframe):
 # Main start
 #==============================================================
 def main():
-    COLOR = "black"
-    STCK_COLOR = 'black'
-    BACKGROUND_COLOR = "#fff"
-    STCK_BACKGROUND_COLOR = "rgb(240, 246, 246)"
-    max_width = 1000
-    padding_top = 5
-    padding_right = 1
-    padding_left = 1
-    padding_bottom = 10
-    
+    # COLOR = "black"
+    # STCK_COLOR = 'black'
+    # BACKGROUND_COLOR = "#fff"
+    # STCK_BACKGROUND_COLOR = "rgb(240, 246, 246)"
+    # max_width = 1000
+    # padding_top = 5
+    # padding_right = 1
+    # padding_left = 1
+    # padding_bottom = 10
+
     st.title("YAMATO TRACKER with Map")
 
     hedder_text = """This is a package inquiry application for Kuroneko Yamato (Yamato Transport) that makes things a little more convenient.
@@ -293,58 +293,57 @@ Please enter the tracking number in the text area below. (To complete, press Ctr
 
     st.text(hedder_text)
 
-    dark_theme = st.sidebar.checkbox("Dark Theme", False)
-    if dark_theme:
-        BACKGROUND_COLOR = "rgb(17,17,17)"
-        STCK_BACKGROUND_COLOR = "rgb(17,17,17)"
-        COLOR = "#fff"
-        STCK_COLOR = 'white'
-    else:
-        BACKGROUND_COLOR = "#fff"
-        COLOR = "black"
+    # dark_theme = st.sidebar.checkbox("Dark Theme", False)
+    # if dark_theme:
+    #     BACKGROUND_COLOR = "rgb(17,17,17)"
+    #     STCK_BACKGROUND_COLOR = "rgb(17,17,17)"
+    #     COLOR = "#fff"
+    #     STCK_COLOR = 'white'
+    # else:
+    #     BACKGROUND_COLOR = "#fff"
 
-    st.markdown(
-    f"""
-    <style>
-        .reportview-container .main .block-container{{
-            max-width: {max_width}px;
-            padding-top: {padding_top}rem;
-            padding-right: {padding_right}rem;
-            padding-left: {padding_left}rem;
-            padding-bottom: {padding_bottom}rem;
-        }}
-        .reportview-container .main {{
-            color: {COLOR};
-            background-color: {BACKGROUND_COLOR};
-        }}
-        h1 {{
-            color: {COLOR};
-            background-color: {BACKGROUND_COLOR};
-        }}
-        h5 {{
-            color: {COLOR};
-            background-color: {BACKGROUND_COLOR};
-        }}
-        .css-145kmo2 {{
-            color: {COLOR};
-            background-color: {BACKGROUND_COLOR};
-        }}
-        .css-qbe2hs {{
-            color: {COLOR};
-            background-color: {BACKGROUND_COLOR};
-        }}
-        .st-ck {{
-            color: {STCK_COLOR};
-            background-color: {STCK_BACKGROUND_COLOR};
-        }}
-        .css-xq1lnh-EmotionIconBase {{
-            color: {COLOR};
-            background-color: {BACKGROUND_COLOR};
-        }}
-    </style>
-    """,
-            unsafe_allow_html=True,
-        )
+    # st.markdown(
+    # f"""
+    # <style>
+    #     .reportview-container .main .block-container{{
+    #         max-width: {max_width}px;
+    #         padding-top: {padding_top}rem;
+    #         padding-right: {padding_right}rem;
+    #         padding-left: {padding_left}rem;
+    #         padding-bottom: {padding_bottom}rem;
+    #     }}
+    #     .reportview-container .main {{
+    #         color: {COLOR};
+    #         background-color: {BACKGROUND_COLOR};
+    #     }}
+    #     h1 {{
+    #         color: {COLOR};
+    #         background-color: {BACKGROUND_COLOR};
+    #     }}
+    #     h5 {{
+    #         color: {COLOR};
+    #         background-color: {BACKGROUND_COLOR};
+    #     }}
+    #     .css-145kmo2 {{
+    #         color: {COLOR};
+    #         background-color: {BACKGROUND_COLOR};
+    #     }}
+    #     .css-qbe2hs {{
+    #         color: {COLOR};
+    #         background-color: {BACKGROUND_COLOR};
+    #     }}
+    #     .st-ck {{
+    #         color: {STCK_COLOR};
+    #         background-color: {STCK_BACKGROUND_COLOR};
+    #     }}
+    #     .css-xq1lnh-EmotionIconBase {{
+    #         color: {COLOR};
+    #         background-color: {BACKGROUND_COLOR};
+    #     }}
+    # </style>
+    # """,
+    #         unsafe_allow_html=True,
+    #     )
 
     tnumber_text = st.text_area('Automatic deletion of non-numeric characters. 数字以外の文字は自動削除',"",help='Ctrl+Enter for completion 入力完了はCtrl+Enter')
     temp_tnumbers = tnumber_text.split("\n")
