@@ -277,15 +277,17 @@ def main():
     
     st.title("YAMATO TRACKER with Map")
 
-    hedder_text = """
-    This is the Streamlit version of Kuroneko Yamato's package inquiry system.
-    You can refer to the current status and route with a list and map.
-    Please enter the tracking number in the text area below. (Ctrl+Enter for completion)
+    hedder_text = """This is a package inquiry application for Kuroneko Yamato (Yamato Transport).
+You can copy and paste multiple tracking numbers into the text area, saving you time!
+It also lists the latest delivery status for each route, and you can also refer to the route as a map. 
+(The tracking number is a direct link to Yamato)
+Please enter the tracking number in the text area below. (To complete, press Ctrl+Enter)
 
-    クロネコヤマトの荷物お問い合わせシステムの Streamlit 版です。
-    現在の状況と経路を一覧表と地図で参照できます。
-    下記テキストエリアに追跡番号を入力してください。（入力完了はCtrl+Enter）
-    """
+クロネコヤマト（ヤマト運輸）の荷物お問い合わせアプリです。
+追跡番号をテキストエリアに複数コピペできますので面倒がないです！
+また最新の配送状況が経路毎に一覧表示され、経路については地図としても参照することができます。
+（追跡番号はヤマトへの直リンクになっています）
+下記テキストエリアに追跡番号を入力してください。（入力完了はCtrl+Enter）"""
     st.text(hedder_text)
 
     dark_theme = st.sidebar.checkbox("Dark Theme", False)
@@ -338,8 +340,7 @@ def main():
             unsafe_allow_html=True,
         )
 
-    tnumber_text = ''
-    tnumber_text = st.text_area('Non-numbers will be automatically deleted 数字以外は自動削除されます',"",help='Ctrl+Enter for completion 入力完了はCtrl+Enter')
+    tnumber_text = st.text_area('Automatic deletion of non-numeric characters. 数字以外の文字は自動削除',"",help='Ctrl+Enter for completion 入力完了はCtrl+Enter')
     temp_tnumbers = tnumber_text.split("\n")
 
     # Non-numbers will be automatically deleted
@@ -363,9 +364,9 @@ def main():
         slider_max = tnumber_count
         slider_value = 1
 
-    radio_select = st.radio('Track one case at a time or track all cases.（１件ずつ追跡又は全件追跡する）',('Trackking one','Track all cases'))
+    radio_select = st.radio('Track one case at a time or track all cases. １件又は全件表示',('Track one','Track all'))
 
-    if radio_select == 'Trackking one':
+    if radio_select == 'Track one':
         if tnumber_count == 0:
             st.info('*** No data データがありません ***')
         elif tnumber_count == 1:
