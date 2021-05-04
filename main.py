@@ -292,84 +292,84 @@ def main():
 
 Please enter the tracking number in the text area below. (To complete, press Ctrl+Enter)"""
 
-    dark_theme = st.sidebar.checkbox("Dark Theme", False)
-    if dark_theme:
-        COLOR = "white"
-        BACKGROUND_COLOR = "rgb(17,17,17)"
-        STCK_COLOR = 'white'
-        STCK_BACKGROUND_COLOR = "rgb(17,17,17)"
-    else:
-        COLOR = "black"
-        BACKGROUND_COLOR = "white"
-        STCK_COLOR = 'black'
-        STCK_BACKGROUND_COLOR = "rgb(240, 246, 246)"
+    # dark_theme = st.sidebar.checkbox("Dark Theme", False)
+    # if dark_theme:
+    #     COLOR = "white"
+    #     BACKGROUND_COLOR = "rgb(17,17,17)"
+    #     STCK_COLOR = 'white'
+    #     STCK_BACKGROUND_COLOR = "rgb(17,17,17)"
+    # else:
+    #     COLOR = "black"
+    #     BACKGROUND_COLOR = "white"
+    #     STCK_COLOR = 'black'
+    #     STCK_BACKGROUND_COLOR = "rgb(240, 246, 246)"
 
-    st.markdown(
-    f"""
-    <style>
-        .reportview-container .main .block-container{{
-            max-width: {max_width}px;
-            padding-top: {padding_top}rem;
-            padding-right: {padding_right}rem;
-            padding-left: {padding_left}rem;
-            padding-bottom: {padding_bottom}rem;
-        }}
-        .reportview-container {{
-            color: {COLOR};
-            background-color: {BACKGROUND_COLOR};
-        }}
-        h1 {{
-            color: {COLOR};
-            background-color: {BACKGROUND_COLOR};
-        }}
-        h5 {{
-            color: {COLOR};
-            background-color: {BACKGROUND_COLOR};
-        }}
-        #MainMenu {{
-            color: {STCK_COLOR};
-            background-color: {STCK_BACKGROUND_COLOR};
-        }}
-        .st-cl {{
-            color: {'gray'};
-        }}
-        .css-145kmo2 {{
-            color: {STCK_COLOR};
-        }}
-        .css-xq1lnh-EmotionIconBase {{
-            color: {STCK_COLOR};
-            background-color: {STCK_BACKGROUND_COLOR};
-        }}
-        #bui-4__anchor {{
-            color: {'black'};
-            background-color: {STCK_BACKGROUND_COLOR};
-        }}
-        #bui-5__anchor {{
-            color: {'black'};
-            background-color: {STCK_BACKGROUND_COLOR};
-        }}
-        #bui-6__anchor {{
-            color: {'black'};
-            background-color: {STCK_BACKGROUND_COLOR};
-        }}
-        #bui-7__anchor {{
-            color: {'black'};
-            background-color: {STCK_BACKGROUND_COLOR};
-        }}
-        #bui-8__anchor {{
-            color: {'black'};
-            background-color: {STCK_BACKGROUND_COLOR};
-        }}
-    </style>
-    """,
-            unsafe_allow_html=True,
-        )
+    # st.markdown(
+    # f"""
+    # <style>
+    #     .reportview-container .main .block-container{{
+    #         max-width: {max_width}px;
+    #         padding-top: {padding_top}rem;
+    #         padding-right: {padding_right}rem;
+    #         padding-left: {padding_left}rem;
+    #         padding-bottom: {padding_bottom}rem;
+    #     }}
+    #     .reportview-container {{
+    #         color: {COLOR};
+    #         background-color: {BACKGROUND_COLOR};
+    #     }}
+    #     h1 {{
+    #         color: {COLOR};
+    #         background-color: {BACKGROUND_COLOR};
+    #     }}
+    #     h5 {{
+    #         color: {COLOR};
+    #         background-color: {BACKGROUND_COLOR};
+    #     }}
+    #     #MainMenu {{
+    #         color: {STCK_COLOR};
+    #         background-color: {STCK_BACKGROUND_COLOR};
+    #     }}
+    #     .st-cl {{
+    #         color: {'gray'};
+    #     }}
+    #     .css-145kmo2 {{
+    #         color: {STCK_COLOR};
+    #     }}
+    #     .css-xq1lnh-EmotionIconBase {{
+    #         color: {STCK_COLOR};
+    #         background-color: {STCK_BACKGROUND_COLOR};
+    #     }}
+    #     #bui-4__anchor {{
+    #         color: {'black'};
+    #         background-color: {STCK_BACKGROUND_COLOR};
+    #     }}
+    #     #bui-5__anchor {{
+    #         color: {'black'};
+    #         background-color: {STCK_BACKGROUND_COLOR};
+    #     }}
+    #     #bui-6__anchor {{
+    #         color: {'black'};
+    #         background-color: {STCK_BACKGROUND_COLOR};
+    #     }}
+    #     #bui-7__anchor {{
+    #         color: {'black'};
+    #         background-color: {STCK_BACKGROUND_COLOR};
+    #     }}
+    #     #bui-8__anchor {{
+    #         color: {'black'};
+    #         background-color: {STCK_BACKGROUND_COLOR};
+    #     }}
+    # </style>
+    # """,
+    #         unsafe_allow_html=True,
+    #     )
     
     col1, col2 = st.beta_columns([3, 1])
     with col1:
         st.title("YAMATO TRACKER with Map")
     with col2:
-        language = st.radio('言語選択 (Select Language) :',('Japanese', 'English'))
+        language = st.radio('言語選択(Select Language)',('Japanese', 'English'))
         
     if language == 'Japanese':
         st.text(hedder_text_jp)
