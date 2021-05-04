@@ -14,7 +14,7 @@ from bs4 import BeautifulSoup
 
 st.set_page_config(page_title="YAMATO TRACKER with Map",)
 
-state = SessionState.get(count=0, language='japanese', select_radio='Show 1 item with Map')
+state = SessionState.get(count=0)
 
 # Find the tracking number for Kuroneko Yamato.
 # クロネコヤマトの追跡番号を検索
@@ -294,14 +294,14 @@ Please enter the tracking number in the text area below. (To complete, press Ctr
 
     dark_theme = st.sidebar.checkbox("Dark Theme", False)
     if dark_theme:
+        COLOR = "white"
         BACKGROUND_COLOR = "rgb(17,17,17)"
-        STCK_BACKGROUND_COLOR = "rgb(17,17,17)"
-        COLOR = "#fff"
         STCK_COLOR = 'white'
+        STCK_BACKGROUND_COLOR = "rgb(17,17,17)"
     else:
         COLOR = "black"
+        BACKGROUND_COLOR = "white"
         STCK_COLOR = 'black'
-        BACKGROUND_COLOR = "#fff"
         STCK_BACKGROUND_COLOR = "rgb(240, 246, 246)"
 
     st.markdown(
@@ -331,15 +331,33 @@ Please enter the tracking number in the text area below. (To complete, press Ctr
             background-color: {STCK_BACKGROUND_COLOR};
         }}
         .st-cl {{
-            color: {STCK_COLOR};
-            background-color: {STCK_BACKGROUND_COLOR};
+            color: {'gray'};
         }}
         .css-145kmo2 {{
             color: {STCK_COLOR};
-            background-color: {STCK_BACKGROUND_COLOR};
         }}
         .css-xq1lnh-EmotionIconBase {{
             color: {STCK_COLOR};
+            background-color: {STCK_BACKGROUND_COLOR};
+        }}
+        #bui-4__anchor {{
+            color: {'black'};
+            background-color: {STCK_BACKGROUND_COLOR};
+        }}
+        #bui-5__anchor {{
+            color: {'black'};
+            background-color: {STCK_BACKGROUND_COLOR};
+        }}
+        #bui-6__anchor {{
+            color: {'black'};
+            background-color: {STCK_BACKGROUND_COLOR};
+        }}
+        #bui-7__anchor {{
+            color: {'black'};
+            background-color: {STCK_BACKGROUND_COLOR};
+        }}
+        #bui-8__anchor {{
+            color: {'black'};
             background-color: {STCK_BACKGROUND_COLOR};
         }}
     </style>
@@ -351,14 +369,14 @@ Please enter the tracking number in the text area below. (To complete, press Ctr
     with col1:
         st.title("YAMATO TRACKER with Map")
     with col2:
-        state.language = st.radio('言語選択 (Select Language) :',('Japanese', 'English'))
+        language = st.radio('言語選択 (Select Language) :',('Japanese', 'English'))
         
-    if state.language == 'Japanese':
+    if language == 'Japanese':
         st.text(hedder_text_jp)
     else:
         st.text(hedder_text_en)
 
-    if state.language == 'Japanese':
+    if language == 'Japanese':
         tnumber_text = st.text_area('数字以外の文字は自動削除',"",help='入力完了はCtrl+Enter')
     else:
         tnumber_text = st.text_area('Automatic deletion of non-numeric characters.',"",help='Ctrl+Enter for completion.')
@@ -385,14 +403,14 @@ Please enter the tracking number in the text area below. (To complete, press Ctr
         slider_max = tnumber_count
         slider_value = 1
 
-    if state.language == 'Japanese':
-        state.select_radio = st.radio('表示したい件数を選択してください。',('１件表示・地図付き','全件表示'))
+    if language == 'Japanese':
+        select_radio = st.radio('表示したい件数を選択してください。',('１件表示・地図付き','全件表示'))
     else:
-        state.select_radio = st.radio('Select the number of items you wish to display.',('Show 1 item with Map','Show all item'))
+        select_radio = st.radio('Select the number of items you wish to display.',('Show 1 item with Map','Show all item'))
         
-    if state.select_radio == 'Show 1 item with Map' or state.select_radio == '１件と地図表示':
+    if select_radio == 'Show 1 item with Map' or select_radio == '１件表示・地図付き':
         if tnumber_count == 0:
-            if state.language == 'Japanese':
+            if language == 'Japanese':
                 st.info('*** データがありません ***')
             else:
                 st.info('*** No data ***')
@@ -435,21 +453,21 @@ Please enter the tracking number in the text area below. (To complete, press Ctr
                 select = tnumbers[select_slider-1]
                 st.markdown(f'##### [{select_slider}/{tnumber_count}] Tracking-code 追跡番号: [{select}](http://jizen.kuronekoyamato.co.jp/jizen/servlet/crjz.b.NQ0010?id={select})')
             if select == '':
-                if state.language == 'Japanese':
+                if language == 'Japanese':
                     st.info('*** データがありません ***')
                 else:
                     st.info('*** No data ***')
             else:
                 d1 = get_kuroneko_tracking(select,view_track_code=False)
                 if d1 is None:
-                    if state.language == 'Japanese':
+                    if language == 'Japanese':
                         st.error('*** 一致するデータがありません ***')
                     else:
                         st.error('*** No matching data ***')
                 else:
                     df = create_pandas_dataframe(d1)
                     if df is None:
-                        if state.language == 'Japanese':
+                        if language == 'Japanese':
                             st.error('*** 表示可能な記録はありません ***')
                         else:
                             st.error('*** No records available for display ***')
@@ -458,7 +476,7 @@ Please enter the tracking number in the text area below. (To complete, press Ctr
                         df_deepcopy = df.copy()
                         df = df.style.set_properties(**{'text-align': 'left'})
                         st.dataframe(df,1000,500)
-                        if state.language == 'Japanese':
+                        if language == 'Japanese':
                             hideMapSW = st.checkbox('マップ非表示')
                         else:
                             hideMapSW = st.checkbox('Hide Map')
@@ -469,7 +487,7 @@ Please enter the tracking number in the text area below. (To complete, press Ctr
                             lat = df_deepcopy[-1:]['placeLat']
                             lng = df_deepcopy[-1:]['placeLng']
                             mapdata = create_map(lat, lng, cities)
-                            if state.language == 'Japanese':
+                            if language == 'Japanese':
                                 st.markdown('###### 中継地:GREEN / 現在地:RED')
                             else:
                                 st.markdown('###### Relay point:GREEN / Current point:RED')
@@ -477,7 +495,7 @@ Please enter the tracking number in the text area below. (To complete, press Ctr
                             st.write('done')
     else:
         if tnumber_count == 0:
-            if state.language == 'Japanese':
+            if language == 'Japanese':
                 st.info('*** データがありません ***')
             else:
                 st.info('*** No data ***')
@@ -487,21 +505,21 @@ Please enter the tracking number in the text area below. (To complete, press Ctr
             for i,select in enumerate(tnumbers):
                 st.markdown(f'##### [{i+1}/{tnumber_count}] Tracking-code 追跡番号: [{select}](http://jizen.kuronekoyamato.co.jp/jizen/servlet/crjz.b.NQ0010?id={select})')
                 if select == '':
-                    if state.language == 'Japanese':
+                    if language == 'Japanese':
                         st.info('*** データがありません ***')
                     else:
                         st.info('*** No data ***')
                 else:
                     d1 = get_kuroneko_tracking(select,view_track_code=False)
                     if d1 is None:
-                        if state.language == 'Japanese':
+                        if language == 'Japanese':
                             st.error('*** 一致するデータがありません ***')
                         else:
                             st.error('*** No matching data ***')
                     else:
                         df = create_pandas_dataframe(d1)
                         if df is None:
-                            if state.language == 'Japanese':
+                            if language == 'Japanese':
                                 st.error('*** 表示可能な記録はありません ***')
                             else:
                                 st.error('*** No records available for display ***')
