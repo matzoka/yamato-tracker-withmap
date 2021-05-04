@@ -311,7 +311,7 @@ Please enter the tracking number in the text area below. (To complete, press Ctr
             padding-left: {padding_left}rem;
             padding-bottom: {padding_bottom}rem;
         }}
-        .reportview-container .main {{
+        .reportview-container {{
             color: {COLOR};
             background-color: {BACKGROUND_COLOR};
         }}
@@ -323,17 +323,17 @@ Please enter the tracking number in the text area below. (To complete, press Ctr
             color: {COLOR};
             background-color: {BACKGROUND_COLOR};
         }}
+        #MainMenu {{
+            color: {COLOR};
+            background-color: {BACKGROUND_COLOR};
+        }}
+        .st-cl {{
+            color: {COLOR};
+            background-color: {BACKGROUND_COLOR};
+        }}
         .css-145kmo2 {{
             color: {COLOR};
             background-color: {BACKGROUND_COLOR};
-        }}
-        .css-qbe2hs {{
-            color: {COLOR};
-            background-color: {BACKGROUND_COLOR};
-        }}
-        .st-ck {{
-            color: {STCK_COLOR};
-            background-color: {STCK_BACKGROUND_COLOR};
         }}
         .css-xq1lnh-EmotionIconBase {{
             color: {COLOR};
