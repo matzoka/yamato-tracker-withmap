@@ -1,4 +1,5 @@
 /.streamlit
 /.vscode
 /.ipynb_checkpoints
+__pycache__
 *.ipynb
