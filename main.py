@@ -327,20 +327,20 @@ Please enter the tracking number in the text area below. (To complete, press Ctr
             background-color: {BACKGROUND_COLOR};
         }}
         #MainMenu {{
-            color: {COLOR};
-            background-color: {BACKGROUND_COLOR};
+            color: {STCK_COLOR};
+            background-color: {STCK_BACKGROUND_COLOR};
         }}
         .st-cl {{
-            color: {COLOR};
-            background-color: {BACKGROUND_COLOR};
+            color: {STCK_COLOR};
+            background-color: {STCK_BACKGROUND_COLOR};
         }}
         .css-145kmo2 {{
-            color: {COLOR};
-            background-color: {BACKGROUND_COLOR};
+            color: {STCK_COLOR};
+            background-color: {STCK_BACKGROUND_COLOR};
         }}
         .css-xq1lnh-EmotionIconBase {{
-            color: {COLOR};
-            background-color: {BACKGROUND_COLOR};
+            color: {STCK_COLOR};
+            background-color: {STCK_BACKGROUND_COLOR};
         }}
     </style>
     """,
