@@ -12,7 +12,7 @@ import streamlit as st
 import streamlit.components.v1 as componentsv1
 from bs4 import BeautifulSoup
 
-st.set_page_config(page_title="YAMATO TRACKER with Map",)
+st.set_page_config(page_title="YAMATO TRACKER with Map", page_icon="🚚")
 
 state = SessionState.get(count=0)
 
@@ -264,6 +264,20 @@ def create_cities_dataframe(dataframe):
 # Main start
 #==============================================================
 def main():
+    st.markdown(""" <style>
+    #MainMenu {visibility: hidden;}
+    footer {visibility: hidden;}
+    </style> """, unsafe_allow_html=True)
+    
+    padding = 0
+    st.markdown(f""" <style>
+        .reportview-container .main .block-container{{
+            padding-top: {padding}rem;
+            padding-right: {padding}rem;
+            padding-left: {padding}rem;
+            padding-bottom: {padding}rem;
+        }} </style> """, unsafe_allow_html=True)
+
     COLOR = "black"
     STCK_COLOR = 'black'
     BACKGROUND_COLOR = "#fff"
