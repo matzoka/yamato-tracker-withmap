@@ -4,5 +4,4 @@ numpy
 bs4
 folium
 requests
-st_aggrid
 streamlit-aggrid
