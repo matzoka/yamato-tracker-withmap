@@ -11,6 +11,7 @@ import numpy as np
 import streamlit as st
 import streamlit.components.v1 as componentsv1
 from bs4 import BeautifulSoup
+from st_aggrid import AgGrid
 
 st.set_page_config(page_title="YAMATO TRACKER with Map", page_icon="🚚")
 
@@ -268,7 +269,7 @@ def main():
     #MainMenu {visibility: hidden;}
     footer {visibility: hidden;}
     </style> """, unsafe_allow_html=True)
-    
+
     padding = 0
     st.markdown(f""" <style>
         .reportview-container .main .block-container{{
@@ -486,10 +487,9 @@ Please enter the tracking number in the text area below. (To complete, press Ctr
                         else:
                             st.error('*** No records available for display ***')
                     else:
-                        df.index = np.arange(1, len(df)+1)
-                        df_deepcopy = df.copy()
-                        df = df.style.set_properties(**{'text-align': 'left'})
-                        st.dataframe(df,1000,500)
+                        # df.index = np.arange(1, len(df)+1)
+                        df = df.sort_index(ascending=False)
+                        AgGrid(df,height=140,autosize=True, )
                         if language == 'Japanese':
                             hideMapSW = st.checkbox('マップ非表示')
                         else:
@@ -497,9 +497,9 @@ Please enter the tracking number in the text area below. (To complete, press Ctr
                         if hideMapSW:
                             pass
                         else:
-                            cities = create_cities_dataframe(df_deepcopy)
-                            lat = df_deepcopy[-1:]['placeLat']
-                            lng = df_deepcopy[-1:]['placeLng']
+                            cities = create_cities_dataframe(df)
+                            lat = df[-1:]['placeLat']
+                            lng = df[-1:]['placeLng']
                             mapdata = create_map(lat, lng, cities)
                             if language == 'Japanese':
                                 st.markdown('###### 中継地:GREEN / 現在地:RED')
@@ -538,9 +538,9 @@ Please enter the tracking number in the text area below. (To complete, press Ctr
                             else:
                                 st.error('*** No records available for display ***')
                         else:
-                            df.index = np.arange(1, len(df)+1)
-                            df = df.style.set_properties(**{'text-align': 'left'})
-                            st.dataframe(df,1000,500)
+                            # df.index = np.arange(1, len(df)+1)
+                            df = df.sort_index(ascending=False)
+                            AgGrid(df,height=140,autosize=True, )
             st.write('done')
 
 if __name__ == "__main__":
