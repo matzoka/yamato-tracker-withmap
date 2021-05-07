@@ -176,16 +176,22 @@ def create_map(tolat, tolng, cities):
     lng = tolng
     name = "No name"
 
+    red_lat = 0.0
+    red_lng = 0.0
     map = folium.Map(location=[lat, lng], zoom_start=6)
-#     folium.Marker(location=[lat, lng], popup=name).add_to(map)
-    cities_count = len(cities)
-    if cities_count > 0:
-        cities_count -= 1
     for i, r in cities.iterrows():
-        if i == cities_count:
+        if i == 0:  # 降順ソートされたデータなので先頭が最終のカレントデータとなる
             colorsign = 'red'
+            #  赤色のマークを付けた緯度経度を記録する
+            red_lat = r['latitude']
+            red_lng = r['longtude']
+            
         else:
-            colorsign = 'green'
+            #  赤色のマークを付けた緯度経度と同じデータの場合はグリーンとせずに赤のままにしておく
+            if red_lat == r['latitude'] and red_lng == r['longtude']:
+                pass
+            else:
+                colorsign = 'green'
         folium.Marker(
             location=[r['latitude'], r['longtude']],
             popup=r['train'],
@@ -244,7 +250,7 @@ def create_cities_dataframe(dataframe):
     train = []
     latitude = []
     longtude = []
-    for index,item in dataframe[1:].iterrows():
+    for index,item in dataframe[0:].iterrows():
         tempLat = item['placeLat']
         if tempLat != 0:
             train.append(item['placeName'])
@@ -256,7 +262,7 @@ def create_cities_dataframe(dataframe):
         'latitude': latitude,
         'longtude': longtude,
     })
-
+    cities_dataframe = cities_dataframe.sort_index(ascending=True)
     cities_dataframe = cities_dataframe.dropna()
     return cities_dataframe
 
@@ -488,18 +494,16 @@ Please enter the tracking number in the text area below. (To complete, press Ctr
                             st.error('*** No records available for display ***')
                     else:
                         # df.index = np.arange(1, len(df)+1)
-                        df = df.sort_index(ascending=False)
+                        df = df.sort_index(ascending=False)  #降順
                         AgGrid(df,height=140,autosize=True, )
                         if language == 'Japanese':
                             hideMapSW = st.checkbox('マップ非表示')
                         else:
                             hideMapSW = st.checkbox('Hide Map')
-                        if hideMapSW:
-                            pass
-                        else:
+                        if not hideMapSW:
                             cities = create_cities_dataframe(df)
-                            lat = df[-1:]['placeLat']
-                            lng = df[-1:]['placeLng']
+                            lat = float(df[:1]['placeLat'])
+                            lng = float(df[:1]['placeLng'])
                             mapdata = create_map(lat, lng, cities)
                             if language == 'Japanese':
                                 st.markdown('###### 中継地:GREEN / 現在地:RED')
