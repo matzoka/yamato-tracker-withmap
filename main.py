@@ -9,7 +9,7 @@ import folium
 import pandas as pd
 import numpy as np
 import streamlit as st
-import streamlit.components.v1 as componentsv1
+import streamlit.components.v1 as components
 from bs4 import BeautifulSoup
 from st_aggrid import AgGrid
 
@@ -186,7 +186,7 @@ def create_map(tolat, tolng, cities):
             #  赤色のマークを付けた緯度経度を記録する
             red_lat = r['latitude']
             red_lng = r['longtude']
-            
+
         else:
             #  赤色のマークを付けた緯度経度と同じデータの場合はグリーンとせずに赤のままにしておく
             if red_lat == r['latitude'] and red_lng == r['longtude']:
@@ -234,7 +234,7 @@ def create_pandas_dataframe(d1):
                'placeLat': data_placeLat,
                'placeLng': data_placeLng,
               }
-    
+
     if d1_dict['status'] != []:
         d1_change_dict = {}
         for k,v in d1_dict.items():
@@ -295,22 +295,22 @@ def main():
     padding_right = 1
     padding_left = 1
     padding_bottom = 10
-    
-    hedder_text_jp = """少しだけ便利になるクロネコヤマト（ヤマト運輸）の荷物お問い合わせアプリです。[update:2021/05/28]
-    
-1. 追跡番号を複数コピペして一括調査できます
-2. 最新の配送状況が経路毎に一覧表示できます
-3. 経路情報を地図表示できます
-4. ヤマトへの直リンクが追跡番号に含まれています
+
+    hedder_text_jp = """クロネコヤマト（ヤマト運輸）の荷物お問い合わせが少しだけ便利になるアプリです。[update:2021/11/04]
+
+・追跡番号を複数コピペして一括調査できます
+・最新の配送状況が経路毎に一覧表示できます
+・経路情報を地図表示できます
+・ヤマトへの直リンクが追跡番号に含まれています
 
 下記テキストエリアに追跡番号を入力してください。（入力完了はCtrl+Enter）"""
 
-    hedder_text_en = """This is a package inquiry application for Kuroneko Yamato (Yamato Transport) that makes things a little more convenient.
-    
-1. multiple tracking numbers can be copied and pasted for batch investigation
-2. latest delivery status can be listed by route.
-3. route information can be displayed on a map
-4. direct link to Yamato is included in the tracking number
+    hedder_text_en = """This is an application that makes Kuroneko Yamato (Yamato Transport) package inquiries a little more convenient.
+
+- multiple tracking numbers can be copied and pasted for batch investigation
+- latest delivery status can be listed by route.
+- route information can be displayed on a map
+- direct link to Yamato is included in the tracking number
 
 Please enter the tracking number in the text area below. (To complete, press Ctrl+Enter)"""
 
@@ -386,13 +386,13 @@ Please enter the tracking number in the text area below. (To complete, press Ctr
     # """,
     #         unsafe_allow_html=True,
     #     )
-    
-    col1, col2 = st.beta_columns([3, 1])
+
+    col1, col2 = st.columns([3, 1])
     with col1:
         st.title("YAMATO TRACKER with Map")
     with col2:
         language = st.radio('言語選択(Select Language)',('Japanese', 'English'))
-        
+
     if language == 'Japanese':
         st.text(hedder_text_jp)
     else:
@@ -429,7 +429,7 @@ Please enter the tracking number in the text area below. (To complete, press Ctr
         select_radio = st.radio('表示したい件数を選択してください。',('１件表示・地図付き','全件表示'))
     else:
         select_radio = st.radio('Select the number of items you wish to display.',('Show 1 item with Map','Show all item'))
-        
+
     if select_radio == 'Show 1 item with Map' or select_radio == '１件表示・地図付き':
         if tnumber_count == 0:
             if language == 'Japanese':
@@ -440,7 +440,7 @@ Please enter the tracking number in the text area below. (To complete, press Ctr
             pass
         elif tnumber_count >=2:
             placeholder = st.empty()
-            col1, col2, col3, col4, col5, col6, col7 = st.beta_columns(7)
+            col1, col2, col3, col4, col5, col6, col7 = st.columns(7)
             with col1:
                 prev_button = st.button('Prev',help='Preview Tracking-code')
             with col2:
