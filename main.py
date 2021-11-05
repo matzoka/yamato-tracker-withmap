@@ -520,7 +520,7 @@ Please enter the tracking number in the text area below. (To complete, press Ctr
                 st.info('*** No data ***')
         elif tnumber_count >= 1:
             update_button = st.button('Update',help='Update Tracking...')
-
+            keycount = 0
             for i,select in enumerate(tnumbers):
                 st.markdown(f'##### [{i+1}/{tnumber_count}] Tracking-code 追跡番号: [{select}](http://jizen.kuronekoyamato.co.jp/jizen/servlet/crjz.b.NQ0010?id={select})')
                 if select == '':
@@ -545,7 +545,8 @@ Please enter the tracking number in the text area below. (To complete, press Ctr
                         else:
                             # df.index = np.arange(1, len(df)+1)
                             df = df.sort_index(ascending=False)
-                            AgGrid(df,height=140,autosize=True, )
+                            AgGrid(df,height=140,autosize=True, key=keycount)
+                            keycount += 1
             st.write('done')
 
 if __name__ == "__main__":
