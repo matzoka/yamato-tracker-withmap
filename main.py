@@ -306,7 +306,7 @@ def main():
 下記テキストエリアに追跡番号を入力してください。（★入力完了はCtrl+Enter★）"""
 
     hedder_text_en = """This is an application that makes Kuroneko Yamato (Yamato Transport) package inquiries a little more convenient.
-
+[update:07/11/2021]
 - multiple tracking numbers can be copied and pasted for batch investigation
 - latest delivery status can be listed by route.
 - route information can be displayed on a map
