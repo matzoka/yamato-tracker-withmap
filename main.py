@@ -476,9 +476,9 @@ Please enter the tracking number in the text area below. (★To complete, press 
                 st.markdown(f'##### [{select_slider}/{tnumber_count}] Tracking-code 追跡番号: [{select}](http://jizen.kuronekoyamato.co.jp/jizen/servlet/crjz.b.NQ0010?id={select})')
             if select == '':
                 if language == 'Japanese':
-                    st.info('*** データがありません ***')
+                    st.info('*** データがありません! ***')
                 else:
-                    st.info('*** No data ***')
+                    st.info('*** No data! ***')
             else:
                 d1 = get_kuroneko_tracking(select,view_track_code=False)
                 if d1 is None:
