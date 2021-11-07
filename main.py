@@ -391,7 +391,7 @@ Please enter the tracking number in the text area below. (★To complete, press 
     with col1:
         st.title("YAMATO TRACKER with Map")
     with col2:
-        language = st.radio('言語選択(Language)',('Japanese', 'English'))
+        language = st.radio('言語(Language)',('Japanese', 'English'))
 
     if language == 'Japanese':
         st.text(hedder_text_jp)
