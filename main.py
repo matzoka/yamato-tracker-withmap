@@ -507,9 +507,9 @@ Please enter the tracking number in the text area below. (★To complete, press 
                             lng = float(df[:1]['placeLng'])
                             mapdata = create_map(lat, lng, cities)
                             if language == 'Japanese':
-                                st.markdown('###### 中継地:GREEN / 現在地:RED')
+                                st.markdown('##### 中継地:GREEN / 現在地:RED')
                             else:
-                                st.markdown('###### Relay point:GREEN / Current point:RED')
+                                st.markdown('##### Relay point:GREEN / Current point:RED')
                             st.components.v1.html(folium.Figure().add_child(mapdata).render(), height=500)
                             st.write('done')
     else:
