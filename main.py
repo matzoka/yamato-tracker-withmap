@@ -483,9 +483,9 @@ Please enter the tracking number in the text area below. (★To complete, press 
                 d1 = get_kuroneko_tracking(select,view_track_code=False)
                 if d1 is None:
                     if language == 'Japanese':
-                        st.error('*** 一致するデータがありません! ***')
+                        st.error('*** 一致するデータがありません ***')
                     else:
-                        st.error('*** No matching data! ***')
+                        st.error('*** No matching data ***')
                 else:
                     df = create_pandas_dataframe(d1)
                     if df is None:
