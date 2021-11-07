@@ -483,16 +483,16 @@ Please enter the tracking number in the text area below. (★To complete, press 
                 d1 = get_kuroneko_tracking(select,view_track_code=False)
                 if d1 is None:
                     if language == 'Japanese':
-                        st.error('*** 一致するデータがありません ***')
+                        st.error('*** 一致するデータがありません! ***')
                     else:
-                        st.error('*** No matching data ***')
+                        st.error('*** No matching data! ***')
                 else:
                     df = create_pandas_dataframe(d1)
                     if df is None:
                         if language == 'Japanese':
-                            st.error('*** 表示可能な記録はありません ***')
+                            st.error('*** 表示可能な記録はありません! ***')
                         else:
-                            st.error('*** No records available for display ***')
+                            st.error('*** No records available for display! ***')
                     else:
                         # df.index = np.arange(1, len(df)+1)
                         df = df.sort_index(ascending=False)  #降順
