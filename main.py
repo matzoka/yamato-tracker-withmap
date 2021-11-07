@@ -515,9 +515,9 @@ Please enter the tracking number in the text area below. (★To complete, press 
     else:
         if tnumber_count == 0:
             if language == 'Japanese':
-                st.info('*** データがありません ***')
+                st.info('*** データがありません! ***')
             else:
-                st.info('*** No data ***')
+                st.info('*** No data! ***')
         elif tnumber_count >= 1:
             update_button = st.button('Update',help='Update Tracking...')
             keycount = 0
@@ -525,23 +525,23 @@ Please enter the tracking number in the text area below. (★To complete, press 
                 st.markdown(f'##### [{i+1}/{tnumber_count}] Tracking-code 追跡番号: [{select}](http://jizen.kuronekoyamato.co.jp/jizen/servlet/crjz.b.NQ0010?id={select})')
                 if select == '':
                     if language == 'Japanese':
-                        st.info('*** データがありません ***')
+                        st.info('*** データがありません! ***')
                     else:
-                        st.info('*** No data ***')
+                        st.info('*** No data! ***')
                 else:
                     d1 = get_kuroneko_tracking(select,view_track_code=False)
                     if d1 is None:
                         if language == 'Japanese':
-                            st.error('*** 一致するデータがありません ***')
+                            st.error('*** 一致するデータがありません! ***')
                         else:
-                            st.error('*** No matching data ***')
+                            st.error('*** No matching data! ***')
                     else:
                         df = create_pandas_dataframe(d1)
                         if df is None:
                             if language == 'Japanese':
-                                st.error('*** 表示可能な記録はありません ***')
+                                st.error('*** 表示可能な記録はありません! ***')
                             else:
-                                st.error('*** No records available for display ***')
+                                st.error('*** No records available for display! ***')
                         else:
                             # df.index = np.arange(1, len(df)+1)
                             df = df.sort_index(ascending=False)
