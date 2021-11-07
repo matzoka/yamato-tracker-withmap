@@ -399,9 +399,9 @@ Please enter the tracking number in the text area below. (To complete, press Ctr
         st.text(hedder_text_en)
 
     if language == 'Japanese':
-        tnumber_text = st.text_area('数字以外の文字は自動削除',"",help='入力完了はCtrl+Enter')
+        tnumber_text = st.text_area('数字以外の文字は自動削除',"",help='★入力完了はCtrl+Enter★')
     else:
-        tnumber_text = st.text_area('Automatic deletion of non-numeric characters.',"",help='Ctrl+Enter for completion.')
+        tnumber_text = st.text_area('Automatic deletion of non-numeric characters.',"",help='★Ctrl+Enter for completion★')
     temp_tnumbers = tnumber_text.split("\n")
 
     # Non-numbers will be automatically deleted
