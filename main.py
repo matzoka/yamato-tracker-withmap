@@ -303,7 +303,7 @@ def main():
 ・経路情報を地図表示できます
 ・ヤマトへの直リンクが追跡番号に含まれています
 
-下記テキストエリアに追跡番号を入力してください。（入力完了はCtrl+Enter）"""
+下記テキストエリアに追跡番号を入力してください。（★入力完了はCtrl+Enter★）"""
 
     hedder_text_en = """This is an application that makes Kuroneko Yamato (Yamato Transport) package inquiries a little more convenient.
 
@@ -312,7 +312,7 @@ def main():
 - route information can be displayed on a map
 - direct link to Yamato is included in the tracking number
 
-Please enter the tracking number in the text area below. (To complete, press Ctrl+Enter)"""
+Please enter the tracking number in the text area below. (★To complete, press Ctrl+Enter★)"""
 
     # dark_theme = st.sidebar.checkbox("Dark Theme", False)
     # if dark_theme:
