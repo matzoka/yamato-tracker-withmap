@@ -24,8 +24,13 @@ EMAIL_HOST = 'smtp.gmail.com'
 EMAIL_PORT = 587
 EMAIL_USER = os.getenv('GMAIL_USER')
 EMAIL_PASSWORD = os.getenv('GMAIL_PASSWORD')
+NOTIFICATION_EMAIL = os.getenv('NOTIFICATION_EMAIL')
 
-def send_email(to_email, subject, body):
+def send_email(subject, body, to_email=None):
+    if to_email is None:
+        if NOTIFICATION_EMAIL is None:
+            raise ValueError("通知先メールアドレスが設定されていません。.envファイルにNOTIFICATION_EMAILを設定してください")
+        to_email = NOTIFICATION_EMAIL
     msg = MIMEMultipart()
     msg['From'] = EMAIL_USER
     msg['To'] = to_email
