@@ -29,6 +29,9 @@ ENV/
 env.bak/
 venv.bak/
 
+# Specific virtual environment files to ignore
+venv/
+
 # IDE
 .vscode/
 .idea/
