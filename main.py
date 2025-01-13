@@ -370,19 +370,20 @@ def main():
 
     hedder_text_jp = f"""クロネコヤマト（ヤマト運輸）の荷物お問い合わせが少しだけ便利になるアプリです。[update:{current_date_jp}]
 
-・追跡番号を複数コピペして一括調査できます
-・最新の配送状況が経路毎に一覧表示できます
-・経路情報を地図表示できます
-・ヤマトへの直リンクが追跡番号に含まれています
+・追跡番号を複数コピペして一括調査できます\n
+・最新の配送状況が経路毎に一覧表示できます\n
+・経路情報を地図表示できます\n
+・ヤマトへの直リンクが追跡番号に含まれています\n
 
 下記テキストエリアに追跡番号を入力してください。（★入力完了はCtrl+Enter★）"""
 
     hedder_text_en = f"""This is an application that makes Kuroneko Yamato (Yamato Transport) package inquiries a little more convenient.
 [update:{current_date_en}]
-- multiple tracking numbers can be copied and pasted for batch investigation
-- latest delivery status can be listed by route.
-- route information can be displayed on a map
-- direct link to Yamato is included in the tracking number
+
+- multiple tracking numbers can be copied and pasted for batch investigation\n
+- latest delivery status can be listed by route.\n
+- route information can be displayed on a map\n
+- direct link to Yamato is included in the tracking number\n
 
 Please enter the tracking number in the text area below. (★To complete, press Ctrl+Enter★)"""
 
