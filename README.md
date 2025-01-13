@@ -1,11 +1,16 @@
-# yamato-tracker-withmap
+# Yamato Tracker with Map
 
-To Run app:
+ヤマト運輸の追跡番号を調査するWebアプリケーションです。
 
-```python
-streamlit run main.py
-```
+## 特徴
 
-Here lies my Streamlit yamato-tracker-with map app! Check it out [here](https://tracker.mac365.com/)
+- 追跡番号を複数コピペして一括調査できます
+- 最新の配送状況が経路毎に一覧表示できます
+- 経路情報を地図表示できます
+- ヤマトへの直リンクが追跡番号に含まれています
 
-![demo](https://user-images.githubusercontent.com/758331/116515210-ef9eed00-a906-11eb-8ca4-8d43bd683ed6.gif)
+## 使い方
+
+1. Streamlitを起動
+2. 追跡番号を入力
+3. 結果を確認
