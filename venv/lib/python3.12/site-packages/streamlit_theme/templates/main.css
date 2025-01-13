@@ -1,0 +1,247 @@
+/* TODO */
+/* primary-a50 and RGB equivalent */
+/* BaseUI components */
+
+/* Main theme styles */
+
+.form-control:focus {
+    border-color: #fbadc2;
+    box-shadow: 0 0 0 .2rem rgba($primaryRGB, .25)
+}
+
+.btn.focus,
+.btn:focus {
+    box-shadow: 0 0 0 .2rem rgba($primaryRGB, .25)
+}
+
+.btn-outline-primary.focus,
+.btn-outline-primary:focus {
+    box-shadow: 0 0 0 .2rem rgba($primaryRGB, .5)
+}
+
+.btn-outline-primary:not(:disabled):not(.disabled).active:focus,
+.btn-outline-primary:not(:disabled):not(.disabled):active:focus,
+.show>.btn-outline-primary.dropdown-toggle:focus {
+    box-shadow: 0 0 0 .2rem rgba($primaryRGB, .5)
+}
+
+.custom-control-input:focus~.custom-control-label:before {
+    box-shadow: 0 0 0 .2rem rgba($primaryRGB, .25)
+}
+
+.custom-checkbox .custom-control-input:disabled:checked~.custom-control-label:before {
+    background-color: rgba($primaryRGB, .5)
+}
+
+.custom-checkbox .custom-control-input:disabled:indeterminate~.custom-control-label:before {
+    background-color: rgba($primaryRGB, .5)
+}
+
+.custom-checkbox .custom-control-input:disabled:indeterminate~.custom-control-label:before {
+    background-color: rgba($primaryRGB, .5)
+}
+
+.custom-switch .custom-control-input:disabled:checked~.custom-control-label:before {
+    background-color: rgba($primaryRGB, .5)
+}
+
+.custom-select:focus {
+    border-color: #fbadc2;
+    box-shadow: 0 0 0 .2rem rgba($primaryRGB, .25)
+}
+
+.custom-file-input:focus~.custom-file-label {
+    border-color: #fbadc2;
+    box-shadow: 0 0 0 .2rem rgba($primaryRGB, .25)
+}
+
+.custom-range:focus::-webkit-slider-thumb {
+    box-shadow: 0 0 0 1px #fff, 0 0 0 .2rem rgba($primaryRGB, .25)
+}
+
+.custom-range:focus::-moz-range-thumb {
+    box-shadow: 0 0 0 1px #fff, 0 0 0 .2rem rgba($primaryRGB, .25)
+}
+
+.custom-range:focus::-ms-thumb {
+    box-shadow: 0 0 0 1px #fff, 0 0 0 .2rem rgba($primaryRGB, .25)
+}
+
+.page-link:focus {
+    box-shadow: 0 0 0 .2rem rgba($primaryRGB, .25)
+}
+
+a.badge-primary.focus,
+a.badge-primary:focus {
+    box-shadow: 0 0 0 .2rem rgba($primaryRGB, .5)
+}
+
+.btn-outline-info:not(:disabled):not(.disabled):focus,
+.btn-outline-primary:not(:disabled):not(.disabled):focus,
+.btn-outline-secondary:not(:disabled):not(.disabled):focus {
+    box-shadow: 0 0 0 .2rem rgba($primaryRGB, .5)
+}
+
+
+header .decoration {
+    background-image: -webkit-gradient(linear, left top, right top, from($primaryHex), to(#fffd80));
+    background-image: -webkit-linear-gradient(left, $primaryHex, #fffd80);
+    background-image: linear-gradient(90deg, $primaryHex, #fffd80);
+}
+
+:root {
+    --primary: $primaryHex;
+}
+
+a {
+    color: $primaryHex;
+}
+
+.btn-primary {
+    background-color: $primaryHex;
+    border-color: $primaryHex
+}
+
+.btn-primary.disabled,
+.btn-primary:disabled {
+    color: #fff;
+    background-color: $primaryHex;
+    border-color: $primaryHex
+}
+
+.btn-outline-primary {
+    color: $primaryHex;
+    border-color: $primaryHex
+}
+
+.btn-outline-primary:hover {
+    background-color: $primaryHex;
+    border-color: $primaryHex
+}
+
+.btn-outline-primary.disabled,
+.btn-outline-primary:disabled {
+    color: $primaryHex;
+}
+
+.btn-outline-primary:not(:disabled):not(.disabled).active,
+.btn-outline-primary:not(:disabled):not(.disabled):active,
+.show>.btn-outline-primary.dropdown-toggle {
+    background-color: $primaryHex;
+    border-color: $primaryHex
+}
+
+.btn-link {
+    color: $primaryHex;
+}
+
+.dropdown-item.active,
+.dropdown-item:active {
+    background-color: $primaryHex
+}
+
+.custom-control-input:checked~.custom-control-label:before {
+    border-color: $primaryHex;
+    background-color: $primaryHex
+}
+
+.custom-checkbox .custom-control-input:indeterminate~.custom-control-label:before {
+    border-color: $primaryHex;
+    background-color: $primaryHex
+}
+
+.custom-range::-webkit-slider-thumb {
+    background-color: $primaryHex;
+}
+
+.custom-range::-moz-range-thumb {
+    background-color: $primaryHex;
+}
+
+.custom-range::-ms-thumb {
+    background-color: $primaryHex;
+}
+
+.nav-pills .nav-link.active,
+.nav-pills .show>.nav-link {
+    background-color: $primaryHex
+}
+
+.page-link {
+    color: $primaryHex;
+}
+
+.page-item.active .page-link {
+    background-color: $primaryHex;
+    border-color: $primaryHex
+}
+
+.badge-primary {
+    background-color: $primaryHex
+}
+
+.progress-bar {
+    background-color: $primaryHex;
+}
+
+.list-group-item.active {
+    background-color: $primaryHex;
+    border-color: $primaryHex
+}
+
+.bg-primary {
+    background-color: $primaryHex!important
+}
+
+.border-primary {
+    border-color: $primaryHex!important
+}
+
+.text-primary {
+    color: $primaryHex!important
+}
+
+.btn-outline-info:not(:disabled):not(.disabled):focus,
+.btn-outline-info:not(:disabled):not(.disabled):hover,
+.btn-outline-primary:not(:disabled):not(.disabled):focus,
+.btn-outline-primary:not(:disabled):not(.disabled):hover,
+.btn-outline-secondary:not(:disabled):not(.disabled):focus,
+.btn-outline-secondary:not(:disabled):not(.disabled):hover {
+    border-color: $primaryHex;
+    color: $primaryHex
+}
+
+.btn-outline-info:not(:disabled):not(.disabled).active,
+.btn-outline-info:not(:disabled):not(.disabled):active,
+.btn-outline-primary:not(:disabled):not(.disabled).active,
+.btn-outline-primary:not(:disabled):not(.disabled):active,
+.btn-outline-secondary:not(:disabled):not(.disabled).active,
+.btn-outline-secondary:not(:disabled):not(.disabled):active {
+    background-color: $primaryHex;
+    border-color: $primaryHex;
+}
+
+a,
+a:visited {
+    color: $primaryHex
+}
+
+a:active,
+a:hover {
+    color: $primaryHex;
+}
+
+/* 25 */
+.stNumberInput div.input-container div.controls .control:focus,
+.stNumberInput div.input-container div.controls .control:hover {
+    background-color: $primaryHex;
+}
+
+/* 30 */
+.stFileUploader .uploadStatus .btn {
+    color: $primaryHex;
+}
+
+.stFileUploader .uploadStatus .btn:hover {
+    color: $primaryHex
+}

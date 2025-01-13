@@ -1,0 +1,6 @@
+/.streamlit
+/.vscode
+/.ipynb_checkpoints
+__pycache__
+nohup.out
+*.ipynb

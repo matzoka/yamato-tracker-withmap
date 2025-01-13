@@ -1,0 +1,16 @@
+[project]
+name = "yamato-tracker-withmap-bolt1"
+version = "0.1.0"
+description = "Add your description here"
+readme = "README.md"
+requires-python = ">=3.10"
+dependencies = [
+    "bs4>=0.0.2",
+    "folium>=0.19.4",
+    "numpy>=2.2.1",
+    "pandas>=2.2.3",
+    "pyarrow>=18.1.0",
+    "requests>=2.32.3",
+    "streamlit>=1.41.1",
+    "streamlit-aggrid>=1.0.5",
+]
