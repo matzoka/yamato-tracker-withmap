@@ -32,7 +32,7 @@ def get_tracking_data(tracking_number=None):
                      (tracking_number,))
         else:
             c.execute('''SELECT * FROM tracking_data
-                        ORDER BY created_at DESC''')
+                        ORDER BY id DESC''')
         return c.fetchall()
 
 def save_tracking_data(conn, tracking_data):
