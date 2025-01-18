@@ -44,9 +44,15 @@ def send_email(subject, body, to_email=None):
         text = msg.as_string()
         server.sendmail(EMAIL_USER, to_email, text)
         server.quit()
-        print("Email sent successfully")
+        st.success("メールが送信されました")
     except Exception as e:
-        print(f"Error sending email: {e}")
+        st.error(f"メール送信エラー: {e}")
+        st.info("""
+        メールが送信できない場合、以下の設定を確認してください：
+        1. Gmailの設定で「低セキュリティなアプリのアクセス」を有効にする
+        2. .envファイルのGMAIL_PASSWORDが正しいアプリパスワードか確認する
+        3. メールがスパムフォルダに入っていないか確認する
+        """)
 
 # Find the tracking number for Kuroneko Yamato.
 @st.cache_data(ttl=300, show_spinner=False)
