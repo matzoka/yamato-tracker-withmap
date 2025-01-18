@@ -229,7 +229,7 @@ Please enter the tracking number in the text area below. (★To complete, press 
                 'place_lat', 'place_lng', 'created_at'
             ])
             # Group by tracking_number and display with expander, sorted by latest first
-            grouped = df_history.sort_values('created_at', ascending=False).groupby('tracking_number')
+            grouped = df_history.sort_values('id', ascending=False).groupby('tracking_number')
             for tracking_number, group in grouped:
                 with st.expander(f"追跡番号: {tracking_number}"):
                     st.dataframe(group[['status', 'place_name', 'place_code',
