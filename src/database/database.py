@@ -65,4 +65,15 @@ def save_tracking_data(conn, tracking_data):
                      data[0]['placeAddress'],
                      data[0]['placeLat'],
                      data[0]['placeLng']))
+
+    # Delete old records if count exceeds 20
+    c.execute('SELECT COUNT(*) FROM tracking_data')
+    count = c.fetchone()[0]
+    if count > 20:
+        c.execute('''DELETE FROM tracking_data
+                    WHERE id IN
+                    (SELECT id FROM tracking_data
+                    ORDER BY created_at ASC
+                    LIMIT ?)''', (count - 20,))
+
     conn.commit()
