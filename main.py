@@ -228,10 +228,13 @@ Please enter the tracking number in the text area below. (★To complete, press 
                 'track_date', 'track_time', 'place_postcode', 'place_address',
                 'place_lat', 'place_lng', 'created_at'
             ])
-            # Display only columns from tracking_number onward
-            st.dataframe(df_history[['tracking_number', 'status', 'place_name', 'place_code',
-                                   'track_date', 'track_time', 'place_postcode', 'place_address',
-                                   'place_lat', 'place_lng', 'created_at']])
+            # Group by tracking_number and display with expander
+            grouped = df_history.groupby('tracking_number')
+            for tracking_number, group in grouped:
+                with st.expander(f"追跡番号: {tracking_number}"):
+                    st.dataframe(group[['status', 'place_name', 'place_code',
+                                     'track_date', 'track_time', 'place_postcode', 'place_address',
+                                     'place_lat', 'place_lng', 'created_at']])
         else:
             st.info("過去の追跡データはありません")
 
