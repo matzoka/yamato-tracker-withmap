@@ -209,18 +209,24 @@ Please enter the tracking number in the text area below. (★To complete, press 
         st.session_state.theme = 'dark'
 
     # Add theme toggle
-    if st.checkbox('ダークモード', value=(st.session_state.theme == 'dark'), key='theme_toggle'):
-        st.session_state.theme = 'dark'
-        st.markdown("""<style>
-            .stApp { background-color: #0E1117; color: white; }
-            .css-1d391kg { background-color: #0E1117; }
-            </style>""", unsafe_allow_html=True)
+    dark_mode = st.checkbox('ダークモード', value=(st.session_state.theme == 'dark'), key='theme_toggle')
+
+    if dark_mode:
+        if st.session_state.theme != 'dark':
+            st.session_state.theme = 'dark'
+            st.markdown("""<style>
+                .stApp { background-color: #0E1117; color: white; }
+                .css-1d391kg { background-color: #0E1117; }
+                </style>""", unsafe_allow_html=True)
+            st.experimental_rerun()
     else:
-        st.session_state.theme = 'light'
-        st.markdown("""<style>
-            .stApp { background-color: white; color: black; }
-            .css-1d391kg { background-color: white; }
-            </style>""", unsafe_allow_html=True)
+        if st.session_state.theme != 'light':
+            st.session_state.theme = 'light'
+            st.markdown("""<style>
+                .stApp { background-color: white; color: black; }
+                .css-1d391kg { background-color: white; }
+                </style>""", unsafe_allow_html=True)
+            st.experimental_rerun()
 
     # Language selection
     col1, col2 = st.columns([3, 1])
