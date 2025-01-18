@@ -228,7 +228,10 @@ Please enter the tracking number in the text area below. (★To complete, press 
                 'track_date', 'track_time', 'place_postcode', 'place_address',
                 'place_lat', 'place_lng', 'created_at'
             ])
-            st.dataframe(df_history)
+            # Display only columns from tracking_number onward
+            st.dataframe(df_history[['tracking_number', 'status', 'place_name', 'place_code',
+                                   'track_date', 'track_time', 'place_postcode', 'place_address',
+                                   'place_lat', 'place_lng', 'created_at']])
         else:
             st.info("過去の追跡データはありません")
 
