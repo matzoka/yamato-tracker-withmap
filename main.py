@@ -193,7 +193,9 @@ def main():
 ・追跡番号を複数コピペして一括調査できます<br>
 ・最新の配送状況が経路毎に一覧表示できます<br>
 ・経路情報を地図表示できます<br>
-・ヤマトへの直リンクが追跡番号に含まれています<br><br>
+・ヤマトへの直リンクが追跡番号に含まれています<br>
+・過去の追跡データを表示・管理できます<br>
+・データベースに最大20件まで記録を保持<br><br>
 下記テキストエリアに追跡番号を入力してください。（★入力完了はCtrl+Enter★）"""
 
     hedder_text_en = f"""This is an application that makes Kuroneko Yamato (Yamato Transport) package inquiries a little more convenient.<br>
@@ -201,7 +203,9 @@ def main():
 - multiple tracking numbers can be copied and pasted for batch investigation<br>
 - latest delivery status can be listed by route.<br>
 - route information can be displayed on a map<br>
-- direct link to Yamato is included in the tracking number<br><br>
+- direct link to Yamato is included in the tracking number<br>
+- past tracking data can be displayed and managed<br>
+- database keeps up to 20 records<br><br>
 Please enter the tracking number in the text area below. (★To complete, press Ctrl+Enter★)"""
 
 
