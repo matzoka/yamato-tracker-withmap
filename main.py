@@ -217,7 +217,7 @@ Please enter the tracking number in the text area below. (★To complete, press 
         language = st.radio('言語(Language)',('Japanese', 'English'))
 
     # Display tracking data
-    if st.checkbox('過去の追跡データを表示'):
+    if st.checkbox('Show past tracking data' if language == 'English' else '過去の追跡データを表示'):
         rows = database.get_tracking_data()
 
         if rows:
