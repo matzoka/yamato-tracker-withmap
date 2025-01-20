@@ -6,9 +6,12 @@ import json
 import pandas as pd
 import folium
 from bs4 import BeautifulSoup
-import SessionState
 import streamlit as st
 import streamlit.components.v1 as components
+
+# Initialize session state
+if 'count' not in st.session_state:
+    st.session_state.count = 0
 from st_aggrid import AgGrid
 from src.database import database
 from src.email import email
@@ -283,8 +286,8 @@ Please enter the tracking number in the text area below. (To complete, press Ctr
                 update_button = st.button('Update',help='Update Tracking...')
                 st.markdown(f'##### [1/{tnumber_count}] Tracking-code 追跡番号: [{select}](http://jizen.kuronekoyamato.co.jp/jizen/servlet/crjz.b.NQ0010?id={select})')
             else:
-                select = tnumbers[state.count-1]
-                st.markdown(f'##### [{state.count}/{tnumber_count}] Tracking-code 追跡番号: [{select}](http://jizen.kuronekoyamato.co.jp/jizen/servlet/crjz.b.NQ0010?id={select})')
+                select = tnumbers[st.session_state.count-1]
+                st.markdown(f'##### [{st.session_state.count}/{tnumber_count}] Tracking-code 追跡番号: [{select}](http://jizen.kuronekoyamato.co.jp/jizen/servlet/crjz.b.NQ0010?id={select})')
 
             if select != '':
                 d1 = get_kuroneko_tracking(conn, select, view_track_code=False)

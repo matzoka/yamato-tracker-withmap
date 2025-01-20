@@ -6,4 +6,3 @@ folium==0.19.4
 requests==2.32.3
 pyarrow==18.1.0
 streamlit-aggrid==1.0.5
-SessionState==0.1.0
