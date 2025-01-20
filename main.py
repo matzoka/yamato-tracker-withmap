@@ -187,6 +187,15 @@ def main():
     h1 {font-size: 28px !important;}
     </style> """, unsafe_allow_html=True)
 
+    # Display image at the top with rounded corners
+    st.markdown(
+        f'<div style="display: flex; justify-content: center; width: 100%;">'
+        f'<img src="https://github.com/user-attachments/assets/93aaadfc-8b31-467c-bc18-77711a2b6991" '
+        f'style="border-radius: 15px; width: 100%; max-width: 800px; filter: blur(4px); opacity: 0.9; transform: scale(1); transform-origin: center; margin-bottom: 20px;">'
+        f'</div>',
+        unsafe_allow_html=True
+    )
+
     # Get current date and version
     current_date_jp, current_date_en = utils.get_current_date()
     with open('VERSION', 'r') as f:
