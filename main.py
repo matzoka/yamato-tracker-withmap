@@ -6,6 +6,7 @@ import json
 import pandas as pd
 import folium
 from bs4 import BeautifulSoup
+# [update:2025/01/20, ver 1.0.3]
 import streamlit as st
 import streamlit.components.v1 as components
 
