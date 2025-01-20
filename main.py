@@ -197,8 +197,7 @@ def main():
 ・経路情報を地図表示できます<br>
 ・ヤマトへの直リンクが追跡番号に含まれています<br>
 ・過去の追跡データを表示・管理できます<br>
-・データベースに最大20件まで記録を保持<br><br>
-下記テキストエリアに追跡番号を入力してください。（入力完了はCtrl+Enter）"""
+・データベースに最大20件まで記録を保持"""
 
     hedder_text_en = f"""This is an application that makes Kuroneko Yamato (Yamato Transport) package inquiries a little more convenient.<br>
 [update:{current_date_en}]<br><br>
@@ -241,9 +240,11 @@ Please enter the tracking number in the text area below. (To complete, press Ctr
     # Tracking number input
     if language == 'Japanese':
         st.markdown(f'<div class="custom-header">{hedder_text_jp}</div>', unsafe_allow_html=True)
+        st.write("")
         tnumber_text = st.text_area(
             '数字以外の文字は自動削除',
             "",
+            placeholder="ここに追跡番号を入力してください。（入力完了はCtrl+Enter）",
             help='★入力完了はCtrl+Enter★',
             key='text_area_jp'
         )
