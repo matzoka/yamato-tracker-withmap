@@ -1,4 +1,4 @@
-# Yamato Tracker with Map
+# Yamato Tracker with Map [update:2025/01/20, ver 1.0.3]
 
 ヤマト運輸の追跡番号を調査するWebアプリケーションです。
 
