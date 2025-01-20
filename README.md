@@ -20,8 +20,6 @@ yamato-tracker-withmap/
 ├── src/
 │   ├── database/           # データベース関連
 │   │   └── database.py
-│   ├── email/              # メール関連
-│   │   └── email.py
 │   ├── map/                # 地図表示関連
 │   │   └── map.py
 │   └── utils/              # ユーティリティ関数
