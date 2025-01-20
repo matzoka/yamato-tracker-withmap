@@ -39,7 +39,6 @@ venv/
 *.swo
 
 # Streamlit
-/.streamlit
 
 # Jupyter
 .ipynb_checkpoints/

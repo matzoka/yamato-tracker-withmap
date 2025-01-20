@@ -205,6 +205,7 @@ def main():
         unsafe_allow_html=True
     )
     st.markdown(""" <style>
+
     #MainMenu {visibility: hidden;}
     footer {visibility: hidden;}
     h1 {font-size: 28px !important;}
@@ -244,7 +245,7 @@ def main():
 
 
     # Language selection
-    col1, col2 = st.columns([3, 1])
+    col1, col2 = st.columns([4, 1])
     with col1:
         st.header("YAMATO TRACKER with Map")
     with col2:
