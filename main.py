@@ -189,6 +189,21 @@ def main():
             'About': None
         }
     )
+
+    # Hide deploy button and developer options
+    st.markdown(
+        """
+        <style>
+        .stDeployButton {
+            display: none;
+        }
+        [data-testid="stStatusWidget"] {
+            display: none;
+        }
+        </style>
+        """,
+        unsafe_allow_html=True
+    )
     st.markdown(""" <style>
     #MainMenu {visibility: hidden;}
     footer {visibility: hidden;}
