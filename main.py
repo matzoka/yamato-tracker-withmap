@@ -196,7 +196,7 @@ def main():
 ・ヤマトへの直リンクが追跡番号に含まれています<br>
 ・過去の追跡データを表示・管理できます<br>
 ・データベースに最大20件まで記録を保持<br><br>
-下記テキストエリアに追跡番号を入力してください。（★入力完了はCtrl+Enter★）"""
+下記テキストエリアに追跡番号を入力してください。（入力完了はCtrl+Enter）"""
 
     hedder_text_en = f"""This is an application that makes Kuroneko Yamato (Yamato Transport) package inquiries a little more convenient.<br>
 [update:{current_date_en}]<br><br>
@@ -206,7 +206,7 @@ def main():
 - direct link to Yamato is included in the tracking number<br>
 - past tracking data can be displayed and managed<br>
 - database keeps up to 20 records<br><br>
-Please enter the tracking number in the text area below. (★To complete, press Ctrl+Enter★)"""
+Please enter the tracking number in the text area below. (To complete, press Ctrl+Enter)"""
 
 
     # Language selection
