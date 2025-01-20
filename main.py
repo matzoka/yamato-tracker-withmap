@@ -190,7 +190,7 @@ def main():
     current_date_jp, current_date_en = utils.get_current_date()
 
     # Header text
-    hedder_text_jp = f"""クロネコヤマト（ヤマト運輸）の荷物お問い合わせが少しだけ便利になるアプリです。[update:{current_date_jp}]<br><br>
+    hedder_text_jp = f"""<u>クロネコヤマト（ヤマト運輸）の荷物お問い合わせが少しだけ便利になるアプリです。</u> [update:{current_date_jp}]<br><br>
 ・追跡番号を複数コピペして一括調査できます<br>
 ・最新の配送状況が経路毎に一覧表示できます<br>
 ・経路情報を地図表示できます<br>
