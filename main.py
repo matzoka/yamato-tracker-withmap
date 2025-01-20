@@ -199,15 +199,13 @@ def main():
 ・過去の追跡データを表示・管理できます<br>
 ・データベースに最大20件まで記録を保持"""
 
-    hedder_text_en = f"""This is an application that makes Kuroneko Yamato (Yamato Transport) package inquiries a little more convenient.<br>
-[update:{current_date_en}]<br><br>
+    hedder_text_en = f"""<u>This is an application that makes Kuroneko Yamato (Yamato Transport) package inquiries a little more convenient.</u> [update:{current_date_en}, ver 1.0.4]<br><br>
 - multiple tracking numbers can be copied and pasted for batch investigation<br>
 - latest delivery status can be listed by route.<br>
 - route information can be displayed on a map<br>
 - direct link to Yamato is included in the tracking number<br>
 - past tracking data can be displayed and managed<br>
-- database keeps up to 20 records<br><br>
-Please enter the tracking number in the text area below. (To complete, press Ctrl+Enter)"""
+- database keeps up to 20 records"""
 
 
     # Language selection
@@ -245,15 +243,17 @@ Please enter the tracking number in the text area below. (To complete, press Ctr
             '数字以外の文字は自動削除',
             "",
             placeholder="ここに追跡番号を入力してください。（入力完了はCtrl+Enter）",
-            help='★入力完了はCtrl+Enter★',
+            help='ここに追跡番号を入力してください。（入力完了はCtrl+Enter）',
             key='text_area_jp'
         )
     else:
         st.markdown(f'<div class="custom-header">{hedder_text_en}</div>', unsafe_allow_html=True)
+        st.write("")
         tnumber_text = st.text_area(
             'Automatic deletion of non-numeric characters.',
             "",
-            help='★Ctrl+Enter for completion★',
+            placeholder="Please enter the tracking number here. (Press Ctrl+Enter to complete)",
+            help='Please enter the tracking number here. (Press Ctrl+Enter to complete)',
             key='text_area_en'
         )
 
