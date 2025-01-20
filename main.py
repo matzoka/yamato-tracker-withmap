@@ -180,7 +180,15 @@ def main():
     conn = database.init_db()
 
     # Page configuration
-    st.set_page_config(page_title="YAMATO TRACKER with Map", page_icon="🚚")
+    st.set_page_config(
+        page_title="YAMATO TRACKER with Map",
+        page_icon="🚚",
+        menu_items={
+            'Get help': None,
+            'Report a bug': None,
+            'About': None
+        }
+    )
     st.markdown(""" <style>
     #MainMenu {visibility: hidden;}
     footer {visibility: hidden;}
