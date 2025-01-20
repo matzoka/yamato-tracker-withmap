@@ -221,6 +221,17 @@ def main():
         unsafe_allow_html=True
     )
 
+    st.markdown("""
+        <style>
+        header.stAppHeader {
+            background-color: transparent;
+        }
+        section.stMain .block-container {
+            padding-top: 0rem;
+            z-index: 1;
+        }
+        </style>""", unsafe_allow_html=True)
+
     # Get current date and version
     current_date_jp, current_date_en = utils.get_current_date()
     with open('VERSION', 'r') as f:
