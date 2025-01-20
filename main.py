@@ -14,7 +14,6 @@ if 'count' not in st.session_state:
     st.session_state.count = 0
 from st_aggrid import AgGrid
 from src.database import database
-from src.email import email
 from src.map import map
 from src.utils import utils
 
