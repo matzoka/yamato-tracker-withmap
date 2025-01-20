@@ -18,8 +18,6 @@ from src.email import email
 from src.map import map
 from src.utils import utils
 
-# Initialize session state
-state = SessionState.get(count=0)
 
 def get_kuroneko_tracking(conn, tracking_number, view_track_code=False):
     """Get tracking information from Kuroneko Yamato API"""
