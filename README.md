@@ -15,19 +15,25 @@
 
 ```
 yamato-tracker-withmap/
-├── .github/
-│   └── workflows/          # GitHub Actions設定
+├── .streamlit/
+│   └── config.toml         # Streamlit設定
 ├── src/
 │   ├── database/           # データベース関連
+│   │   └── database.py
 │   ├── email/              # メール関連
+│   │   └── email.py
 │   ├── map/                # 地図表示関連
+│   │   └── map.py
 │   └── utils/              # ユーティリティ関数
+│       └── utils.py
 ├── .env                    # 環境変数設定
 ├── .gitignore              # Git除外設定
+├── LICENSE                 # ライセンス
 ├── main.py                 # メインアプリケーション
 ├── README.md               # 本ファイル
 ├── requirements.txt        # 依存パッケージ
-└── SessionState.py         # セッション状態管理
+├── SessionState.py         # セッション状態管理
+└── VERSION                 # バージョン情報
 ```
 
 ## インストール方法
