@@ -3,10 +3,10 @@ name: Auto Commit
 on:
   push:
     branches:
-      - master
+      - main
   pull_request:
     branches:
-      - master
+      - main
   workflow_dispatch:
 
 jobs:
@@ -27,12 +27,16 @@ jobs:
           python -m pip install --upgrade pip
           pip install -r requirements.txt
 
+      - name: Update package versions
+        run: |
+          pip freeze > requirements.txt
+
       - name: Auto commit changes
         run: |
           git config --global user.name "GitHub Actions"
           git config --global user.email "actions@github.com"
-          git add .
-          git commit -m "Automated commit by GitHub Actions" || echo "No changes to commit"
-          git push origin master
+          git add requirements.txt
+          git commit -m "Automated package version update by GitHub Actions" || echo "No changes to commit"
+          git push origin main
         env:
           ROOCLINE: ${{ secrets.ROOCLINE }}
