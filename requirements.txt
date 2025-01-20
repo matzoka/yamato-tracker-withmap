@@ -1,9 +1,9 @@
-streamlit==1.28.0
-pandas==2.1.1
-numpy==1.25.2
-beautifulsoup4==4.12.2
-folium==0.14.0
-requests==2.31.0
-pyarrow==13.0.0
-streamlit-aggrid==0.3.4.post3
+streamlit==1.41.1
+pandas==2.2.3
+numpy==2.2.1
+beautifulsoup4==4.12.3
+folium==0.19.4
+requests==2.32.3
+pyarrow==18.1.0
+streamlit-aggrid==1.0.5
 SessionState==0.1.0
