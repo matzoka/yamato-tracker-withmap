@@ -183,6 +183,7 @@ def main():
     st.markdown(""" <style>
     #MainMenu {visibility: hidden;}
     footer {visibility: hidden;}
+    h1 {font-size: 28px !important;}
     </style> """, unsafe_allow_html=True)
 
     # Get current date
@@ -212,7 +213,7 @@ Please enter the tracking number in the text area below. (To complete, press Ctr
     # Language selection
     col1, col2 = st.columns([3, 1])
     with col1:
-        st.title("YAMATO TRACKER with Map")
+        st.header("YAMATO TRACKER with Map")
     with col2:
         language = st.radio('言語(Language)',('Japanese', 'English'))
 
