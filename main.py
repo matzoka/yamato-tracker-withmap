@@ -185,7 +185,9 @@ def main():
     #MainMenu {visibility: hidden;}
     footer {visibility: hidden;}
     h1 {font-size: 28px !important;}
+    .stDeployButton {display:none;}
     </style> """, unsafe_allow_html=True)
+    hide_streamlit_logo = True
 
     # Display image at the top with rounded corners
     st.markdown(
