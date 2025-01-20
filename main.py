@@ -336,7 +336,7 @@ Please enter the tracking number in the text area below. (To complete, press Ctr
                             st.error('*** 表示可能な記録はありません! ***' if language == 'Japanese' else '*** No records available for display! ***')
                         else:
                             df = df.sort_index(ascending=False)
-                            AgGrid(df,height=140,autosize=True, key=keycount)
+                            AgGrid(df, height=140, fit_columns_on_grid_load=True, key=str(keycount))
                             keycount += 1
             st.write('done')
 

@@ -63,3 +63,6 @@ Thumbs.db
 
 # Temp folder
 temp/
+
+# Database
+tracking.db
