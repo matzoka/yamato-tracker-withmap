@@ -294,7 +294,18 @@ Please enter the tracking number in the text area below. (★To complete, press 
                     if df is None:
                         st.error('*** 表示可能な記録はありません! ***' if language == 'Japanese' else '*** No records available for display! ***')
                     else:
-                        AgGrid(df,height=140,fit_columns_on_grid_load=True)
+                        AgGrid(
+                            df,
+                            height=140,
+                            fit_columns_on_grid_load=True,
+                            defaultColDef={
+                                "autoSize": True,
+                                "minWidth": 100,
+                                "maxWidth": 500,
+                                "resizable": True
+                            },
+                            suppressSizeToFit=False
+                        )
                         hideMapSW = st.checkbox('マップ非表示' if language == 'Japanese' else 'Hide Map')
                         if not hideMapSW:
                             cities = map.create_cities_dataframe(df)
