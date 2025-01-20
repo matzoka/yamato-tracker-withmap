@@ -60,3 +60,6 @@ nohup.out
 # System
 .DS_Store
 Thumbs.db
+
+# Temp folder
+temp/
