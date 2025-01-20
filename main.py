@@ -187,11 +187,13 @@ def main():
     h1 {font-size: 28px !important;}
     </style> """, unsafe_allow_html=True)
 
-    # Get current date
+    # Get current date and version
     current_date_jp, current_date_en = utils.get_current_date()
+    with open('VERSION', 'r') as f:
+        version = f.read().strip()
 
     # Header text
-    hedder_text_jp = f"""<u>クロネコヤマト（ヤマト運輸）の荷物お問い合わせが少しだけ便利になるアプリです。</u> [update:{current_date_jp}, ver 1.0.3]<br><br>
+    hedder_text_jp = f"""<u>クロネコヤマト（ヤマト運輸）の荷物お問い合わせが少しだけ便利になるアプリです。</u> [update:{current_date_jp}, ver {version}]<br><br>
 ・追跡番号を複数コピペして一括調査できます<br>
 ・最新の配送状況が経路毎に一覧表示できます<br>
 ・経路情報を地図表示できます<br>
@@ -199,7 +201,7 @@ def main():
 ・過去の追跡データを表示・管理できます<br>
 ・データベースに最大20件まで記録を保持"""
 
-    hedder_text_en = f"""<u>This is an application that makes Kuroneko Yamato (Yamato Transport) package inquiries a little more convenient.</u> [update:{current_date_en}, ver 1.0.4]<br><br>
+    hedder_text_en = f"""<u>This is an application that makes Kuroneko Yamato (Yamato Transport) package inquiries a little more convenient.</u> [update:{current_date_en}, ver {version}]<br><br>
 - multiple tracking numbers can be copied and pasted for batch investigation<br>
 - latest delivery status can be listed by route.<br>
 - route information can be displayed on a map<br>
