@@ -1,8 +1,10 @@
 import sqlite3
+import os
 
 def init_db():
     """Initialize database connection and create tables"""
-    with sqlite3.connect('tracking.db') as conn:
+    db_path = os.path.join(os.path.dirname(__file__), 'tracking.db')
+    with sqlite3.connect(db_path) as conn:
         c = conn.cursor()
         c.execute('''CREATE TABLE IF NOT EXISTS tracking_data
                      (id INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -21,9 +23,20 @@ def init_db():
         conn.commit()
         return conn
 
+def clear_all_data():
+    """Delete all data from tracking_data table"""
+    db_path = os.path.join(os.path.dirname(__file__), 'tracking.db')
+    print(f"Deleting data from database at: {db_path}")  # Debug message
+    with sqlite3.connect(db_path) as conn:
+        c = conn.cursor()
+        c.execute('DELETE FROM tracking_data')
+        conn.commit()
+        print("Data deletion completed successfully")  # Debug message
+
 def get_tracking_data(tracking_number=None):
     """Get tracking data from database"""
-    with sqlite3.connect('tracking.db') as conn:
+    db_path = os.path.join(os.path.dirname(__file__), 'tracking.db')
+    with sqlite3.connect(db_path) as conn:
         c = conn.cursor()
         if tracking_number:
             c.execute('''SELECT * FROM tracking_data
