@@ -194,12 +194,22 @@ def main():
     st.markdown(
         """
         <style>
+        :root {
+            --background-color: rgba(255, 255, 255, 0.1);
+            --border-color: rgba(170, 170, 170, 0.3);
+            --hover-color: rgba(0, 0, 0, 0.05);
+        }
+        [data-theme="dark"] {
+            --background-color: rgba(255, 255, 255, 0.05);
+            --border-color: rgba(170, 170, 170, 0.2);
+            --hover-color: rgba(255, 255, 255, 0.05);
+        }
         details {
-            border: 1px solid #aaa;
+            border: 1px solid var(--border-color);
             border-radius: 8px;
             padding: 0.5em 0.5em 0;
             margin-bottom: 1em;
-            background: linear-gradient(145deg, #ffffff, #f0f0f0);
+            background: var(--background-color);
             box-shadow: 2px 2px 5px rgba(0,0,0,0.1);
         }
         summary {
@@ -210,14 +220,21 @@ def main():
             transition: all 0.3s ease;
         }
         summary:hover {
-            background-color: rgba(0,0,0,0.03);
+            background-color: var(--hover-color);
         }
         details[open] {
             padding: 0.5em;
         }
         details[open] summary {
             margin-bottom: 0.5em;
-            border-bottom: 1px solid #aaa;
+            border-bottom: 1px solid var(--border-color);
+        }
+        /* Streamlitのexpander用スタイル */
+        .streamlit-expanderHeader {
+            background-color: var(--background-color) !important;
+        }
+        .streamlit-expanderContent {
+            background-color: var(--background-color) !important;
         }
         .stDeployButton {
             display: none;
@@ -310,6 +327,7 @@ def main():
             grouped = df_history.sort_values('id', ascending=False).groupby('tracking_number')
             for tracking_number, group in grouped:
                 with st.expander(f"追跡番号: {tracking_number}"):
+                    st.markdown(f"##### 追跡番号: [{tracking_number}](http://jizen.kuronekoyamato.co.jp/jizen/servlet/crjz.b.NQ0010?id={tracking_number})")
                     st.dataframe(group[['status', 'place_name', 'place_code',
                                      'track_date', 'track_time', 'place_postcode', 'place_address',
                                      'place_lat', 'place_lng', 'created_at']])
