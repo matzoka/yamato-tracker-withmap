@@ -239,20 +239,20 @@ def main():
 
     # Header text
     hedder_text_jp = f"""<u>クロネコヤマト（ヤマト運輸）の荷物お問い合わせが少しだけ便利になるアプリです。</u> [update:{current_date_jp}, ver {version}]<br><br>
-・追跡番号を複数コピペして一括調査できます<br>
-・最新の配送状況が経路毎に一覧表示できます<br>
-・経路情報を地図表示できます<br>
-・ヤマトへの直リンクが追跡番号に含まれています<br>
-・過去の追跡データを表示・管理できます<br>
-・データベースに最大20件まで記録を保持"""
+ ・追跡番号を複数コピペして一括調査できます<br>
+ ・最新の配送状況が経路毎に一覧表示できます<br>
+ ・経路情報を地図表示できます<br>
+ ・ヤマトへの直リンクが追跡番号に含まれています<br>
+ ・過去の追跡データを表示・管理できます<br>
+ ・データベースに最大20件まで記録を保持"""
 
     hedder_text_en = f"""<u>This is an application that makes Kuroneko Yamato (Yamato Transport) package inquiries a little more convenient.</u> [update:{current_date_en}, ver {version}]<br><br>
-- multiple tracking numbers can be copied and pasted for batch investigation<br>
-- latest delivery status can be listed by route.<br>
-- route information can be displayed on a map<br>
-- direct link to Yamato is included in the tracking number<br>
-- past tracking data can be displayed and managed<br>
-- database keeps up to 20 records"""
+ - multiple tracking numbers can be copied and pasted for batch investigation<br>
+ - latest delivery status can be listed by route.<br>
+ - route information can be displayed on a map<br>
+ - direct link to Yamato is included in the tracking number<br>
+ - past tracking data can be displayed and managed<br>
+ - database keeps up to 20 records"""
 
 
     # Language selection
@@ -347,7 +347,7 @@ def main():
                         AgGrid(
                             df,
                             height=140,
-                            fit_columns_on_grid_load=True,
+                            fit_columns_on_grid_load=False,
                             defaultColDef={
                                 "autoSize": True,
                                 "minWidth": 100,
@@ -385,9 +385,29 @@ def main():
                             st.error('*** 表示可能な記録はありません! ***' if language == 'Japanese' else '*** No records available for display! ***')
                         else:
                             df = df.sort_index(ascending=False)
-                            AgGrid(df, height=140, fit_columns_on_grid_load=True, key=str(keycount))
+                            AgGrid(df, height=140, fit_columns_on_grid_load=False, key=str(keycount))
                             keycount += 1
-            st.write('done')
+                        AgGrid(
+                            df,
+                            height=140,
+                            fit_columns_on_grid_load=False,
+                            defaultColDef={
+                                "autoSize": True,
+                                "minWidth": 100,
+                                "maxWidth": 500,
+                                "resizable": True
+                            },
+                            suppressSizeToFit=False
+                        )
+                        hideMapSW = st.checkbox('マップ非表示' if language == 'Japanese' else 'Hide Map')
+                        if not hideMapSW:
+                            cities = map.create_cities_dataframe(df)
+                            lat = float(df.iloc[0]['placeLat'])
+                            lng = float(df.iloc[0]['placeLng'])
+                            mapdata = map.create_map(lat, lng, cities)
+                            st.markdown('##### 中継地:GREEN / 現在地:RED' if language == 'Japanese' else '##### Relay point:GREEN / Current point:RED')
+                            st.components.v1.html(folium.Figure().add_child(mapdata).render(), height=500)
+                            st.write('done')
 
 if __name__ == "__main__":
     try:
