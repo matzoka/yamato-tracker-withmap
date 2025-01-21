@@ -199,6 +199,19 @@ def main():
             --border-color: rgba(170, 170, 170, 0.3);
             --hover-color: rgba(0, 0, 0, 0.05);
         }
+        /* モバイル対応のスタイル */
+        @media (max-width: 768px) {
+            div[data-testid="column"]:nth-of-type(1) {
+                flex: 0 1 auto !important;
+                width: auto !important;
+                min-width: 0px !important;
+            }
+            div[data-testid="column"]:nth-of-type(2) {
+                flex: 0 0 auto !important;
+                width: auto !important;
+                min-width: fit-content !important;
+            }
+        }
         [data-theme="dark"] {
             --background-color: rgba(255, 255, 255, 0.05);
             --border-color: rgba(170, 170, 170, 0.2);
@@ -312,12 +325,35 @@ def main():
     if st.checkbox('Show past tracking data' if language == 'English' else '過去の追跡データを表示'):
         rows = database.get_tracking_data()
 
-        left_col, right_col = st.columns([5, 1])
-        with right_col:
-            if st.button('データ消去' if language == 'Japanese' else 'Clear Data', key='clear_data_button'):
-                database.clear_all_data()
-                st.success('全てのデータが消去されました。' if language == 'Japanese' else 'All data has been cleared.')
-                st.rerun()  # Force page reload
+        # スマートフォン対応のスタイル
+
+        st.markdown("""
+            <style>
+            div.stButton {
+                display: flex;
+                justify-content: flex-end;
+                width: 100%;
+            }
+            div.stButton > button {
+                margin-left: auto;
+            }
+            @media screen and (max-width: 640px) {
+                div.stButton {
+                    margin: 0.5rem 0;
+                }
+                div.stButton > button {
+                    margin-left: auto !important;
+                }
+            }
+            </style>
+        """, unsafe_allow_html=True)
+
+        if st.button('データ消去' if language == 'Japanese' else 'Clear Data', key='clear_data_button'):
+            database.clear_all_data()
+            st.success('全てのデータが消去されました。' if language == 'Japanese' else 'All data has been cleared.')
+            st.rerun()
+  # Force page reload
+
 
         if rows:
             df_history = pd.DataFrame(rows, columns=[
