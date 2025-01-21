@@ -267,11 +267,21 @@ def main():
     .stDeployButton {display:none;}
     </style> """, unsafe_allow_html=True)
 
+    # Get current date and version
+    current_date_jp, current_date_en = utils.get_current_date()
+    with open('VERSION', 'r') as f:
+        version = f.read().strip()
+
     # Display image at the top with rounded corners
     st.markdown(
         f'<div style="display: flex; justify-content: center; width: 100%;">'
-        f'<img src="https://github.com/user-attachments/assets/93aaadfc-8b31-467c-bc18-77711a2b6991" '
-        f'style="border-radius: 15px; width: 100%; max-width: 800px; filter: blur(4px); opacity: 0.9; transform: scale(1); transform-origin: center; margin-bottom: 20px;">'
+        f'<div style="position: relative; width: 100%; max-width: 800px;">'
+        f'  <img src="https://github.com/user-attachments/assets/93aaadfc-8b31-467c-bc18-77711a2b6991" '
+        f'  style="border-radius: 15px; width: 100%; filter: blur(4px); opacity: 0.9; transform: scale(1); transform-origin: center; margin-bottom: 20px;">'
+        f'  <div style="position: absolute; bottom: 25px; right: 15px; color: white; font-size: 12px; text-shadow: 1px 1px 2px rgba(0,0,0,0.8);">'
+        f'    [update:{current_date_jp}, ver {version}]'
+        f'  </div>'
+        f'</div>'
         f'</div>',
         unsafe_allow_html=True
     )
@@ -287,13 +297,8 @@ def main():
         }
         </style>""", unsafe_allow_html=True)
 
-    # Get current date and version
-    current_date_jp, current_date_en = utils.get_current_date()
-    with open('VERSION', 'r') as f:
-        version = f.read().strip()
-
     # Header text
-    hedder_text_jp = f"""<u>クロネコヤマト（ヤマト運輸）の荷物お問い合わせが少しだけ便利になるアプリです。</u> [update:{current_date_jp}, ver {version}]<br><br>
+    hedder_text_jp = f"""<u>クロネコヤマト（ヤマト運輸）の荷物お問い合わせが少しだけ便利になるアプリです。</u><br><br>
     <details><summary>🚚 便利機能 ✨</summary>
  ・追跡番号を複数コピペして一括調査できます<br>
  ・最新の配送状況が経路毎に一覧表示できます<br>
@@ -303,7 +308,7 @@ def main():
  ・データベースに最大20件まで記録を保持
     </details>"""
 
-    hedder_text_en = f"""<u>This is an application that makes Kuroneko Yamato (Yamato Transport) package inquiries a little more convenient.</u> [update:{current_date_en}, ver {version}]<br><br>
+    hedder_text_en = f"""<u>This is an application that makes Kuroneko Yamato (Yamato Transport) package inquiries a little more convenient.</u><br><br>
     <details><summary>🚚 Convenient Features ✨</summary>
  - multiple tracking numbers can be copied and pasted for batch investigation<br>
  - latest delivery status can be listed by route.<br>
