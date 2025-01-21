@@ -288,6 +288,9 @@ def main():
 
     # Tracking number input
     if language == 'Japanese':
+        if st.button('データ消去'):
+            database.clear_all_data()
+            st.success('全てのデータが消去されました。')
         st.markdown(f'<div class="custom-header">{hedder_text_jp}</div>', unsafe_allow_html=True)
         st.write("")
         tnumber_text = st.text_area(
@@ -307,6 +310,7 @@ def main():
             help='Please enter the tracking number here. (Press Ctrl+Enter to complete)',
             key='text_area_en'
         )
+
 
     # Process tracking numbers
     temp_tnumbers = tnumber_text.split("\n")
