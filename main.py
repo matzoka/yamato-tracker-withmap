@@ -341,8 +341,8 @@ def main():
         tnumber_text = st.text_area(
             '数字以外の文字は自動削除',
             "",
-            placeholder="ここに追跡番号を入力してください。（入力完了はCtrl+Enter）",
-            help='ここに追跡番号を入力してください。（入力完了はCtrl+Enter）',
+            placeholder="ここに追跡番号を入力または貼り付けてください（複数可）",
+            help='ここに追跡番号を入力または貼り付けてください（複数可）',
             key='text_area_jp'
         )
     else:
@@ -351,8 +351,8 @@ def main():
         tnumber_text = st.text_area(
             'Automatic deletion of non-numeric characters.',
             "",
-            placeholder="Please enter the tracking number here. (Press Ctrl+Enter to complete)",
-            help='Please enter the tracking number here. (Press Ctrl+Enter to complete)',
+            placeholder="Please enter or paste the tracking number here (multiple allowed)",
+            help='Please enter or paste the tracking number here (multiple allowed)',
             key='text_area_en'
         )
 
