@@ -196,6 +196,7 @@ def main():
         <style>
         :root {
             --yamato-red: #FF0000;
+            --yamato-blue: #003366;
             --yamato-black: #000000;
             --background-color: rgba(255, 255, 255, 0.05);
             --border-color: rgba(170, 170, 170, 0.3);
@@ -244,8 +245,19 @@ def main():
             box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
         }
 
-        /* ボタンのスタイル */
-        button[kind="primary"] {
+        /* 通常ボタンのスタイル（Update用） */
+        button[data-testid="baseButton-primary"] {
+            background: linear-gradient(135deg, var(--yamato-blue), #0066cc) !important;
+            color: white !important;
+            border: none !important;
+            padding: 0.5rem 1.5rem !important;
+            border-radius: 20px !important;
+            font-weight: 500 !important;
+            transition: all 0.3s ease !important;
+            box-shadow: 0 2px 4px rgba(0, 51, 102, 0.2) !important;
+        }
+        /* 警告ボタンのスタイル（データ消去用） */
+        button[data-testid="baseButton-secondary"] {
             background: linear-gradient(135deg, var(--yamato-red), #ff4d4d) !important;
             color: white !important;
             border: none !important;
@@ -255,7 +267,11 @@ def main():
             transition: all 0.3s ease !important;
             box-shadow: 0 2px 4px rgba(255, 0, 0, 0.2) !important;
         }
-        button[kind="primary"]:hover {
+        button[data-testid="baseButton-primary"]:hover {
+            transform: translateY(-1px) !important;
+            box-shadow: 0 4px 8px rgba(0, 51, 102, 0.3) !important;
+        }
+        button[data-testid="baseButton-secondary"]:hover {
             transform: translateY(-1px) !important;
             box-shadow: 0 4px 8px rgba(255, 0, 0, 0.3) !important;
         }
@@ -447,7 +463,7 @@ def main():
             </style>
         """, unsafe_allow_html=True)
 
-        if rows and st.button('データ消去' if language == 'Japanese' else 'Clear Data', key='clear_data_button'):
+        if rows and st.button('データ消去' if language == 'Japanese' else 'Clear Data', key='clear_data_button', type="secondary"):
             database.clear_all_data()
             st.success('全てのデータが消去されました。' if language == 'Japanese' else 'All data has been cleared.')
             st.rerun()  # Force page reload
