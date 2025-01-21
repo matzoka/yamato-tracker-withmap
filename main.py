@@ -195,10 +195,71 @@ def main():
         """
         <style>
         :root {
-            --background-color: rgba(255, 255, 255, 0.1);
+            --yamato-red: #FF0000;
+            --yamato-black: #000000;
+            --background-color: rgba(255, 255, 255, 0.05);
             --border-color: rgba(170, 170, 170, 0.3);
             --hover-color: rgba(0, 0, 0, 0.05);
         }
+        /* 基本スタイル */
+        .block-container {
+            padding: 2rem 1rem !important;
+        }
+
+        /* 入力エリアのスタイル */
+        .stTextArea > div > div {
+            border-radius: 8px !important;
+            border: 2px solid rgba(255, 0, 0, 0.1) !important;
+            background: rgba(255, 255, 255, 0.02) !important;
+            transition: all 0.3s ease !important;
+        }
+        .stTextArea > div > div:focus-within {
+            border-color: rgba(255, 0, 0, 0.3) !important;
+            box-shadow: 0 0 0 2px rgba(255, 0, 0, 0.1) !important;
+        }
+
+        /* 地図コンテナのスタイル */
+        iframe {
+            border-radius: 12px !important;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1) !important;
+        }
+
+        /* ステータス表示のスタイル */
+        .status-container {
+            background: linear-gradient(135deg, var(--yamato-red), #ff4d4d);
+            border-radius: 8px;
+            padding: 0.5rem 1rem;
+            color: white;
+            margin: 1rem 0;
+            box-shadow: 0 2px 4px rgba(255, 0, 0, 0.2);
+        }
+
+        /* AgGridのスタイル改善 */
+        .ag-theme-alpine {
+            --ag-header-background-color: rgba(255, 0, 0, 0.05);
+            --ag-header-foreground-color: var(--yamato-black);
+            --ag-row-hover-color: rgba(255, 0, 0, 0.05);
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+        }
+
+        /* ボタンのスタイル */
+        .stButton > button {
+            background: linear-gradient(135deg, var(--yamato-red), #ff4d4d) !important;
+            color: white !important;
+            border: none !important;
+            padding: 0.5rem 1.5rem !important;
+            border-radius: 20px !important;
+            font-weight: 500 !important;
+            transition: all 0.3s ease !important;
+            box-shadow: 0 2px 4px rgba(255, 0, 0, 0.2) !important;
+        }
+        .stButton > button:hover {
+            transform: translateY(-1px) !important;
+            box-shadow: 0 4px 8px rgba(255, 0, 0, 0.3) !important;
+        }
+
         /* モバイル対応のスタイル */
         @media (max-width: 768px) {
             div[data-testid="column"]:nth-of-type(1) {
@@ -303,7 +364,7 @@ def main():
         color: #333;
         background: linear-gradient(to right, #f8f9fa, #ffffff);
         padding: 1.2rem;
-        border-left: 4px solid #007bff;
+        border-left: 4px solid var(--yamato-red);
         border-radius: 4px;
         margin: 1rem 0;
         box-shadow: 0 2px 4px rgba(0,0,0,0.05);">
@@ -323,7 +384,7 @@ def main():
         color: #333;
         background: linear-gradient(to right, #f8f9fa, #ffffff);
         padding: 1.2rem;
-        border-left: 4px solid #007bff;
+        border-left: 4px solid var(--yamato-red);
         border-radius: 4px;
         margin: 1rem 0;
         box-shadow: 0 2px 4px rgba(0,0,0,0.05);">
@@ -356,21 +417,23 @@ def main():
             <style>
             div.stButton {
                 display: flex;
-                justify-content: flex-end;
                 width: 100%;
-                --danger-color: #ff4b4b;
-                --danger-hover: #ff3333;
+                justify-content: center;
+                margin: 1rem 0;
             }
             div.stButton > button {
-                margin-left: auto;
-                background-color: var(--danger-color) !important;
+                background: linear-gradient(135deg, var(--yamato-red), #ff4d4d) !important;
                 color: white !important;
                 border: none !important;
-                transition: background-color 0.3s !important;
+                padding: 0.5rem 2rem !important;
+                border-radius: 20px !important;
+                font-weight: 500 !important;
+                transition: all 0.3s ease !important;
+                box-shadow: 0 2px 4px rgba(255, 0, 0, 0.2) !important;
             }
             div.stButton > button:hover {
-                background-color: var(--danger-hover) !important;
-                color: white !important;
+                transform: translateY(-1px) !important;
+                box-shadow: 0 4px 8px rgba(255, 0, 0, 0.3) !important;
             }
             @media screen and (max-width: 640px) {
                 div.stButton {
