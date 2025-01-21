@@ -547,11 +547,24 @@ def main():
                         hideMapSW = st.checkbox('マップ非表示' if language == 'Japanese' else 'Hide Map')
                         if not hideMapSW:
                             cities = map.create_cities_dataframe(df)
-                            lat = float(df.iloc[0]['placeLat'])
-                            lng = float(df.iloc[0]['placeLng'])
-                            mapdata = map.create_map(lat, lng, cities)
-                            st.markdown('##### 中継地:GREEN / 現在地:RED' if language == 'Japanese' else '##### Relay point:GREEN / Current point:RED')
-                            st.components.v1.html(folium.Figure().add_child(mapdata).render(), height=500)
+                            # デフォルトの緯度経度（日本の中心付近）
+                            default_lat = 36.2048
+                            default_lng = 138.2529
+                            try:
+                                lat = float(df.iloc[0]['placeLat'])
+                                lng = float(df.iloc[0]['placeLng'])
+                                # NaNチェック
+                                if pd.isna(lat) or pd.isna(lng):
+                                    lat, lng = default_lat, default_lng
+                            except (ValueError, TypeError):
+                                lat, lng = default_lat, default_lng
+
+                            try:
+                                mapdata = map.create_map(lat, lng, cities)
+                                st.markdown('##### 中継地:GREEN / 現在地:RED' if language == 'Japanese' else '##### Relay point:GREEN / Current point:RED')
+                                st.components.v1.html(folium.Figure().add_child(mapdata).render(), height=500)
+                            except Exception as e:
+                                st.error('地図の表示中にエラーが発生しました' if language == 'Japanese' else 'Error occurred while displaying the map')
                             st.write('done')
     else:
         if tnumber_count == 0:
@@ -590,11 +603,24 @@ def main():
                         hideMapSW = st.checkbox('マップ非表示' if language == 'Japanese' else 'Hide Map')
                         if not hideMapSW:
                             cities = map.create_cities_dataframe(df)
-                            lat = float(df.iloc[0]['placeLat'])
-                            lng = float(df.iloc[0]['placeLng'])
-                            mapdata = map.create_map(lat, lng, cities)
-                            st.markdown('##### 中継地:GREEN / 現在地:RED' if language == 'Japanese' else '##### Relay point:GREEN / Current point:RED')
-                            st.components.v1.html(folium.Figure().add_child(mapdata).render(), height=500)
+                            # デフォルトの緯度経度（日本の中心付近）
+                            default_lat = 36.2048
+                            default_lng = 138.2529
+                            try:
+                                lat = float(df.iloc[0]['placeLat'])
+                                lng = float(df.iloc[0]['placeLng'])
+                                # NaNチェック
+                                if pd.isna(lat) or pd.isna(lng):
+                                    lat, lng = default_lat, default_lng
+                            except (ValueError, TypeError):
+                                lat, lng = default_lat, default_lng
+
+                            try:
+                                mapdata = map.create_map(lat, lng, cities)
+                                st.markdown('##### 中継地:GREEN / 現在地:RED' if language == 'Japanese' else '##### Relay point:GREEN / Current point:RED')
+                                st.components.v1.html(folium.Figure().add_child(mapdata).render(), height=500)
+                            except Exception as e:
+                                st.error('地図の表示中にエラーが発生しました' if language == 'Japanese' else 'Error occurred while displaying the map')
                             st.write('done')
 
 if __name__ == "__main__":
