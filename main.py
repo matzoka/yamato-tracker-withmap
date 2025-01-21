@@ -333,9 +333,19 @@ def main():
                 display: flex;
                 justify-content: flex-end;
                 width: 100%;
+                --danger-color: #ff4b4b;
+                --danger-hover: #ff3333;
             }
             div.stButton > button {
                 margin-left: auto;
+                background-color: var(--danger-color) !important;
+                color: white !important;
+                border: none !important;
+                transition: background-color 0.3s !important;
+            }
+            div.stButton > button:hover {
+                background-color: var(--danger-hover) !important;
+                color: white !important;
             }
             @media screen and (max-width: 640px) {
                 div.stButton {
@@ -343,6 +353,7 @@ def main():
                 }
                 div.stButton > button {
                     margin-left: auto !important;
+                    width: auto !important;
                 }
             }
             </style>
