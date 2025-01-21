@@ -359,12 +359,10 @@ def main():
             </style>
         """, unsafe_allow_html=True)
 
-        if st.button('データ消去' if language == 'Japanese' else 'Clear Data', key='clear_data_button'):
+        if rows and st.button('データ消去' if language == 'Japanese' else 'Clear Data', key='clear_data_button'):
             database.clear_all_data()
             st.success('全てのデータが消去されました。' if language == 'Japanese' else 'All data has been cleared.')
-            st.rerun()
-  # Force page reload
-
+            st.rerun()  # Force page reload
 
         if rows:
             df_history = pd.DataFrame(rows, columns=[
