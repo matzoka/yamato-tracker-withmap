@@ -517,7 +517,31 @@ def main():
             # Display tracking information for single item
             if tnumber_count == 1:
                 select = tnumbers[0]
-                update_button = st.button('Update',help='Update Tracking...')
+                # Update button styling
+                st.markdown("""
+                    <style>
+                    div[data-testid="stButton"] > button {
+                        background: linear-gradient(135deg, var(--yamato-red), #ff4d4d) !important;
+                        color: white !important;
+                        border: none !important;
+                        padding: 0.5rem 2rem !important;
+                        border-radius: 20px !important;
+                        font-weight: 500 !important;
+                        transition: all 0.3s ease !important;
+                        box-shadow: 0 2px 4px rgba(255, 0, 0, 0.2) !important;
+                    }
+                    div[data-testid="stButton"] > button:hover {
+                        transform: translateY(-1px) !important;
+                        box-shadow: 0 4px 8px rgba(255, 0, 0, 0.3) !important;
+                    }
+                    @media screen and (max-width: 640px) {
+                        div[data-testid="stButton"] > button {
+                            width: auto !important;
+                        }
+                    }
+                    </style>
+                """, unsafe_allow_html=True)
+                update_button = st.button('Update', help='Update Tracking...')
                 st.markdown(f'##### [1/{tnumber_count}] Tracking-code 追跡番号: [{select}](http://jizen.kuronekoyamato.co.jp/jizen/servlet/crjz.b.NQ0010?id={select})')
             else:
                 select = tnumbers[0]  # Always use the first tracking number
@@ -569,7 +593,31 @@ def main():
         if tnumber_count == 0:
             st.info('*** データがありません! ***' if language == 'Japanese' else '*** No data! ***')
         elif tnumber_count >= 1:
-            update_button = st.button('Update',help='Update Tracking...')
+            # Update button styling
+            st.markdown("""
+                <style>
+                div[data-testid="stButton"] > button {
+                    background: linear-gradient(135deg, var(--yamato-red), #ff4d4d) !important;
+                    color: white !important;
+                    border: none !important;
+                    padding: 0.5rem 2rem !important;
+                    border-radius: 20px !important;
+                    font-weight: 500 !important;
+                    transition: all 0.3s ease !important;
+                    box-shadow: 0 2px 4px rgba(255, 0, 0, 0.2) !important;
+                }
+                div[data-testid="stButton"] > button:hover {
+                    transform: translateY(-1px) !important;
+                    box-shadow: 0 4px 8px rgba(255, 0, 0, 0.3) !important;
+                }
+                @media screen and (max-width: 640px) {
+                    div[data-testid="stButton"] > button {
+                        width: auto !important;
+                    }
+                }
+                </style>
+            """, unsafe_allow_html=True)
+            update_button = st.button('Update', help='Update Tracking...')
             keycount = 0
             for i,select in enumerate(tnumbers):
                 st.markdown(f'##### [{i+1}/{tnumber_count}] Tracking-code 追跡番号: [{select}](http://jizen.kuronekoyamato.co.jp/jizen/servlet/crjz.b.NQ0010?id={select})')
