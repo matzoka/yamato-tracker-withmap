@@ -246,7 +246,7 @@ def main():
         }
 
         /* 通常ボタンのスタイル（Update用） */
-        button[data-testid="baseButton-primary"] {
+        div.stButton > button:not([data-testid="baseButton-secondary"] ){
             background: linear-gradient(135deg, var(--yamato-blue), #0066cc) !important;
             color: white !important;
             border: none !important;
@@ -267,7 +267,7 @@ def main():
             transition: all 0.3s ease !important;
             box-shadow: 0 2px 4px rgba(255, 0, 0, 0.2) !important;
         }
-        button[data-testid="baseButton-primary"]:hover {
+        div.stButton > button:not([data-testid="baseButton-secondary"]):hover {
             transform: translateY(-1px) !important;
             box-shadow: 0 4px 8px rgba(0, 51, 102, 0.3) !important;
         }
@@ -533,7 +533,7 @@ def main():
             # Display tracking information for single item
             if tnumber_count == 1:
                 select = tnumbers[0]
-                update_button = st.button('Update', help='Update Tracking...', type='primary')
+                update_button = st.button('Update', help='Update Tracking...')
                 st.markdown(f'##### [1/{tnumber_count}] Tracking-code 追跡番号: [{select}](http://jizen.kuronekoyamato.co.jp/jizen/servlet/crjz.b.NQ0010?id={select})')
             else:
                 select = tnumbers[0]  # Always use the first tracking number
@@ -585,7 +585,7 @@ def main():
         if tnumber_count == 0:
             st.info('*** データがありません! ***' if language == 'Japanese' else '*** No data! ***')
         elif tnumber_count >= 1:
-            update_button = st.button('Update', help='Update Tracking...', type='primary')
+            update_button = st.button('Update', help='Update Tracking...')
             keycount = 0
             for i,select in enumerate(tnumbers):
                 st.markdown(f'##### [{i+1}/{tnumber_count}] Tracking-code 追跡番号: [{select}](http://jizen.kuronekoyamato.co.jp/jizen/servlet/crjz.b.NQ0010?id={select})')
