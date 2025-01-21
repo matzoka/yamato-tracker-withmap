@@ -520,9 +520,8 @@ def main():
                 update_button = st.button('Update',help='Update Tracking...')
                 st.markdown(f'##### [1/{tnumber_count}] Tracking-code 追跡番号: [{select}](http://jizen.kuronekoyamato.co.jp/jizen/servlet/crjz.b.NQ0010?id={select})')
             else:
-                select = tnumbers[st.session_state.count-1]
-                st.markdown(f'##### [{st.session_state.count}/{tnumber_count}] Tracking-code 追跡番号: [{select}](http://jizen.kuronekoyamato.co.jp/jizen/servlet/crjz.b.NQ0010?id={select})')
-
+                select = tnumbers[0]  # Always use the first tracking number
+                st.markdown(f'##### [1/{tnumber_count}] Tracking-code 追跡番号: [{select}](http://jizen.kuronekoyamato.co.jp/jizen/servlet/crjz.b.NQ0010?id={select})')
             if select != '':
                 d1 = get_kuroneko_tracking(conn, select, view_track_code=False)
                 if d1 is None:
@@ -588,40 +587,6 @@ def main():
                             df = df.sort_index(ascending=False)
                             AgGrid(df, height=140, fit_columns_on_grid_load=False, key=str(keycount))
                             keycount += 1
-                        AgGrid(
-                            df,
-                            height=140,
-                            fit_columns_on_grid_load=False,
-                            defaultColDef={
-                                "autoSize": True,
-                                "minWidth": 100,
-                                "maxWidth": 500,
-                                "resizable": True
-                            },
-                            suppressSizeToFit=False
-                        )
-                        hideMapSW = st.checkbox('マップ非表示' if language == 'Japanese' else 'Hide Map')
-                        if not hideMapSW:
-                            cities = map.create_cities_dataframe(df)
-                            # デフォルトの緯度経度（日本の中心付近）
-                            default_lat = 36.2048
-                            default_lng = 138.2529
-                            try:
-                                lat = float(df.iloc[0]['placeLat'])
-                                lng = float(df.iloc[0]['placeLng'])
-                                # NaNチェック
-                                if pd.isna(lat) or pd.isna(lng):
-                                    lat, lng = default_lat, default_lng
-                            except (ValueError, TypeError):
-                                lat, lng = default_lat, default_lng
-
-                            try:
-                                mapdata = map.create_map(lat, lng, cities)
-                                st.markdown('##### 中継地:GREEN / 現在地:RED' if language == 'Japanese' else '##### Relay point:GREEN / Current point:RED')
-                                st.components.v1.html(folium.Figure().add_child(mapdata).render(), height=500)
-                            except Exception as e:
-                                st.error('地図の表示中にエラーが発生しました' if language == 'Japanese' else 'Error occurred while displaying the map')
-                            st.write('done')
 
 if __name__ == "__main__":
     try:
