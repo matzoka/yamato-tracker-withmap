@@ -246,7 +246,7 @@ def main():
         }
 
         /* 通常ボタンのスタイル（Update用） */
-        div.stButton > button:not([data-testid="baseButton-secondary"] ){
+        .stButton > button:first-child ){
             background: linear-gradient(135deg, var(--yamato-blue), #0066cc) !important;
             color: white !important;
             border: none !important;
@@ -257,7 +257,7 @@ def main():
             box-shadow: 0 2px 4px rgba(0, 51, 102, 0.2) !important;
         }
         /* 警告ボタンのスタイル（データ消去用） */
-        button[data-testid="baseButton-secondary"] {
+        .stButton.clear-data > button:first-child {
             background: linear-gradient(135deg, var(--yamato-red), #ff4d4d) !important;
             color: white !important;
             border: none !important;
@@ -267,11 +267,11 @@ def main():
             transition: all 0.3s ease !important;
             box-shadow: 0 2px 4px rgba(255, 0, 0, 0.2) !important;
         }
-        div.stButton > button:not([data-testid="baseButton-secondary"]):hover {
+        .stButton > button:first-child:hover {
             transform: translateY(-1px) !important;
             box-shadow: 0 4px 8px rgba(0, 51, 102, 0.3) !important;
         }
-        button[data-testid="baseButton-secondary"]:hover {
+        .stButton.clear-data > button:first-child:hover {
             transform: translateY(-1px) !important;
             box-shadow: 0 4px 8px rgba(255, 0, 0, 0.3) !important;
         }
@@ -463,7 +463,12 @@ def main():
             </style>
         """, unsafe_allow_html=True)
 
-        if rows and st.button('データ消去' if language == 'Japanese' else 'Clear Data', key='clear_data_button', type="secondary"):
+        # Clear Data button with custom container style
+        st.markdown('<style>.clear-data-container .stButton{display: inline-block;}</style>', unsafe_allow_html=True)
+        st.markdown('<div class="clear-data-container">', unsafe_allow_html=True)
+        clear_data_clicked = st.button('データ消去' if language == 'Japanese' else 'Clear Data', key='clear_data_button')
+        st.markdown('</div>', unsafe_allow_html=True)
+        if rows and clear_data_clicked:
             database.clear_all_data()
             st.success('全てのデータが消去されました。' if language == 'Japanese' else 'All data has been cleared.')
             st.rerun()  # Force page reload
