@@ -239,7 +239,7 @@ def main():
 
     # Header text
     hedder_text_jp = f"""<u>クロネコヤマト（ヤマト運輸）の荷物お問い合わせが少しだけ便利になるアプリです。</u> [update:{current_date_jp}, ver {version}]<br><br>
-    <details><summary>詳細</summary>
+    <details><summary>便利機能</summary>
  ・追跡番号を複数コピペして一括調査できます<br>
  ・最新の配送状況が経路毎に一覧表示できます<br>
  ・経路情報を地図表示できます<br>
@@ -249,7 +249,7 @@ def main():
     </details>"""
 
     hedder_text_en = f"""<u>This is an application that makes Kuroneko Yamato (Yamato Transport) package inquiries a little more convenient.</u> [update:{current_date_en}, ver {version}]<br><br>
-    <details><summary>Details</summary>
+    <details><summary>Convenient Features</summary>
  - multiple tracking numbers can be copied and pasted for batch investigation<br>
  - latest delivery status can be listed by route.<br>
  - route information can be displayed on a map<br>
