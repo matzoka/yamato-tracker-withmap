@@ -298,7 +298,17 @@ def main():
         </style>""", unsafe_allow_html=True)
 
     # Header text
-    hedder_text_jp = f"""<u>クロネコヤマト（ヤマト運輸）の荷物お問い合わせが少しだけ便利になるアプリです。</u><br><br>
+    hedder_text_jp = f"""<div style="
+        font-size: 1.2em;
+        color: #333;
+        background: linear-gradient(to right, #f8f9fa, #ffffff);
+        padding: 1.2rem;
+        border-left: 4px solid #007bff;
+        border-radius: 4px;
+        margin: 1rem 0;
+        box-shadow: 0 2px 4px rgba(0,0,0,0.05);">
+    クロネコヤマト（ヤマト運輸）の荷物お問い合わせが少しだけ便利になるアプリです。
+    </div><br>
     <details><summary>🚚 便利機能 ✨</summary>
  ・追跡番号を複数コピペして一括調査できます<br>
  ・最新の配送状況が経路毎に一覧表示できます<br>
@@ -308,7 +318,17 @@ def main():
  ・データベースに最大20件まで記録を保持
     </details>"""
 
-    hedder_text_en = f"""<u>This is an application that makes Kuroneko Yamato (Yamato Transport) package inquiries a little more convenient.</u><br><br>
+    hedder_text_en = f"""<div style="
+        font-size: 1.2em;
+        color: #333;
+        background: linear-gradient(to right, #f8f9fa, #ffffff);
+        padding: 1.2rem;
+        border-left: 4px solid #007bff;
+        border-radius: 4px;
+        margin: 1rem 0;
+        box-shadow: 0 2px 4px rgba(0,0,0,0.05);">
+    This is an application that makes Kuroneko Yamato (Yamato Transport) package inquiries a little more convenient.
+    </div><br>
     <details><summary>🚚 Convenient Features ✨</summary>
  - multiple tracking numbers can be copied and pasted for batch investigation<br>
  - latest delivery status can be listed by route.<br>
