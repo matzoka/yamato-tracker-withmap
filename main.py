@@ -312,10 +312,12 @@ def main():
     if st.checkbox('Show past tracking data' if language == 'English' else '過去の追跡データを表示'):
         rows = database.get_tracking_data()
 
-        if st.button('データ消去' if language == 'Japanese' else 'Clear Data', key='clear_data_button'):
-            database.clear_all_data()
-            st.success('全てのデータが消去されました。' if language == 'Japanese' else 'All data has been cleared.')
-            st.rerun()  # Force page reload
+        left_col, right_col = st.columns([5, 1])
+        with right_col:
+            if st.button('データ消去' if language == 'Japanese' else 'Clear Data', key='clear_data_button'):
+                database.clear_all_data()
+                st.success('全てのデータが消去されました。' if language == 'Japanese' else 'All data has been cleared.')
+                st.rerun()  # Force page reload
 
         if rows:
             df_history = pd.DataFrame(rows, columns=[
