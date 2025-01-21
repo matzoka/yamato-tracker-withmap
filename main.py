@@ -430,15 +430,16 @@ def main():
 
         # スマートフォン対応のスタイル
 
-        # Clear Data button with custom container style
-        st.markdown('<style>.clear-data-container .stButton{display: inline-block;}</style>', unsafe_allow_html=True)
-        st.markdown('<div class="clear-data-container">', unsafe_allow_html=True)
-        clear_data_clicked = st.button('データ消去' if language == 'Japanese' else 'Clear Data', key='clear_data_button')
-        st.markdown('</div>', unsafe_allow_html=True)
-        if rows and clear_data_clicked:
-            database.clear_all_data()
-            st.success('全てのデータが消去されました。' if language == 'Japanese' else 'All data has been cleared.')
-            st.rerun()  # Force page reload
+        # Display Clear Data button only if there are records
+        if rows:
+            with st.container():
+                if st.button('データ消去' if language == 'Japanese' else 'Clear Data',
+                           key='clear_data_button',
+                           type="secondary"):
+                    database.clear_all_data()
+                    st.success('全てのデータが消去されました。' if language == 'Japanese' else 'All data has been cleared.')
+                    st.rerun()
+
 
         if rows:
             df_history = pd.DataFrame(rows, columns=[
