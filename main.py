@@ -485,8 +485,10 @@ def main():
                 created_at = pd.to_datetime(group['created_at'].iloc[0])
                 formatted_date = created_at.strftime('[%Y/%m/%d - %H:%M]')
                 tracking_label = 'Tracking Number' if language == 'English' else '追跡番号'
-                first_status = group.iloc[0]['status']  # 最新のステータスを取得
-                with st.expander(f"{tracking_label}: {tracking_number} status:{first_status} {formatted_date.replace('[', '').replace(']', '')}"):
+                first_status = group.iloc[0]['status']  # Get the latest status
+                status_icon = "✅" if first_status == "配達完了" else "⏳"
+                formatted_status = f"{status_icon}{first_status}"
+                with st.expander(f"{tracking_label}: {tracking_number} {formatted_status} {formatted_date.replace('[', '').replace(']', '')}"):
                     st.markdown(f"##### {tracking_label}: [{tracking_number}](http://jizen.kuronekoyamato.co.jp/jizen/servlet/crjz.b.NQ0010?id={tracking_number})")
                     st.dataframe(group[['status', 'place_name', 'place_code',
                                      'track_date', 'track_time', 'place_postcode', 'place_address',
