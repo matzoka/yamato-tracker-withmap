@@ -1,7 +1,14 @@
 import sqlite3
 import os
 
-def reset_database():
+def get_messages(language='Japanese'):
+    """Get messages in specified language"""
+    return {
+        'success': "Database has been successfully reset." if language == 'English' else "データベースを正常に初期化しました。",
+        'error': "Error occurred while resetting database: {}" if language == 'English' else "データベース初期化中にエラーが発生しました: {}"
+    }
+
+def reset_database(language='Japanese'):
     """Reset database by dropping and recreating the table"""
     db_path = os.path.join(os.path.dirname(__file__), 'tracking.db')
     try:
@@ -39,9 +46,10 @@ def reset_database():
                           END''')
 
             conn.commit()
-            return True, "データベースを正常に初期化しました。"
+            msgs = get_messages(language)
+            return True, msgs['success']
     except Exception as e:
-        return False, f"データベース初期化中にエラーが発生しました: {str(e)}"
+        return False, get_messages(language)['error'].format(str(e))
 
 def init_db():
     """Initialize database connection and create tables"""
