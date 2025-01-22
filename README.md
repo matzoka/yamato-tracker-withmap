@@ -15,6 +15,8 @@
 
 ```
 yamato-tracker-withmap/
+├── .streamlit/
+│   └── config.toml         # Streamlit設定
 ├── src/
 │   ├── database/           # データベース関連
 │   │   └── database.py
