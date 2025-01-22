@@ -4,7 +4,13 @@ import os
 def init_db():
     """Initialize database connection and create tables"""
     db_path = os.path.join(os.path.dirname(__file__), 'tracking.db')
-    with sqlite3.connect(db_path) as conn:
+    with sqlite3.connect(db_path, detect_types=sqlite3.PARSE_DECLTYPES) as conn:
+        # JSTタイムゾーンを使用するように設定
+        conn.execute("PRAGMA timezone = '+9:00'")
+        # created_atカラムにJSTタイムゾーンを適用
+        conn.execute('''DROP TRIGGER IF EXISTS set_created_at''')
+        conn.execute('''CREATE TRIGGER IF NOT EXISTS set_created_at
+                       AFTER INSERT ON tracking_data BEGIN UPDATE tracking_data SET created_at = datetime('now', '+9 hours') WHERE id = NEW.id; END''')
         c = conn.cursor()
         c.execute('''CREATE TABLE IF NOT EXISTS tracking_data
                      (id INTEGER PRIMARY KEY AUTOINCREMENT,

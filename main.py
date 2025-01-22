@@ -6,7 +6,7 @@ import json
 import pandas as pd
 import folium
 from bs4 import BeautifulSoup
-# [update:2025/01/22, ver 1.0.35]
+# [update:2025/01/22, ver 1.0.36]
 import streamlit as st
 import streamlit.components.v1 as components
 
@@ -465,7 +465,10 @@ def main():
             # Group by tracking_number and display with expander, sorted by latest first
             grouped = df_history.sort_values('id', ascending=False).groupby('tracking_number')
             for tracking_number, group in grouped:
-                with st.expander(f"追跡番号: {tracking_number}"):
+                # Format the timestamp (already in JST)
+                created_at = pd.to_datetime(group['created_at'].iloc[0])
+                formatted_date = created_at.strftime('[%Y/%m/%d - %H:%M]')
+                with st.expander(f"追跡番号：{tracking_number}　{formatted_date}"):
                     st.markdown(f"##### 追跡番号: [{tracking_number}](http://jizen.kuronekoyamato.co.jp/jizen/servlet/crjz.b.NQ0010?id={tracking_number})")
                     st.dataframe(group[['status', 'place_name', 'place_code',
                                      'track_date', 'track_time', 'place_postcode', 'place_address',
