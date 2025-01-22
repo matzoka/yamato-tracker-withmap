@@ -1,6 +1,24 @@
 import sqlite3
 import os
 
+def reset_database():
+    """Reset database by dropping and recreating the table"""
+    db_path = os.path.join(os.path.dirname(__file__), 'tracking.db')
+    try:
+        # Delete the database file if it exists
+        if os.path.exists(db_path):
+            os.remove(db_path)
+
+        # Create new database with updated schema
+        with sqlite3.connect(db_path, detect_types=sqlite3.PARSE_DECLTYPES) as conn:
+            # Set timezone and create table with the new schema
+            conn.execute("PRAGMA timezone = '+9:00'")
+            init_db()
+            return True, "データベースを正常に初期化しました。"
+    except Exception as e:
+        return False, f"データベース初期化中にエラーが発生しました: {str(e)}"
+
+
 def init_db():
     """Initialize database connection and create tables"""
     db_path = os.path.join(os.path.dirname(__file__), 'tracking.db')

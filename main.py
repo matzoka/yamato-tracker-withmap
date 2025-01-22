@@ -6,7 +6,7 @@ import json
 import pandas as pd
 import folium
 from bs4 import BeautifulSoup
-# [update:2025/01/22, ver 1.0.36]
+# [update:2025/01/22, ver 1.0.37]
 import streamlit as st
 import streamlit.components.v1 as components
 
@@ -442,6 +442,19 @@ def main():
     # Display tracking data
     if st.checkbox('Show past tracking data' if language == 'English' else '過去の追跡データを表示'):
         rows = database.get_tracking_data()
+
+        # 管理者機能
+        with st.expander("システム管理", expanded=False):
+            admin_pass = st.text_input("管理者パスワード", type="password", key="admin_pass")
+            if admin_pass == "1111":
+                st.warning("⚠️ データベースの初期化を行うと、全ての追跡データが削除され、データベース構造が更新されます。この操作は取り消すことができません。")
+                if st.button("データベース完全初期化", type="secondary", key="db_reset"):
+                    success, message = database.reset_database()
+                    if success:
+                        st.success(message)
+                        st.rerun()
+                    else:
+                        st.error(message)
 
         # スマートフォン対応のスタイル
 
