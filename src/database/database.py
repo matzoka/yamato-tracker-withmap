@@ -7,13 +7,38 @@ def reset_database():
     try:
         with sqlite3.connect(db_path, detect_types=sqlite3.PARSE_DECLTYPES) as conn:
             c = conn.cursor()
+            # Set timezone
+            conn.execute("PRAGMA timezone = '+9:00'")
+
             # Drop existing table and trigger
             c.execute('DROP TABLE IF EXISTS tracking_data')
             c.execute('DROP TRIGGER IF EXISTS set_created_at')
-            # Set timezone
-            conn.execute("PRAGMA timezone = '+9:00'")
-            # Create new table with updated schema
-            init_db_schema(conn)
+
+            # Create table
+            c.execute('''CREATE TABLE tracking_data
+                      (id INTEGER PRIMARY KEY AUTOINCREMENT,
+                       tracking_number TEXT NOT NULL,
+                       status TEXT,
+                       place_name TEXT,
+                       place_code TEXT,
+                       track_date TEXT,
+                       track_time TEXT,
+                       place_postcode TEXT,
+                       place_address TEXT,
+                       place_lat REAL,
+                       place_lng REAL,
+                       created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+                       UNIQUE(tracking_number, track_date, track_time))''')
+
+            # Create trigger
+            conn.execute('''CREATE TRIGGER IF NOT EXISTS set_created_at
+                          AFTER INSERT ON tracking_data
+                          BEGIN
+                              UPDATE tracking_data SET created_at = datetime('now', '+9 hours')
+                              WHERE id = NEW.id;
+                          END''')
+
+            conn.commit()
             return True, "データベースを正常に初期化しました。"
     except Exception as e:
         return False, f"データベース初期化中にエラーが発生しました: {str(e)}"
