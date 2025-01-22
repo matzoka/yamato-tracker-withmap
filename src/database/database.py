@@ -5,47 +5,52 @@ def reset_database():
     """Reset database by dropping and recreating the table"""
     db_path = os.path.join(os.path.dirname(__file__), 'tracking.db')
     try:
-        # Delete the database file if it exists
-        if os.path.exists(db_path):
-            os.remove(db_path)
-
-        # Create new database with updated schema
         with sqlite3.connect(db_path, detect_types=sqlite3.PARSE_DECLTYPES) as conn:
-            # Set timezone and create table with the new schema
+            c = conn.cursor()
+            # Drop existing table and trigger
+            c.execute('DROP TABLE IF EXISTS tracking_data')
+            c.execute('DROP TRIGGER IF EXISTS set_created_at')
+            # Set timezone
             conn.execute("PRAGMA timezone = '+9:00'")
-            init_db()
+            # Create new table with updated schema
+            init_db_schema(conn)
             return True, "データベースを正常に初期化しました。"
     except Exception as e:
         return False, f"データベース初期化中にエラーが発生しました: {str(e)}"
 
-
 def init_db():
     """Initialize database connection and create tables"""
     db_path = os.path.join(os.path.dirname(__file__), 'tracking.db')
-    with sqlite3.connect(db_path, detect_types=sqlite3.PARSE_DECLTYPES) as conn:
-        # JSTタイムゾーンを使用するように設定
-        conn.execute("PRAGMA timezone = '+9:00'")
-        # created_atカラムにJSTタイムゾーンを適用
-        conn.execute('''DROP TRIGGER IF EXISTS set_created_at''')
-        conn.execute('''CREATE TRIGGER IF NOT EXISTS set_created_at
-                       AFTER INSERT ON tracking_data BEGIN UPDATE tracking_data SET created_at = datetime('now', '+9 hours') WHERE id = NEW.id; END''')
-        c = conn.cursor()
-        c.execute('''CREATE TABLE IF NOT EXISTS tracking_data
-                     (id INTEGER PRIMARY KEY AUTOINCREMENT,
-                      tracking_number TEXT NOT NULL,
-                      status TEXT,
-                      place_name TEXT,
-                      place_code TEXT,
-                      track_date TEXT,
-                      track_time TEXT,
-                      place_postcode TEXT,
-                      place_address TEXT,
-                      place_lat REAL,
-                      place_lng REAL,
-                      created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-                      UNIQUE(tracking_number, track_date, track_time))''')
-        conn.commit()
-        return conn
+    conn = sqlite3.connect(db_path, detect_types=sqlite3.PARSE_DECLTYPES)
+    init_db_schema(conn)
+    return conn
+
+def init_db_schema(conn):
+    """Initialize database schema"""
+    conn.execute("PRAGMA timezone = '+9:00'")
+    conn.execute('DROP TRIGGER IF EXISTS set_created_at')
+    conn.execute('''CREATE TRIGGER IF NOT EXISTS set_created_at
+                   AFTER INSERT ON tracking_data
+                   BEGIN
+                       UPDATE tracking_data SET created_at = datetime('now', '+9 hours')
+                       WHERE id = NEW.id;
+                   END''')
+    c = conn.cursor()
+    c.execute('''CREATE TABLE IF NOT EXISTS tracking_data
+                 (id INTEGER PRIMARY KEY AUTOINCREMENT,
+                  tracking_number TEXT NOT NULL,
+                  status TEXT,
+                  place_name TEXT,
+                  place_code TEXT,
+                  track_date TEXT,
+                  track_time TEXT,
+                  place_postcode TEXT,
+                  place_address TEXT,
+                  place_lat REAL,
+                  place_lng REAL,
+                  created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+                  UNIQUE(tracking_number, track_date, track_time))''')
+    conn.commit()
 
 def clear_all_data():
     """Delete all data from tracking_data table"""
