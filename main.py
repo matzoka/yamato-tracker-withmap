@@ -6,7 +6,7 @@ import json
 import pandas as pd
 import folium
 from bs4 import BeautifulSoup
-# [update:2025/01/23, ver 1.0.39]
+# [update:2025/01/23, ver 1.0.40]
 import streamlit as st
 import streamlit.components.v1 as components
 
@@ -240,6 +240,7 @@ def main():
             --ag-header-background-color: rgba(255, 0, 0, 0.05);
             --ag-header-foreground-color: var(--yamato-black);
             --ag-row-hover-color: rgba(255, 0, 0, 0.05);
+            --ag-alpine-active-color: red;
             border-radius: 8px;
             overflow: hidden;
             box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
@@ -403,13 +404,14 @@ def main():
     クロネコヤマト（ヤマト運輸）の荷物お問い合わせが少しだけ便利になるアプリです。
     </div><br>
     <details><summary>🚚 便利機能 ✨</summary>
- ・追跡番号を複数コピペして一括調査できます<br>
- ・最新の配送状況が経路毎に一覧表示できます<br>
- ・経路情報を地図表示できます<br>
- ・ヤマトへの直リンクが追跡番号に含まれています<br>
- ・過去の追跡データを表示・管理できます<br>
- ・データベースに最大20件まで記録を保持
-    </details>"""
+  ・追跡番号を複数コピペして一括調査できます<br>
+  ・最新の配送状況が経路毎に一覧表示できます<br>
+  ・経路情報を地図表示できます<br>
+  ・ヤマトへの直リンクが追跡番号に含まれています<br>
+  ・過去の追跡データを表示・管理できます<br>
+  ・データベースに最大20件まで記録を保持<br>
+  ・管理者機能によるデータベースのメンテナンス
+     </details>"""
 
     hedder_text_en = f"""<div style="
         font-size: 1.2em;
@@ -423,13 +425,14 @@ def main():
     This is an application that makes Kuroneko Yamato (Yamato Transport) package inquiries a little more convenient.
     </div><br>
     <details><summary>🚚 Convenient Features ✨</summary>
- - multiple tracking numbers can be copied and pasted for batch investigation<br>
- - latest delivery status can be listed by route.<br>
- - route information can be displayed on a map<br>
- - direct link to Yamato is included in the tracking number<br>
- - past tracking data can be displayed and managed<br>
- - database keeps up to 20 records
-    </details>"""
+  - multiple tracking numbers can be copied and pasted for batch investigation<br>
+  - latest delivery status can be listed by route.<br>
+  - route information can be displayed on a map<br>
+  - direct link to Yamato is included in the tracking number<br>
+  - past tracking data can be displayed and managed<br>
+  - database keeps up to 20 records<br>
+  - database maintenance through administrator functions
+     </details>"""
 
 
     # Language selection
@@ -481,14 +484,14 @@ def main():
                 # Format the timestamp (already in JST)
                 created_at = pd.to_datetime(group['created_at'].iloc[0])
                 formatted_date = created_at.strftime('[%Y/%m/%d - %H:%M]')
-                tracking_label = 'Tracking Number:' if language == 'English' else '追跡番号：'
-                with st.expander(f"{tracking_label}{tracking_number}　{formatted_date}"):
-                    st.markdown(f"##### {tracking_label} [{tracking_number}](http://jizen.kuronekoyamato.co.jp/jizen/servlet/crjz.b.NQ0010?id={tracking_number})")
+                tracking_label = 'Tracking Number' if language == 'English' else '追跡番号'
+                with st.expander(f"{tracking_label}: {tracking_number}　{formatted_date}"):
+                    st.markdown(f"##### {tracking_label}: [{tracking_number}](http://jizen.kuronekoyamato.co.jp/jizen/servlet/crjz.b.NQ0010?id={tracking_number})")
                     st.dataframe(group[['status', 'place_name', 'place_code',
                                      'track_date', 'track_time', 'place_postcode', 'place_address',
                                      'place_lat', 'place_lng', 'created_at']])
         else:
-            st.info("過去の追跡データはありません")
+            st.info("過去の追跡データはありません" if language == 'Japanese' else "No past tracking data")
 
     # Tracking number input
     if language == 'Japanese':
