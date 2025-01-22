@@ -481,8 +481,9 @@ def main():
                 # Format the timestamp (already in JST)
                 created_at = pd.to_datetime(group['created_at'].iloc[0])
                 formatted_date = created_at.strftime('[%Y/%m/%d - %H:%M]')
-                with st.expander(f"追跡番号：{tracking_number}　{formatted_date}"):
-                    st.markdown(f"##### 追跡番号: [{tracking_number}](http://jizen.kuronekoyamato.co.jp/jizen/servlet/crjz.b.NQ0010?id={tracking_number})")
+                tracking_label = 'Tracking Number:' if language == 'English' else '追跡番号：'
+                with st.expander(f"{tracking_label}{tracking_number}　{formatted_date}"):
+                    st.markdown(f"##### {tracking_label} [{tracking_number}](http://jizen.kuronekoyamato.co.jp/jizen/servlet/crjz.b.NQ0010?id={tracking_number})")
                     st.dataframe(group[['status', 'place_name', 'place_code',
                                      'track_date', 'track_time', 'place_postcode', 'place_address',
                                      'place_lat', 'place_lng', 'created_at']])
@@ -538,10 +539,12 @@ def main():
             if tnumber_count == 1:
                 select = tnumbers[0]
                 update_button = st.button('Update', help='Update Tracking...', type='primary')
-                st.markdown(f'##### [1/{tnumber_count}] Tracking-code 追跡番号: [{select}](http://jizen.kuronekoyamato.co.jp/jizen/servlet/crjz.b.NQ0010?id={select})')
+                tracking_label = 'Tracking Number' if language == 'English' else '追跡番号'
+                st.markdown(f'##### [1/{tnumber_count}] {tracking_label}: [{select}](http://jizen.kuronekoyamato.co.jp/jizen/servlet/crjz.b.NQ0010?id={select})')
             else:
                 select = tnumbers[0]  # Always use the first tracking number
-                st.markdown(f'##### [1/{tnumber_count}] Tracking-code 追跡番号: [{select}](http://jizen.kuronekoyamato.co.jp/jizen/servlet/crjz.b.NQ0010?id={select})')
+                tracking_label = 'Tracking Number' if language == 'English' else '追跡番号'
+                st.markdown(f'##### [1/{tnumber_count}] {tracking_label}: [{select}](http://jizen.kuronekoyamato.co.jp/jizen/servlet/crjz.b.NQ0010?id={select})')
             if select != '':
                 d1 = get_kuroneko_tracking(conn, select, view_track_code=False)
                 if d1 is None:
@@ -592,7 +595,8 @@ def main():
             update_button = st.button('Update', help='Update Tracking...', type='primary')
             keycount = 0
             for i,select in enumerate(tnumbers):
-                st.markdown(f'##### [{i+1}/{tnumber_count}] Tracking-code 追跡番号: [{select}](http://jizen.kuronekoyamato.co.jp/jizen/servlet/crjz.b.NQ0010?id={select})')
+                tracking_label = 'Tracking Number' if language == 'English' else '追跡番号'
+                st.markdown(f'##### [{i+1}/{tnumber_count}] {tracking_label}: [{select}](http://jizen.kuronekoyamato.co.jp/jizen/servlet/crjz.b.NQ0010?id={select})')
                 if select == '':
                     st.info('*** データがありません! ***' if language == 'Japanese' else '*** No data! ***')
                 else:
