@@ -15,8 +15,6 @@
 
 ```
 yamato-tracker-withmap/
-├── .streamlit/
-│   └── config.toml         # Streamlit設定
 ├── src/
 │   ├── database/           # データベース関連
 │   │   └── database.py
@@ -24,13 +22,11 @@ yamato-tracker-withmap/
 │   │   └── map.py
 │   └── utils/              # ユーティリティ関数
 │       └── utils.py
-├── .env                    # 環境変数設定
 ├── .gitignore              # Git除外設定
 ├── LICENSE                 # ライセンス
 ├── main.py                 # メインアプリケーション
 ├── README.md               # 本ファイル
 ├── requirements.txt        # 依存パッケージ
-├── SessionState.py         # セッション状態管理
 └── VERSION                 # バージョン情報
 ```
 
