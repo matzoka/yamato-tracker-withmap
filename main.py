@@ -6,7 +6,7 @@ import json
 import pandas as pd
 import folium
 from bs4 import BeautifulSoup
-# [update:2025/01/22, ver 1.0.33]
+# [update:2025/01/22, ver 1.0.34]
 import streamlit as st
 import streamlit.components.v1 as components
 
@@ -367,7 +367,7 @@ def main():
     st.markdown("""
         <style>
         .css-18ni7ap {
-            padding-top: 0.5rem !important;
+            padding-top: 0 !important;
         }
         header.stAppHeader {
             background-color: transparent;
@@ -377,7 +377,8 @@ def main():
             z-index: 1;
         }
         div.block-container {
-            padding-top: 1rem !important;
+            padding-top: 0.2rem !important;
+            margin-bottom: -1rem !important;
         }
         </style>""", unsafe_allow_html=True)
 
