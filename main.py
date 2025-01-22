@@ -6,7 +6,7 @@ import json
 import pandas as pd
 import folium
 from bs4 import BeautifulSoup
-# [update:2025/01/22, ver 1.0.34]
+# [update:2025/01/22, ver 1.0.35]
 import streamlit as st
 import streamlit.components.v1 as components
 
@@ -379,6 +379,14 @@ def main():
         div.block-container {
             padding-top: 0.2rem !important;
             margin-bottom: -1rem !important;
+        }
+        /* ヘッダータイトルと言語選択の余白調整 */
+        div[data-testid="column"] > div > div > h1 {
+            margin-top: -0.5rem !important;
+            margin-bottom: 0 !important;
+        }
+        div[data-testid="column"] > div > div > div[data-testid="stRadio"] {
+            margin-top: -0.5rem !important;
         }
         </style>""", unsafe_allow_html=True)
 
