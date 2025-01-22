@@ -52,15 +52,12 @@ def init_db():
 
 def init_db_schema(conn):
     """Initialize database schema"""
-    conn.execute("PRAGMA timezone = '+9:00'")
-    conn.execute('DROP TRIGGER IF EXISTS set_created_at')
-    conn.execute('''CREATE TRIGGER IF NOT EXISTS set_created_at
-                   AFTER INSERT ON tracking_data
-                   BEGIN
-                       UPDATE tracking_data SET created_at = datetime('now', '+9 hours')
-                       WHERE id = NEW.id;
-                   END''')
     c = conn.cursor()
+
+    # Set timezone
+    conn.execute("PRAGMA timezone = '+9:00'")
+
+    # Create table if not exists
     c.execute('''CREATE TABLE IF NOT EXISTS tracking_data
                  (id INTEGER PRIMARY KEY AUTOINCREMENT,
                   tracking_number TEXT NOT NULL,
@@ -75,6 +72,15 @@ def init_db_schema(conn):
                   place_lng REAL,
                   created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
                   UNIQUE(tracking_number, track_date, track_time))''')
+
+    # Create trigger if not exists
+    c.execute('DROP TRIGGER IF EXISTS set_created_at')
+    c.execute('''CREATE TRIGGER IF NOT EXISTS set_created_at
+                 AFTER INSERT ON tracking_data
+                 BEGIN
+                     UPDATE tracking_data SET created_at = datetime('now', '+9 hours')
+                     WHERE id = NEW.id;
+                 END''')
     conn.commit()
 
 def clear_all_data():
