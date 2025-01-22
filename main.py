@@ -6,7 +6,7 @@ import json
 import pandas as pd
 import folium
 from bs4 import BeautifulSoup
-# [update:2025/01/20, ver 1.0.6]
+# [update:2025/01/22, ver 1.0.30]
 import streamlit as st
 import streamlit.components.v1 as components
 
@@ -189,6 +189,14 @@ def main():
             'About': None
         }
     )
+
+    hide_st_style = """
+        <style>
+        #MainMenu {visibility: hidden;}
+        footer {visibility: hidden;}
+        </style>
+        """
+    st.markdown(hide_st_style, unsafe_allow_html=True)
 
     # Hide deploy button and developer options
     st.markdown(
