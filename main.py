@@ -206,6 +206,19 @@ def main():
         .block-container {
             padding: 2rem 1rem !important;
         }
+        /* Streamlitコンポーネント間の余白を強制的に最小化 */
+        div.element-container:has(div[data-testid="stRadio"]) {
+            margin: 0 0 -0.85rem 0 !important;
+            padding: 0 !important;
+        }
+        div[data-baseweb="radio-group"] {
+            margin: 0 !important;
+            padding: 0 !important;
+        }
+        div.element-container:has(div[data-testid="stTextArea"]) {
+            margin: -0.85rem 0 0 0 !important;
+            padding: 0 !important;
+        }
 
         /* 入力エリアのスタイル */
         .stTextArea > div > div {
@@ -276,19 +289,21 @@ def main():
         }
         div.stButton {
             text-align: center;
+            margin: 0 0 1.4rem 0 !important;
         }
 
         /* モバイル対応のスタイル */
         @media (max-width: 768px) {
-            div[data-testid="column"]:nth-of-type(1) {
-                flex: 0 1 auto !important;
-                width: auto !important;
-                min-width: 0px !important;
+            /* タイトルと言語選択を縦に並べる */
+            div[data-testid="stHorizontalBlock"] {
+                flex-wrap: wrap !important;
             }
-            div[data-testid="column"]:nth-of-type(2) {
-                flex: 0 0 auto !important;
-                width: auto !important;
-                min-width: fit-content !important;
+            div[data-testid="stHorizontalBlock"] > div:first-child {
+                flex: 0 1 100% !important;
+                margin-bottom: 1rem !important;
+            }
+            div[data-testid="stHorizontalBlock"] > div:last-child {
+                flex: 0 1 100% !important;
             }
         }
         [data-theme="dark"] {
@@ -299,15 +314,15 @@ def main():
         details {
             border: 1px solid var(--border-color);
             border-radius: 8px;
-            padding: 0.5em 0.5em 0;
-            margin-bottom: 1em;
+            padding: 0.2em;
+            margin: 0.2em 0;
             background: var(--background-color);
             box-shadow: 2px 2px 5px rgba(0,0,0,0.1);
         }
         summary {
             font-weight: bold;
-            margin: -0.5em -0.5em 0;
-            padding: 0.5em;
+            margin: 0;
+            padding: 0.2em;
             cursor: pointer;
             transition: all 0.3s ease;
         }
@@ -315,21 +330,98 @@ def main():
             background-color: var(--hover-color);
         }
         details[open] {
-            padding: 0.5em;
+            padding: 0.2em;
         }
         details[open] summary {
-            margin-bottom: 0.5em;
+            margin-bottom: 0.2em;
             border-bottom: 1px solid var(--border-color);
         }
         /* Streamlitのexpander用スタイル */
         .streamlit-expanderHeader {
             background-color: var(--background-color) !important;
         }
+        /* 便利機能セクションの余白調整 */
+        .custom-header details {
+            margin: 0 !important;
+            padding: 0 !important;
+        }
+        .custom-header summary {
+            margin: 0 !important;
+            padding: 0.1em !important;
+        }
+        .custom-header > div {
+            margin-bottom: 0.1rem !important;
+        }
         .streamlit-expanderContent {
             background-color: var(--background-color) !important;
         }
+        /* ラジオボタングループの余白調整 */
+        div[data-testid="stRadio"] {
+            margin: 0 !important;
+            padding: 0 !important;
+        }
+        div[data-testid="stRadio"] > div > label {
+            margin-right: 1.5rem !important;
+        }
+        div[data-testid="stRadio"] > div {
+            margin: 0 !important;
+            padding: 0 !important;
+        }
+        div[data-testid="stRadio"] label {
+            padding: 0.1rem !important;
+            margin: 0 !important;
+            margin-right: 1rem !important;
+        }
+        /* テキストエリアの上部余白調整 */
+        [data-testid="stForm"] {
+            margin: 0 !important;
+            padding: 0 !important;
+        }
+        div.element-container {
+            margin: 0 !important;
+            padding: 0 !important;
+        }
+        div.stTextArea {
+            margin: 0 !important;
+            padding: 0 !important;
+        }
+        div.stTextArea label {
+            margin: 0.03rem 0 !important;
+            padding: 0 !important;
+        }
+        /* テキストエリアのラベルサイズを強制的に最小化 */
+        [data-testid="stFormSubmitButton"] {
+            visibility: hidden;
+            height: 0;
+        }
+        /* テキストエリアのラベルサイズを強制的に最小化 */
+        div.element-container div.stTextArea label {
+            font-size: 9pt !important;
+            line-height: 1 !important;
+            padding: 0 !important;
+            transform: scale(0.95) !important;
+            transform-origin: left center !important;
+        }
+        div.element-container div.stTextArea label p {
+            font-size: 9pt !important;
+            line-height: 1 !important;
+            margin: 0 !important;
+        }
+        div.element-container div.stTextArea div[class*="streamlit-expanderContent"] {
+            font-size: 9pt !important;
+            line-height: 1 !important;
+        }
+
         .stDeployButton {
             display: none;
+        }
+        /* ラジオボタンとテキストエリアの間隔調整 */
+        div[data-testid="stVerticalBlock"] > div {
+            gap: 0 !important;
+        }
+        div[data-testid="stVerticalBlock"] > div:first-child {
+            padding-bottom: 0 !important;
+            margin-bottom: -1.5em !important;
         }
         [data-testid="stStatusWidget"] {
             display: none;
@@ -389,6 +481,33 @@ def main():
         div[data-testid="column"] > div > div > div[data-testid="stRadio"] {
             margin-top: -0.5rem !important;
         }
+        /* 言語選択ラジオボタンの行間調整 */
+        div[data-testid="stRadio"] span[data-testid="stMarkdownContainer"] {
+            line-height: 1 !important;
+            margin: -0.2rem 0 !important;
+            padding: 0 !important;
+        }
+        div[data-testid="stRadio"] label {
+            line-height: 1 !important;
+            margin: -0.2rem 0 !important;
+            padding: 0 !important;
+        }
+        div[data-testid="stRadio"] div[class*="row"] {
+            margin: 0 !important;
+            padding: 0 !important;
+            gap: 0 !important;
+        }
+        div[data-testid="stRadio"] div[data-testid="stVerticalBlock"] {
+            gap: 0 !important;
+        }
+        /* 言語選択とチェックボックスの間隔調整 */
+        div[role="radiogroup"] {
+            margin-bottom: 0.5rem !important;
+        }
+        /* チェックボックスの上部余白調整 */
+        div.stCheckbox {
+            margin-top: 1rem !important;
+        }
         </style>""", unsafe_allow_html=True)
 
     # Header text
@@ -396,14 +515,14 @@ def main():
         font-size: 1.2em;
         color: #333;
         background: linear-gradient(to right, #f8f9fa, #ffffff);
-        padding: 1.2rem;
+        padding: 0.4rem 1rem;
         border-left: 4px solid var(--yamato-red);
         border-radius: 4px;
-        margin: 1rem 0;
+        margin: 0.2rem 0;
         box-shadow: 0 2px 4px rgba(0,0,0,0.05);">
     クロネコヤマト（ヤマト運輸）の荷物お問い合わせが少しだけ便利になるアプリです。
     </div><br>
-    <details><summary>🚚 便利機能 ✨</summary>
+    <details style="margin:0; padding:0;"><summary style="margin:0; padding:0.1em;">🚚 便利機能 ✨</summary>
   ・追跡番号を複数コピペして一括調査できます<br>
   ・最新の配送状況が経路毎に一覧表示できます<br>
   ・経路情報を地図表示できます<br>
@@ -417,14 +536,14 @@ def main():
         font-size: 1.2em;
         color: #333;
         background: linear-gradient(to right, #f8f9fa, #ffffff);
-        padding: 1.2rem;
+        padding: 0.4rem 1rem;
         border-left: 4px solid var(--yamato-red);
         border-radius: 4px;
-        margin: 1rem 0;
+        margin: 0.2rem 0;
         box-shadow: 0 2px 4px rgba(0,0,0,0.05);">
     This is an application that makes Kuroneko Yamato (Yamato Transport) package inquiries a little more convenient.
     </div><br>
-    <details><summary>🚚 Convenient Features ✨</summary>
+    <details style="margin:0; padding:0;"><summary style="margin:0; padding:0.1em;">🚚 Convenient Features ✨</summary>
   - multiple tracking numbers can be copied and pasted for batch investigation<br>
   - latest delivery status can be listed by route.<br>
   - route information can be displayed on a map<br>
@@ -436,7 +555,7 @@ def main():
 
 
     # Language selection
-    col1, col2 = st.columns([4, 1])
+    col1, col2 = st.columns([5, 1])
     with col1:
         st.header("YAMATO TRACKER with Map")
     with col2:
@@ -499,7 +618,16 @@ def main():
     # Tracking number input
     if language == 'Japanese':
         st.markdown(f'<div class="custom-header">{hedder_text_jp}</div>', unsafe_allow_html=True)
-        st.write("")
+        st.markdown('<style>div[data-testid="stRadio"] > div { margin-bottom: 0.03rem !important; }</style>', unsafe_allow_html=True)
+        carrier = st.radio(
+            '',
+            ('ヤマト', '日本郵便', '佐川急便'),
+            disabled=True,
+            horizontal=True,
+            key='carrier_jp',
+            label_visibility="collapsed",
+            index=0
+        )
         tnumber_text = st.text_area(
             '数字以外の文字は自動削除',
             "",
@@ -509,7 +637,15 @@ def main():
         )
     else:
         st.markdown(f'<div class="custom-header">{hedder_text_en}</div>', unsafe_allow_html=True)
-        st.write("")
+        st.markdown('<style>div[data-testid="stRadio"] > div { margin-bottom: 0.03rem !important; }</style>', unsafe_allow_html=True)
+        carrier = st.radio(
+            '',
+            ('Yamato', 'Japan Post', 'Sagawa'),
+            disabled=False,
+            horizontal=True,
+            key='carrier_en',
+            label_visibility="collapsed"
+        )
         tnumber_text = st.text_area(
             'Automatic deletion of non-numeric characters.',
             "",
