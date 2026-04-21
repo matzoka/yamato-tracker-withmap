@@ -30,10 +30,23 @@ yamato-tracker-withmap/
 ├── main.py                 # メインアプリケーション
 ├── README.md               # 本ファイル
 ├── requirements.txt        # 依存パッケージ
-└── VERSION                 # バージョン情報
+├── VERSION                 # バージョン情報
+└── setup_yamato_tracker.bat # Windows用クイックスタートスクリプト
 ```
 
 ## インストール方法
+
+### クイックスタート（Windows 用）
+
+Windows ユーザーは、以下のバッチファイルを実行するだけで、リポジトリのクローン、仮想環境の構築、依存パッケージのインストール、アプリケーションの起動が一度に行えます。
+
+1. `setup_yamato_tracker.bat` をリポジトリから取得してください。
+2. `setup_yamato_tracker.bat` をダブルクリックして実行してください。
+3. スクリプトが自動的に処理を行い、ブラウザでアプリケーションが起動します。
+
+*注意: Python と Git がインストールされている必要があります。*
+
+### 手動インストール
 
 1. リポジトリをクローン
 ```bash
